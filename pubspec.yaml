@@ -6,7 +6,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.7.2
+#  sdk: ^3.7.2
+  sdk: ^3.6.1
 
 dependencies:
   flutter:
@@ -59,6 +60,7 @@ dependencies:
 
   # SVG
   flutter_svg: ^2.2.0
+  flutter_svg_provider: ^1.0.7
 
   # Toast Message
   fluttertoast: ^8.2.12
@@ -84,9 +86,6 @@ dependencies:
   # URL Launcher
   url_launcher: ^6.3.1
 
-  # App Icon
-  flutter_launcher_icons: ^0.14.4
-
   # Google Fonts
   google_fonts: ^6.2.1
 
@@ -102,18 +101,46 @@ dependencies:
   # Top SnackBar
   top_snackbar_flutter: ^3.3.0
 
+  # Smooth Page Indicator
+  smooth_page_indicator: ^1.2.0+3
+
+  # Carousel Slider
+  carousel_slider: ^5.0.0
+
+  # Rating
+  flutter_rating_bar: ^4.0.1
+
+
+
 dev_dependencies:
   build_runner: ^2.4.15
   flutter_test:
     sdk: flutter
+  # App Icon
+  flutter_launcher_icons: ^0.13.1
   json_serializable: ^6.9.4
 
   flutter_lints: ^5.0.0
 
 flutter_launcher_icons:
-  android: true
+  android: "launcher_icon"
   ios: true
-  image_path: "assets/pngs/nourex_logo.png"
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#FFFFFF"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    background_color: "#2aa69c"
+    theme_color: "#2aa69c"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 48 # min:48, max:256, default: 48
+  macos:
+    generate: true
+    image_path: "assets/icon/icon.png"
+
 
 flutter:
   uses-material-design: true
@@ -121,7 +148,9 @@ flutter:
   # assets:
   assets:
     - assets/pngs/
+    - assets/icon/
     - assets/svgs/
+    - assets/languages/
     - assets/animations/
 
   # fonts:

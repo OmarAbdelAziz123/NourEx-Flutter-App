@@ -1,0 +1,27 @@
+<svg width="24" height="13" viewBox="0 0 24 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="24" height="13" fill="#959595"/>
+<g id="&#216;&#170;&#216;&#181;&#217;&#129;&#217;&#138;&#216;&#169; &#217;&#136;&#216;&#167;&#216;&#174;&#216;&#170;&#217;&#138;&#216;&#167;&#216;&#177;">
+<g clip-path="url(#clip0_1_11)">
+<rect x="-32" y="-616" width="390" height="900" rx="24" fill="white"/>
+<g id="Filter Container">
+<g id="Brand Filter Container">
+<g id="Search Input Container">
+<rect x="-15.5" y="-15.5" width="358" height="44" rx="9.5" fill="white"/>
+<rect x="-15.5" y="-15.5" width="358" height="44" rx="9.5" stroke="#D8D8D8"/>
+<g id="weui:arrow-filled" clip-path="url(#clip1_1_11)">
+<path id="Vector" fill-rule="evenodd" clip-rule="evenodd" d="M11.289 10.6571L5.63198 5.00006L7.04598 3.58606L11.996 8.53606L16.946 3.58606L18.36 5.00006L12.703 10.6571C12.5155 10.8445 12.2611 10.9498 11.996 10.9498C11.7308 10.9498 11.4765 10.8445 11.289 10.6571Z" fill="black"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_1_11">
+<rect x="-32" y="-616" width="390" height="900" rx="24" fill="white"/>
+</clipPath>
+<clipPath id="clip1_1_11">
+<rect width="12" height="24" fill="white" transform="translate(24 0.5) rotate(90)"/>
+</clipPath>
+</defs>
+</svg>
