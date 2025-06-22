@@ -6,8 +6,8 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-#  sdk: ^3.7.2
-  sdk: ^3.6.1
+  sdk: ^3.7.2
+#  sdk: ^3.6.1
 
 dependencies:
   flutter:
@@ -79,6 +79,8 @@ dependencies:
 
   # Skeleton
   skeletonizer: ^1.4.3
+  shimmer: ^3.0.0
+
 
   # Icons
   iconsax: ^0.0.8

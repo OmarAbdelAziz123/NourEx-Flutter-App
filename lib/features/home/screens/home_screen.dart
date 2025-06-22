@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/components/category/custom_category_in_all_categories_widget.dart';
+import 'package:nourex/components/category/model/category_model_data.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_widget.dart';
 import 'package:nourex/core/widgets/row/show_more_row_widget.dart';
 import 'package:nourex/features/home/widgets/banner_widget.dart';
@@ -9,202 +11,94 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _commentController = TextEditingController();
+    List<CategoryModelData> categories = [
+      CategoryModelData(
+        categoryName: 'ملابس رجالية',
+        categoryImage: 'assets/pngs/clothes_man.png',
+      ),
+      CategoryModelData(
+        categoryName: 'إكسسوارات',
+        categoryImage: 'assets/pngs/accessories.png',
+      ),
+      CategoryModelData(
+        categoryName: 'العطور',
+        categoryImage: 'assets/pngs/uttor.png',
+      ),
+      CategoryModelData(
+        categoryName: 'حقائب',
+        categoryImage: 'assets/pngs/hijab.png',
+      ),
+      CategoryModelData(
+        categoryName: 'منتجات العناية بالبشرة',
+        categoryImage: 'assets/pngs/face.png',
+      ),
+      CategoryModelData(
+        categoryName: 'أحذية',
+        categoryImage: 'assets/pngs/shoes.png',
+      ),
+    ];
 
     return Scaffold(
-      body: Column(
-        children: [
-          MainAppBarWidget(),
-          Center(
-            child: Text('NourEx'),
-          ),
-          ShowMoreRowWidget(
-            title: 'عروض خاصة',
-            onTapShowMore: () {
-              /// Show Bottom Sheet
+      backgroundColor: Colors.white,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            MainAppBarWidget(),
+            Center(child: Text('NourEx')),
+            ShowMoreRowWidget(title: 'عروض خاصة', onTapShowMore: () {}),
+            18.verticalSpace,
+            BannerWidget(),
 
-              /// Login As Guest
-              // showModalBottomSheet(
-              //   context: context,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'تسجيل كضيف',
-              //       imagePath:
-              //           'assets/svgs/yellow_icon_in_bottom_sheet_icon.svg',
-              //       title:
-              //           'أهلاً بك! يمكنك إستكشاف التطبيق وتصفح المنتجات بكل حرية',
-              //       description:
-              //           'لن تتمكن من إتمام عمليات الشراء إلا بعد تسجيل الدخول أو إنشاء حساب.',
-              //       haveOneButton: false,
-              //       buttonText1: 'تسجيل الدخول',
-              //       buttonText2: 'تسجيل كضيف',
-              //       onTap1: () {},
-              //       onTap2: () {},
-              //     );
-              //   },
-              // );
-              /// In Change Password
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'انشاء حساب',
-              //       imagePath:
-              //           'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-              //       text1: 'تم تسجيل حسابك',
-              //       text2: ' بنجاح',
-              //       description:
-              //           'لن تتمكن من إتمام عمليات الشراء إلا بعد تسجيل الدخول أو إنشاء حساب.',
-              //       haveOneButton: true,
-              //       haveTextSpan: true,
-              //       buttonText1: 'هيا بنا',
-              //     );
-              //   },
-              // );
-              /// In Make Order
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'طلبك رقم #12345',
-              //       imagePath:
-              //           'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-              //       text1: 'تم طلب الاوردر',
-              //       text2: ' بنجاح',
-              //       description:
-              //           'شكراً لثقتك بنا! 🎉 طلبك رقم #12345 تم بنجاح وجاري معالجته. يمكنك متابعة حالة الطلب من خلال صفحة الطلبات الخاصة بك. سنقوم بإبلاغك بأي تحديثات تتعلق بالشحن والتوصيل قريبًا. إذا كان لديك أي استفسار، لا تتردد في التواصل مع فريق الدعم',
-              //       haveOneButton: false,
-              //       haveTextSpan: true,
-              //       buttonText1: 'التالي',
-              //       buttonText2: 'طلباتي',
-              //     );
-              //   },
-              // );
-              /// In Delete Account
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'حذف الحساب',
-              //       imagePath:
-              //       'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
-              //       text1: 'هل أنت متأكد من أنك تريد حذف ',
-              //       text2: 'حسابك؟',
-              //       description: 'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
-              //       haveOneButton: false,
-              //       haveTextSpan: true,
-              //       buttonText1: 'الغاء',
-              //       buttonText2: 'حذف',
-              //       text2Color: AppColors.redColor100,
-              //     );
-              //   },
-              // );
-              /// In Logout
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'تسجيل الخروج',
-              //       imagePath:
-              //           'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
-              //       text1: 'هل أنت متأكد من رغبتك في تسجيل ',
-              //       text2: 'الخروج؟',
-              //       description: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
-              //       haveOneButton: true,
-              //       haveTextSpan: true,
-              //       buttonText1: 'الغاء',
-              //       buttonText2: 'تسجيل الخروج',
-              //       text2Color: AppColors.yellowColor100,
-              //     );
-              //   },
-              // );
-              /// In Contact for support
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedShowBottomSheet(
-              //       headingName: 'حذف التقييم',
-              //       imagePath:
-              //       'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
-              //       text1: 'هل أنت متأكد من أنك تريد حذف ',
-              //       text2: 'التقييم؟',
-              //       description: 'هل أنت متأكد من أنك تريد حذف التقييم الخاص بك؟ سيحذف التقييم نهائيا',
-              //       haveOneButton: false,
-              //       haveTextSpan: true,
-              //       buttonText1: 'الغاء',
-              //       buttonText2: 'حذف',
-              //       text2Color: AppColors.redColor100,
-              //     );
-              //   },
-              // );
-              /// In Edit Review
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedBottomSheetReview(
-              //       title: 'التعديل التقييم',
-              //       initialRating: 3.5,
-              //       buttonText1: 'تعديل',
-              //       buttonText2: 'الغاء',
-              //       nameOfFiled: 'تقييم',
-              //       isEdit: true,
-              //       hintText: 'psdihgouisdgoiuh',
-              //       onRatingChanged: (rating) {
-              //         print("New Rating: $rating");
-              //       },
-              //       commentController: _commentController,
-              //       onEditPressed: () {
-              //         print("Edited: ${_commentController.text}");
-              //       },
-              //       onCancelPressed: () {
-              //         Navigator.pop(context);
-              //       },
-              //     );
-              //   },
-              // );
-              /// Make Review
-              // showModalBottomSheet(
-              //   context: context,
-              //   isScrollControlled: true,
-              //   builder: (context) {
-              //     return CustomSharedBottomSheetReview(
-              //       title: 'التقييم',
-              //       nameOfFiled: 'قيّم هذا المنتج',
-              //       initialRating: 3.5,
-              //       hintText: 'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
-              //       isEdit: false,
-              //       buttonText1: 'تاكيد',
-              //       buttonText2: 'الغاء',
-              //       onRatingChanged: (rating) {
-              //         print("New Rating: $rating");
-              //       },
-              //       commentController: _commentController,
-              //       onEditPressed: () {
-              //         print("Edited: ${_commentController.text}");
-              //       },
-              //       onCancelPressed: () {
-              //         Navigator.pop(context);
-              //       },
-              //     );
-              //   },
-              // );
-            },
-          ),
-          18.verticalSpace,
-          GestureDetector(
-            onTap: () {},
-            child: BannerWidget(),
-          ),
-        ],
+            18.verticalSpace,
+
+            /// Categories In Home Screen
+            Container(
+              height: 110.h,
+              padding: EdgeInsets.only(right: 0.w),
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      right: index == 0 ? 18.w : 0,
+                      left: index == categories.length - 1 ? 18.w : 12.w,
+                    ),
+                    child: CustomCategoryInHomeWidget(
+                      imageUrl: categories[index].categoryImage,
+                      categoryName: categories[index].categoryName,
+                    ),
+                    // child: CustomCategoryInHomeSkeletonizerWidget(),
+                  );
+                },
+              ),
+            ),
+
+            18.verticalSpace,
+
+            /// Categories In Categories Screen
+            GridView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: categories.length,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                mainAxisSpacing: 12.h,
+                crossAxisSpacing: 12.w,
+                mainAxisExtent: 150.h,
+              ),
+              itemBuilder: (context, index) {
+                // return CustomCategoryInAllCategoriesWidget(
+                //   imageUrl: categories[index].categoryImage,
+                //   categoryName: categories[index].categoryName,
+                // );
+                return CustomCategoryInAllCategoriesSkeletonizerWidget();
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 }
-
-
