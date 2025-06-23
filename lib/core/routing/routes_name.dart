@@ -1,8 +1,10 @@
 class Routes {
   /// User Routes
-  static const String userSplash = 'user_splash';
-  static const String userLogin = 'user_login';
-  static const String userRegister = 'user_register';
-  static const String userMainLayout = 'user_main_layout';
+  static const String splashScreen = 'splash_screen';
+  static const String loginScreen = 'login_screen';
+  static const String registerScreen = 'register_screen';
+  static const String homeScreen = 'home_screen';
+  static const String profileScreen = 'profile_screen';
+  static const String mainLayoutScreen = 'main_layout_screen';
 
 }

@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/routing/app_router.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/features/home/screens/home_screen.dart';
 
@@ -32,7 +33,9 @@ class NourExApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             builder: EasyLoading.init(),
-            home: HomeScreen(),
+            initialRoute: Routes.mainLayoutScreen,
+            onGenerateRoute: appRouter.generateRoute,
+            // home: HomeScreen(),
           ),
         );
       },

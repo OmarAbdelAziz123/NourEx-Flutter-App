@@ -26,84 +26,90 @@ class MainAppBarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBarWidget(
-      rowWidget: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width / 1.8,
-            child: Row(
-              children: [
-                isInHome == true
-                ? CacheHelper.getData(key: CacheKeys.userImage) == null
-                    ? Image.asset(
-                        'assets/pngs/nourex_logo.png',
-                        height: 66.h,
-                        width: 66.w,
-                      )
-                    : Container(
-                        width: 66.w,
-                        height: 66.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(
-                              AppConstants.borderRadius / 2),
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              CacheHelper.getData(key: CacheKeys.userImage) ??
-                                  '',
-                          errorWidget: (context, url, error) => Center(
-                            child: Icon(Icons.error),
+      rowWidget: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: 12.h,
+          horizontal: 18.w
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(
+              width: MediaQuery.sizeOf(context).width / 1.8,
+              child: Row(
+                children: [
+                  isInHome == true
+                  ? CacheHelper.getData(key: CacheKeys.userImage) == null
+                      ? Image.asset(
+                          'assets/pngs/nourex_logo.png',
+                          height: 66.h,
+                          width: 66.w,
+                        )
+                      : Container(
+                          width: 66.w,
+                          height: 66.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(
+                                AppConstants.borderRadius / 2),
+                          ),
+                          child: CachedNetworkImage(
+                            imageUrl:
+                                CacheHelper.getData(key: CacheKeys.userImage) ??
+                                    '',
+                            errorWidget: (context, url, error) => Center(
+                              child: Icon(Icons.error),
+                            ),
+                          ),
+                        )
+                  : BackButtonWidget(),
+                  12.horizontalSpace,
+                  Expanded(
+                    child: Column(
+                      spacing: 4.h,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          CacheHelper.getData(key: CacheKeys.userToken) == null
+                              ? 'welcome'.tr()
+                              : 'haveANiceDay'.tr(),
+                          style: Styles.contentEmphasis.copyWith(
+                            color: AppColors.neutralColor100,
                           ),
                         ),
-                      )
-                : BackButtonWidget(),
-                12.horizontalSpace,
-                Expanded(
-                  child: Column(
-                    spacing: 4.h,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        CacheHelper.getData(key: CacheKeys.userToken) == null
-                            ? 'welcome'.tr()
-                            : 'haveANiceDay'.tr(),
-                        style: Styles.contentEmphasis.copyWith(
-                          color: AppColors.neutralColor100,
+                        Text(
+                          CacheHelper.getData(key: CacheKeys.userName) ??
+                              "appName".tr(),
+                          style: Styles.heading3.copyWith(
+                            color: AppColors.neutralColor100,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
-                      ),
-                      Text(
-                        CacheHelper.getData(key: CacheKeys.userName) ??
-                            "appName".tr(),
-                        style: Styles.heading3.copyWith(
-                          color: AppColors.neutralColor100,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          if(haveSearchIcon == true)
-            InkWell(
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/svgs/search_icon.svg',
-              width: 50.w,
-              height: 50.h,
+            if(haveSearchIcon == true)
+              InkWell(
+              onTap: () {},
+              child: SvgPicture.asset(
+                'assets/svgs/search_icon.svg',
+                width: 50.w,
+                height: 50.h,
+              ),
             ),
-          ),
-          if(haveNotificationIcon == true)
-            InkWell(
-            onTap: () {},
-            child: SvgPicture.asset(
-              'assets/svgs/notification_icon.svg',
-              width: 50.w,
-              height: 50.h,
+            if(haveNotificationIcon == true)
+              InkWell(
+              onTap: () {},
+              child: SvgPicture.asset(
+                'assets/svgs/notification_icon.svg',
+                width: 50.w,
+                height: 50.h,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

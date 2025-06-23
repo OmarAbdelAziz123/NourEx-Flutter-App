@@ -12,30 +12,16 @@ class AppBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        /// Color Overlay
-        Container(
-          height: 152.h,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(10.r),
-              bottomRight: Radius.circular(10.r),
-            ),
-            color: AppColors.primaryColor700,
-          ),
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(10.r),
+          bottomRight: Radius.circular(10.r),
         ),
-
-        /// Positioned widget directly inside the Stack
-        Positioned(
-          right: 15.w,
-          left: 15.w,
-          bottom: 20.h,
-          child: rowWidget,
-          // child: ,
-        ),
-      ],
+        color: AppColors.primaryColor700,
+      ),
+      child:SafeArea(child: rowWidget) ,
     );
   }
 }

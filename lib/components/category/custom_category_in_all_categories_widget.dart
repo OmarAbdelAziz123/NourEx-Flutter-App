@@ -72,8 +72,11 @@ class CustomCategoryInAllCategoriesSkeletonizerWidget extends StatelessWidget {
               width: 110.w,
               height: 110.h,
               decoration: BoxDecoration(
-                color: AppColors.neutralColor200,
                 borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+              ),
+              child: CacheNetworkImagesWidget(
+                image: 'assets/pngs/clothes_man.png',
+                boxFit: BoxFit.fill,
               ),
             ),
             12.verticalSpace,
@@ -83,8 +86,11 @@ class CustomCategoryInAllCategoriesSkeletonizerWidget extends StatelessWidget {
               width: 80.w,
               height: 14.h,
               decoration: BoxDecoration(
-                color: AppColors.neutralColor200,
                 borderRadius: BorderRadius.circular(AppConstants.borderRadius),
+              ),
+              child: Text(
+                'ملابس رجالية',
+                style: Styles.captionBold,
               ),
             ),
           ],
@@ -96,7 +102,8 @@ class CustomCategoryInAllCategoriesSkeletonizerWidget extends StatelessWidget {
 
 /// In Home Screen
 class CustomCategoryInHomeWidget extends StatelessWidget {
-  const CustomCategoryInHomeWidget({super.key, required this.imageUrl, required this.categoryName});
+  const CustomCategoryInHomeWidget(
+      {super.key, required this.imageUrl, required this.categoryName});
 
   final String imageUrl;
   final String categoryName;
