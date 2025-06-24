@@ -20,6 +20,16 @@ class ProfileScreen extends StatelessWidget {
         onTap: () {},
       ),
       SettingsDataModel(
+        iconPath: 'assets/svgs/wallet.svg',
+        title: 'محفظتي',
+        onTap: () {},
+      ),
+      SettingsDataModel(
+        iconPath: 'assets/svgs/my_rates.svg',
+        title: 'تقييماتي',
+        onTap: () {},
+      ),
+      SettingsDataModel(
         iconPath: 'assets/svgs/address.svg',
         title: 'العناوين',
         onTap: () {},

@@ -5,14 +5,17 @@ import 'package:nourex/core/themes/app_colors.dart';
 class CustomArrowInContainersWidget extends StatelessWidget {
   const CustomArrowInContainersWidget({
     super.key,
+    this.iconColor,
   });
+
+  final Color? iconColor;
 
   @override
   Widget build(BuildContext context) {
     return Icon(
       Icons.arrow_forward_ios,
       size: 18.sp,
-      color: AppColors.neutralColor1000,
+      color: iconColor ?? AppColors.neutralColor1000,
     );
   }
 }

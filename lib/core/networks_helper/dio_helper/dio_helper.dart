@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/cache_helper/cache_keys.dart';
-import 'package:nourex/core/networks_helper/dio_helper/end_points.dart';
+import 'package:nourex/core/utils/end_points.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioHelper {

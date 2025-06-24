@@ -4,6 +4,8 @@ import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/features/home/screens/home_screen.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/presentation/main_layout.dart';
+import 'package:nourex/features/my_orders/business_logic/my_orders_cubit.dart';
+import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.dart';
 import 'package:nourex/features/profile/screens/profile_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -42,6 +44,10 @@ class AppRouter {
         return transition(
           screen: const ProfileScreen(),
         );
+      case Routes.myOrdersScreen:
+        return transition(
+          screen: const MyOrdersScreen(),
+        );
       case Routes.mainLayoutScreen:
         return transition(
           screen: const UserMainLayout(),
@@ -53,7 +59,7 @@ class AppRouter {
   List<Widget> userScreens = [
     HomeScreen(),
     Container(),
-    Container(),
+    MyOrdersScreen(),
     ProfileScreen(),
   ];
 }
