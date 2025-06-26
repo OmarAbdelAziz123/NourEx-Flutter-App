@@ -21,7 +21,7 @@ class ShowMoreWidget extends StatelessWidget {
       onTap: onTapShowMore,
       child: Text(
         showMore == true ? "showMore".tr() : text ?? '',
-        style: Styles.captionEmphasis.copyWith(
+        style: Styles.contentEmphasis.copyWith(
           color: AppColors.primaryColor700,
           decoration: TextDecoration.underline,
           decorationColor: AppColors.primaryColor700,

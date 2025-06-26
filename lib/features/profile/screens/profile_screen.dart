@@ -116,7 +116,7 @@ class ProfileScreen extends StatelessWidget {
                       },
                       itemBuilder: (context, index) {
                         return CustomRowInSettingsWidget(
-                          isLang: index == 3 ? true : false,
+                          isLang: index == 5,
                           settingsDataModel: settingsList[index],
                         );
                       },

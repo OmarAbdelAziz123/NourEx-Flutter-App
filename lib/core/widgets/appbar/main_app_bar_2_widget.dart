@@ -8,13 +8,17 @@ class MainAppBar2Widget extends StatelessWidget {
   const MainAppBar2Widget({
     super.key,
     required this.title,
-    required this.onTapSearch,
-    required this.onTapNotification,
+    this.isSubScreen = false,
+    this.onTapBack,
+    this.onTapSearch,
+    this.onTapNotification,
   });
 
+  final bool? isSubScreen;
   final String title;
-  final VoidCallback onTapSearch;
-  final VoidCallback onTapNotification;
+  final VoidCallback? onTapBack;
+  final VoidCallback? onTapSearch;
+  final VoidCallback? onTapNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -35,13 +39,22 @@ class MainAppBar2Widget extends StatelessWidget {
         leading: Container(
           padding: EdgeInsets.only(right: 18.w),
           child: InkWell(
-            onTap: onTapSearch,
-            child: SvgPicture.asset(
-              'assets/svgs/search_icon.svg',
-              width: 50.w,
-              height: 50.h,
-              fit: BoxFit.scaleDown,
-            ),
+            highlightColor: Colors.transparent,
+            onTap: isSubScreen == true ? onTapBack : onTapSearch,
+            child:
+                isSubScreen == true
+                    ? SvgPicture.asset(
+                      'assets/svgs/back_button_icon.svg',
+                      width: 50.w,
+                      height: 50.h,
+                      fit: BoxFit.scaleDown,
+                    )
+                    : SvgPicture.asset(
+                      'assets/svgs/search_icon.svg',
+                      width: 50.w,
+                      height: 50.h,
+                      fit: BoxFit.scaleDown,
+                    ),
           ),
         ),
         centerTitle: true,
@@ -53,17 +66,23 @@ class MainAppBar2Widget extends StatelessWidget {
         ),
         actions: [
           Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 18.w,
-            ),
+            padding: EdgeInsets.symmetric(horizontal: 18.w),
             child: InkWell(
-              onTap: onTapNotification,
-              child: SvgPicture.asset(
-                'assets/svgs/notification_icon.svg',
-                width: 50.w,
-                height: 50.h,
-                fit: BoxFit.scaleDown,
-              ),
+              onTap: isSubScreen == true ? onTapSearch : onTapNotification,
+              child:
+                  isSubScreen == true
+                      ? SvgPicture.asset(
+                        'assets/svgs/search_icon.svg',
+                        width: 50.w,
+                        height: 50.h,
+                        fit: BoxFit.scaleDown,
+                      )
+                      : SvgPicture.asset(
+                        'assets/svgs/notification_icon.svg',
+                        width: 50.w,
+                        height: 50.h,
+                        fit: BoxFit.scaleDown,
+                      ),
             ),
           ),
         ],

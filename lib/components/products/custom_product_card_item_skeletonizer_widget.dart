@@ -6,7 +6,6 @@ import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
-import 'package:nourex/features/home/screens/home_screen.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomProductCardItemSkeletonizerWidget extends StatelessWidget {
