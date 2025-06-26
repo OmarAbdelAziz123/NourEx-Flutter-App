@@ -132,6 +132,36 @@ class AppValidator {
     return null;
   }
 
+  static String? validateEgyptPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validation.phone.required'.tr();
+    }
+
+    final phoneRegExp = RegExp(r'^(010|011|012|015)[0-9]{8}$');
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'validation.phone.invalid'.tr();
+    }
+
+    return null;
+  }
+
+
+  static String? validateSyrianPhoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validation.phone.required'.tr();
+    }
+
+    final phoneRegExp = RegExp(r'^09[0-9]{8}$');
+
+    if (!phoneRegExp.hasMatch(value)) {
+      return 'validation.phone.invalid'.tr();
+    }
+
+    return null;
+  }
+
+
   static String? validateOTP(String? value) {
     if (value == null || value.isEmpty) {
       return 'validation.otp.required'.tr();

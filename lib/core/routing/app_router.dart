@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nourex/core/routing/routes_name.dart';
+import 'package:nourex/features/auth/business_logic/auth_cubit.dart';
+import 'package:nourex/features/auth/presentation/screens/choose_login_or_register_screen.dart';
+import 'package:nourex/features/auth/presentation/screens/fill_password_screen.dart';
+import 'package:nourex/features/auth/presentation/screens/forget_password_screen.dart';
+import 'package:nourex/features/auth/presentation/screens/login_screen.dart';
+import 'package:nourex/features/auth/presentation/screens/register_screen.dart';
+import 'package:nourex/features/auth/presentation/screens/verify_code_screen.dart';
 import 'package:nourex/features/home/screens/home_screen.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/presentation/main_layout.dart';
@@ -36,9 +43,43 @@ class AppRouter {
     }
 
     switch (settings.name) {
+      case Routes.chooseLoginOrRegisterScreen:
+        return transition(
+          screen: const ChooseLoginOrRegisterScreen(),
+        );
+      case Routes.loginScreen:
+        return transition(
+          screen: const LoginScreen(),
+          cubit: AuthCubit(),
+        );
+      case Routes.registerScreen:
+        return transition(
+          screen: const RegisterScreen(),
+          cubit: AuthCubit(),
+        );
+      case Routes.verificationScreen:
+        // final String emailAddress = settings.arguments as String;
+      final Map<String, dynamic> data = settings.arguments as Map<String, dynamic>;
+
+        return transition(
+          screen: VerifyCodeScreen(data: data),
+          cubit: AuthCubit()..startCountdown(),
+        );
       case Routes.homeScreen:
         return transition(
           screen: const HomeScreen(),
+        );
+      case Routes.fillPasswordScreen:
+        final Map<String, dynamic> data = settings.arguments as Map<String, dynamic>;
+
+        return transition(
+          screen: FillPasswordScreen(data: data),
+          cubit: AuthCubit(),
+        );
+      case Routes.forgetPasswordScreen:
+        return transition(
+          screen: ForgetPasswordScreen(),
+          cubit: AuthCubit(),
         );
       case Routes.profileScreen:
         return transition(
@@ -49,8 +90,10 @@ class AppRouter {
           screen: const MyOrdersScreen(),
         );
       case Routes.mainLayoutScreen:
+        final index = settings.arguments as int? ?? 0;
+
         return transition(
-          screen: const UserMainLayout(),
+          screen: MainLayout(index: index),
           cubit: MainLayoutCubit(),
         );
     }

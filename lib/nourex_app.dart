@@ -33,7 +33,7 @@ class NourExApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             builder: EasyLoading.init(),
-            initialRoute: Routes.mainLayoutScreen,
+            initialRoute: Routes.chooseLoginOrRegisterScreen,
             onGenerateRoute: appRouter.generateRoute,
             // home: HomeScreen(),
           ),

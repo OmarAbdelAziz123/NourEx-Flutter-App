@@ -9,23 +9,28 @@ import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_state.dart';
 
-class UserMainLayout extends StatelessWidget {
-  const UserMainLayout({super.key});
+class MainLayout extends StatelessWidget {
+  const MainLayout({super.key, this.index = 0});
+
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MainLayoutCubit, MainLayoutState>(
       builder: (context, state) {
+        final cubit = MainLayoutCubit.get(context);
+        final currentIndex = (state is AppBottomNavState) ? state.currentIndex : index;
+
         return Scaffold(
           backgroundColor: Colors.white,
           body: AppRouter()
-              .userScreens[AppConstants.mainLayoutInitialScreenIndex],
+              .userScreens[currentIndex],
           bottomNavigationBar: Theme(
             data: ThemeData(
               splashColor: Colors.transparent,
             ),
             child: BottomNavigationBar(
-              currentIndex: AppConstants.mainLayoutInitialScreenIndex,
+              currentIndex: currentIndex,
               selectedItemColor: AppColors.primaryColor700,
               unselectedItemColor: AppColors.neutralColor400,
               selectedLabelStyle: Styles.captionBold,
@@ -42,7 +47,7 @@ class UserMainLayout extends StatelessWidget {
                     width: 24.sp,
                     height: 24.sp,
                     colorFilter: ColorFilter.mode(
-                      AppConstants.mainLayoutInitialScreenIndex == 0
+                      currentIndex == 0
                           ? AppColors.primaryColor700
                           : AppColors.neutralColor600,
                       BlendMode.srcIn,
@@ -57,7 +62,7 @@ class UserMainLayout extends StatelessWidget {
                     width: 24.sp,
                     height: 24.sp,
                     colorFilter: ColorFilter.mode(
-                      AppConstants.mainLayoutInitialScreenIndex == 1
+                      currentIndex == 1
                           ? AppColors.primaryColor700
                           : AppColors.neutralColor600,
                       BlendMode.srcIn,
@@ -72,7 +77,7 @@ class UserMainLayout extends StatelessWidget {
                     width: 24.sp,
                     height: 24.sp,
                     colorFilter: ColorFilter.mode(
-                      AppConstants.mainLayoutInitialScreenIndex == 2
+                      currentIndex == 2
                           ? AppColors.primaryColor700
                           : AppColors.neutralColor600,
                       BlendMode.srcIn,
@@ -87,7 +92,7 @@ class UserMainLayout extends StatelessWidget {
                     height: 24.sp,
                     fit: BoxFit.scaleDown,
                     colorFilter: ColorFilter.mode(
-                      AppConstants.mainLayoutInitialScreenIndex == 3
+                      currentIndex == 3
                           ? AppColors.primaryColor700
                           : AppColors.neutralColor600,
                       BlendMode.srcIn,

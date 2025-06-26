@@ -43,7 +43,6 @@ class CustomSharedShowBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: Colors.white,
       padding:
       EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h, top: 12.h),
       decoration: BoxDecoration(

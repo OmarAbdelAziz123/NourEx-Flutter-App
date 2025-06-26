@@ -72,7 +72,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     this.autocorrect = true,
     this.enableSuggestions = true,
     this.readOnly = false,
-    this.showCursor,
+    this.showCursor = true,
     this.maxLength,
     this.keyboardType,
     this.textInputAction,
@@ -115,6 +115,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       enableSuggestions: enableSuggestions!,
       readOnly: readOnly!,
       showCursor: showCursor,
+      cursorColor: showCursor == true ? AppColors.primaryColor700 : Colors.transparent,
       maxLength: maxLength,
       keyboardType: keyboardType,
       textInputAction: textInputAction,
@@ -128,21 +129,21 @@ class CustomTextFormFieldWidget extends StatelessWidget {
 
         border: OutlineInputBorder(
           borderRadius:
-              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius),
+              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius - 2.r),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius:
-              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius),
+              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius - 2.r),
           borderSide: BorderSide(
             /// TODO: Add border
-            color: borderColor ?? AppColors.neutralColor200,
-            width: borderWidth ?? 1.sp,
+            color: borderColor ?? AppColors.neutralColor600,
+            width: borderWidth ?? .5.sp,
           ),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius:
-              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius),
+          BorderRadius.circular(borderRadius ?? AppConstants.borderRadius - 2.r),
           borderSide: BorderSide(
             /// TODO: Add border
             color: borderColor ?? AppColors.redColor100,
@@ -151,17 +152,17 @@ class CustomTextFormFieldWidget extends StatelessWidget {
         ),
         disabledBorder: OutlineInputBorder(
           borderRadius:
-              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius),
+          BorderRadius.circular(borderRadius ?? AppConstants.borderRadius - 2.r),
           borderSide: BorderSide(
-            color: Colors.red,
+            color: AppColors.redColor200,
             width: borderWidth ?? 1.sp,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius:
-              BorderRadius.circular(borderRadius ?? AppConstants.borderRadius),
+          BorderRadius.circular(borderRadius ?? AppConstants.borderRadius - 2.r),
           borderSide: BorderSide(
-            color: Colors.red,
+            color: AppColors.redColor200,
             width: borderWidth ?? 1.sp,
           ),
         ),
@@ -178,7 +179,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
             Styles.contentEmphasis.copyWith(
               color: AppColors.neutralColor300,
             ),
-        hintStyle: hintStyle ?? TextStyle(fontSize: 14.sp, color: Colors.red),
+        hintStyle: hintStyle ?? TextStyle(fontSize: 14.sp, color: AppColors.redColor200),
         hintText: hintText,
         helperText: helperText,
         errorText: errorText,
