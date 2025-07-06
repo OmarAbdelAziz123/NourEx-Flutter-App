@@ -4,8 +4,7 @@ import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
-import 'package:nourex/features/profile/screens/profile_screen.dart';
-import 'package:nourex/features/profile/widgets/custom_arrow_in_containers_widget.dart';
+import 'package:nourex/features/profile/presentation/widgets/custom_arrow_in_containers_widget.dart';
 
 class CustomProfileContainerInSettingsWidget extends StatelessWidget {
   const CustomProfileContainerInSettingsWidget({

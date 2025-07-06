@@ -1,8 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
+import 'package:nourex/features/home/business_logic/home_cubit.dart';
 
 class CustomSpecificBannerWidget extends StatelessWidget {
   const CustomSpecificBannerWidget({
@@ -26,7 +28,7 @@ class CustomSpecificBannerWidget extends StatelessWidget {
         autoPlayAnimationDuration: const Duration(milliseconds: 800),
         autoPlayInterval: const Duration(seconds: 3),
         onPageChanged: (index, reason) {
-          // context.read<HomeCubit>().changeIndex(index);
+          context.read<HomeCubit>().changeIndexBanner(index);
         },
       ),
       itemBuilder: (context, index, realIndex) {

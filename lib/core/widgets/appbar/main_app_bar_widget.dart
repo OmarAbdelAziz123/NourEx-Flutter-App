@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/cache_helper/cache_keys.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
@@ -92,7 +94,9 @@ class MainAppBarWidget extends StatelessWidget {
             ),
             if(haveSearchIcon == true)
               InkWell(
-              onTap: () {},
+              onTap: () {
+                context.pushNamed(Routes.searchScreen);
+              },
               child: SvgPicture.asset(
                 'assets/svgs/search_icon.svg',
                 width: 50.w,

@@ -53,6 +53,8 @@ class AllBannersScreen extends StatelessWidget {
               },
               itemCount: banners.length,
             ),
+
+            24.verticalSpace,
           ],
         ),
       ),

@@ -10,13 +10,24 @@ import 'package:nourex/features/auth/presentation/screens/register_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/verify_code_screen.dart';
 import 'package:nourex/features/banners/presentation/screens/all_banners_screen.dart';
 import 'package:nourex/features/categories/presentation/presentation/screens/categories_screen.dart';
+import 'package:nourex/features/home/business_logic/home_cubit.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/presentation/screens/best_seller_screen.dart';
 import 'package:nourex/features/home/presentation/screens/home_screen.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/presentation/main_layout.dart';
 import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.dart';
-import 'package:nourex/features/profile/screens/profile_screen.dart';
+import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
+import 'package:nourex/features/profile/presentation/screens/about_us_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/change_password_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/privacy_policy_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/profile_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/terms_and_conditions_screen.dart';
+import 'package:nourex/features/search/business_logic/search_cubit.dart';
+import 'package:nourex/features/search/presentation/filter_screen.dart';
+import 'package:nourex/features/search/presentation/search_screen.dart';
+import 'package:nourex/features/support/business_logic/support_cubit.dart';
+import 'package:nourex/features/support/presentation/screens/support_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
@@ -29,12 +40,10 @@ class AppRouter {
       Duration duration = const Duration(milliseconds: 200),
       Alignment alignment = Alignment.center,
     }) {
-      final child = cubit != null
-          ? BlocProvider<T>(
-              create: (context) => cubit,
-              child: screen,
-            )
-          : screen;
+      final child =
+          cubit != null
+              ? BlocProvider<T>(create: (context) => cubit, child: screen)
+              : screen;
 
       return PageTransition(
         child: child,
@@ -47,64 +56,74 @@ class AppRouter {
 
     switch (settings.name) {
       case Routes.chooseLoginOrRegisterScreen:
-        return transition(
-          screen: const ChooseLoginOrRegisterScreen(),
-        );
+        return transition(screen: const ChooseLoginOrRegisterScreen());
       case Routes.loginScreen:
-        return transition(
-          screen: const LoginScreen(),
-          cubit: AuthCubit(),
-        );
+        return transition(screen: const LoginScreen(), cubit: AuthCubit());
       case Routes.registerScreen:
-        return transition(
-          screen: const RegisterScreen(),
-          cubit: AuthCubit(),
-        );
+        return transition(screen: const RegisterScreen(), cubit: AuthCubit());
       case Routes.verificationScreen:
         // final String emailAddress = settings.arguments as String;
-      final Map<String, dynamic> data = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> data =
+            settings.arguments as Map<String, dynamic>;
 
         return transition(
           screen: VerifyCodeScreen(data: data),
           cubit: AuthCubit()..startCountdown(),
         );
       case Routes.homeScreen:
-        return transition(
-          screen: const HomeScreen(),
-        );
+        return transition(screen: const HomeScreen(), cubit: HomeCubit());
+      case Routes.searchScreen:
+        return transition(screen: const SearchScreen(), cubit: SearchCubit());
+      case Routes.filterScreen:
+        return transition(screen: const FilterScreen(), cubit: SearchCubit());
       case Routes.categoriesScreen:
-        return transition(
-          screen: const CategoriesScreen(),
-        );
+        return transition(screen: const CategoriesScreen());
       case Routes.allBannersScreen:
-        return transition(
-          screen: const AllBannersScreen(),
-        );
+        return transition(screen: const AllBannersScreen());
       case Routes.bestSellerScreen:
         return transition(
           screen: const BestSellerScreen(),
           cubit: ProductsCubit(),
         );
       case Routes.fillPasswordScreen:
-        final Map<String, dynamic> data = settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> data =
+            settings.arguments as Map<String, dynamic>;
 
         return transition(
           screen: FillPasswordScreen(data: data),
           cubit: AuthCubit(),
         );
       case Routes.forgetPasswordScreen:
-        return transition(
-          screen: ForgetPasswordScreen(),
-          cubit: AuthCubit(),
-        );
+        return transition(screen: ForgetPasswordScreen(), cubit: AuthCubit());
       case Routes.profileScreen:
+        return transition(screen: const ProfileScreen());
+      case Routes.changePassword:
         return transition(
-          screen: const ProfileScreen(),
+          screen: const ChangePasswordScreen(),
+          cubit: ProfileCubit(),
+        );
+      case Routes.aboutUsScreen:
+        return transition(
+          screen: const AboutUsScreen(),
+          cubit: ProfileCubit(),
+        );
+      case Routes.privacyPolicyScreen:
+        return transition(
+          screen: const PrivacyPolicyScreen(),
+          cubit: ProfileCubit(),
+        );
+      case Routes.supportScreen:
+        return transition(
+          screen: const SupportScreen(),
+          cubit: SupportCubit(),
+        );
+      case Routes.termsAndConditionsScreen:
+        return transition(
+          screen: const TermsAndConditionsScreen(),
+          cubit: ProfileCubit(),
         );
       case Routes.myOrdersScreen:
-        return transition(
-          screen: const MyOrdersScreen(),
-        );
+        return transition(screen: const MyOrdersScreen());
       case Routes.mainLayoutScreen:
         final index = settings.arguments as int? ?? 0;
 
@@ -117,7 +136,7 @@ class AppRouter {
   }
 
   List<Widget> userScreens = [
-    HomeScreen(),
+    BlocProvider(create: (context) => HomeCubit(), child: HomeScreen()),
     Container(),
     MyOrdersScreen(),
     ProfileScreen(),

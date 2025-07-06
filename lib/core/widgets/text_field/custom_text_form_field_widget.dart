@@ -18,6 +18,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
   final bool? enableSuggestions;
   final bool? readOnly;
   final bool? showCursor;
+  final Color? cursorColor;
   final TextStyle? hintStyle;
   final TextStyle? textStyle;
   final bool isChat;
@@ -44,7 +45,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
   final double? borderRadius;
   final Color? backgroundColor;
   final Color? borderColor;
-
+  final Color? textColor;
   final double? borderWidth;
   final double? height;
   final double? width;
@@ -56,6 +57,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     this.controller,
     this.isChat = false,
     this.padding,
+    this.cursorColor,
     this.textStyle,
     this.hintStyle,
     this.hintText,
@@ -95,6 +97,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     this.onTap,
     this.height,
     this.textAlignVertical,
+    this.textColor,
     this.focusNode,
   });
 
@@ -103,7 +106,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
     return TextFormField(
       style: textStyle ??
           Styles.contentEmphasis.copyWith(
-            color: AppColors.neutralColor1000,
+            color: textColor ?? AppColors.neutralColor1000,
           ),
       autofillHints: autofillHints,
       onTapOutside: isChat ? null : (event) => FocusScope.of(context).unfocus(),
@@ -115,7 +118,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
       enableSuggestions: enableSuggestions!,
       readOnly: readOnly!,
       showCursor: showCursor,
-      cursorColor: showCursor == true ? AppColors.primaryColor700 : Colors.transparent,
+      cursorColor: showCursor == true ? AppColors.primaryColor700 : cursorColor,
       maxLength: maxLength,
       keyboardType: keyboardType,
       textInputAction: textInputAction,

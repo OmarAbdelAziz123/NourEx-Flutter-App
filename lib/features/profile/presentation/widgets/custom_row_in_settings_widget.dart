@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/features/profile/data/models/settings/settings_data_model.dart';
-import 'package:nourex/features/profile/widgets/custom_arrow_in_containers_widget.dart';
+import 'package:nourex/features/profile/presentation/widgets/custom_arrow_in_containers_widget.dart';
 
 class CustomRowInSettingsWidget extends StatelessWidget {
   const CustomRowInSettingsWidget({

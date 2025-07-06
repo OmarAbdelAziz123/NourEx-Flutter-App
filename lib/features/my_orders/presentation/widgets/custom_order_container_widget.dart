@@ -5,8 +5,7 @@ import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/text/custom_text_rich_widget.dart';
 import 'package:nourex/features/my_orders/data/models/order_data_model.dart';
-import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.dart';
-import 'package:nourex/features/profile/widgets/custom_arrow_in_containers_widget.dart';
+import 'package:nourex/features/profile/presentation/widgets/custom_arrow_in_containers_widget.dart';
 
 class CustomOrderContainerWidget extends StatelessWidget {
   const CustomOrderContainerWidget({

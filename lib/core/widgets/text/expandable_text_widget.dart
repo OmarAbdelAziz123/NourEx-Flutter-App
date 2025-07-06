@@ -48,7 +48,7 @@ class ExpandableTextWidgetState extends State<ExpandableTextWidget> {
             });
           },
           child: Text(
-            isExpanded ? "Read less" : "Read more...",
+            isExpanded ? "اغلاق" : "قراءة المزيد...",
             style: widget.subTextStyles,
           ),
         ),

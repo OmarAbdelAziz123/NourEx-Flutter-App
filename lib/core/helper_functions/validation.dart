@@ -90,6 +90,7 @@ class AppValidator {
       return 'validation.password.minLength'.tr();
     }
 
+
     // if (!value.contains(RegExp(r'[A-Z]'))) {
     //   return 'validation.password.uppercase'.tr();
     // }
@@ -101,6 +102,36 @@ class AppValidator {
     // if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
     //   return 'validation.password.specialChar'.tr();
     // }
+
+    return null;
+  }
+
+  /// Validate New Password
+  static String? validateNewPassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validation.password.required'.tr();
+    }
+
+    if (value.length < 6) {
+      return 'validation.password.minLength'.tr();
+    }
+
+    return null;
+  }
+
+  /// Validate Confirm New Password
+  static String? validateConfirmNewPassword(String? confirmPassword, String? newPassword) {
+    if (confirmPassword == null || confirmPassword.isEmpty) {
+      return 'validation.confirmPassword.required'.tr();
+    }
+
+    if (confirmPassword.length < 6) {
+      return 'validation.password.minLength'.tr();
+    }
+
+    if (confirmPassword != newPassword) {
+      return 'validation.confirmPassword.notMatch'.tr();
+    }
 
     return null;
   }

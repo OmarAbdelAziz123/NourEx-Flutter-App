@@ -18,16 +18,6 @@ class BannerWidget extends StatelessWidget {
       children: [
         // CustomBannerListSkeletonizerWidget(),
         CustomBannerListWidget(),
-        // AnimatedSmoothIndicator(
-        //   activeIndex: context.read<HomeCubit>().currentBannerIndex,
-        //   count: banners.length,
-        //   effect: WormEffect(
-        //     dotHeight: 6.h,
-        //     dotWidth: 6.w,
-        //     activeDotColor: AppColors.primaryColor900,
-        //     dotColor: AppColors.neutralColor200,
-        //   ),
-        // ),
       ],
     );
   }

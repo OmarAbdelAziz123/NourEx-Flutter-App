@@ -21,7 +21,7 @@ class AppBarWidget extends StatelessWidget {
         ),
         color: AppColors.primaryColor700,
       ),
-      child:SafeArea(child: rowWidget) ,
+      child: SafeArea(child: rowWidget) ,
     );
   }
 }
