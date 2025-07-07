@@ -20,12 +20,14 @@ class CustomButtonWidget extends StatelessWidget {
   final double? elevation;
   final bool? enableShadow;
   final bool? isEnabled;
+  final TextStyle? textStyle;
   final List<Color>? gradientColors;
   final List<BoxShadow>? boxShadow;
 
   const CustomButtonWidget({
     super.key,
     this.onPressed,
+    this.textStyle,
     this.iconData,
     this.text,
     this.color,
@@ -86,7 +88,7 @@ class CustomButtonWidget extends StatelessWidget {
               if (iconData != null) 7.horizontalSpace,
               Text(
                 text!,
-                style: Styles.highlightSemiBold.copyWith(
+                style: textStyle ?? Styles.highlightSemiBold.copyWith(
                   color: textColor ?? AppColors.neutralColor100,
                   fontSize: fontSize,
                   fontWeight: fontWeight,

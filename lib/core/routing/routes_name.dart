@@ -18,6 +18,8 @@ class Routes {
   static const String aboutUsScreen = 'about_us_screen';
   static const String privacyPolicyScreen = 'privacy_policy_screen';
   static const String supportScreen = 'support_screen';
+  static const String walletScreen = 'wallet_screen';
+  static const String convertPointsToBalanceScreen = 'convert_points_to_balance_screen';
   static const String termsAndConditionsScreen = 'terms_and_conditions_screen';
   static const String myOrdersScreen = 'my_orders_screen';
   static const String mainLayoutScreen = 'main_layout_screen';

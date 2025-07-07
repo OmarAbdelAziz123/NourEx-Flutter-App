@@ -28,6 +28,9 @@ import 'package:nourex/features/search/presentation/filter_screen.dart';
 import 'package:nourex/features/search/presentation/search_screen.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
 import 'package:nourex/features/support/presentation/screens/support_screen.dart';
+import 'package:nourex/features/wallet/business_logic/wallet_cubit.dart';
+import 'package:nourex/features/wallet/presentation/screens/convert_points_to_balance_screen.dart';
+import 'package:nourex/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class AppRouter {
@@ -116,6 +119,16 @@ class AppRouter {
         return transition(
           screen: const SupportScreen(),
           cubit: SupportCubit(),
+        );
+      case Routes.walletScreen:
+        return transition(
+          screen: const WalletScreen(),
+          cubit: WalletCubit(),
+        );
+      case Routes.convertPointsToBalanceScreen:
+        return transition(
+          screen: const ConvertPointsToBalanceScreen(),
+          cubit: WalletCubit(),
         );
       case Routes.termsAndConditionsScreen:
         return transition(

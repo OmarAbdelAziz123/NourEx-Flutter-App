@@ -26,7 +26,7 @@ class ProfileScreen extends StatelessWidget {
       SettingsDataModel(
         iconPath: 'assets/svgs/wallet.svg',
         title: 'محفظتي',
-        onTap: () {},
+        onTap: () => context.pushNamed(Routes.walletScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/my_rates.svg',
