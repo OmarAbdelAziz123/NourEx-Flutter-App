@@ -58,9 +58,7 @@ class SupportScreen extends StatelessWidget {
         child: CustomBottomNavBarHaveButtonsWidget(
           haveText: false,
           buttonTitle: 'حفظ',
-          onPressed: () {
-
-          },
+          onPressed: () {},
         ),
       ),
     );

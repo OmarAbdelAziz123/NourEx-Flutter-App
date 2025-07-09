@@ -6,6 +6,8 @@ class Routes {
   static const String registerScreen = 'register_screen';
   static const String verificationScreen = 'verification_screen';
   static const String homeScreen = 'home_screen';
+  static const String cartScreen = 'cart_screen';
+  static const String completePayScreen = 'complete_pay_screen';
   static const String searchScreen = 'search_screen';
   static const String filterScreen = 'filter_screen';
   static const String categoriesScreen = 'categories_screen';

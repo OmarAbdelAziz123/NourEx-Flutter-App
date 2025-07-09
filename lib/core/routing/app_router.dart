@@ -9,6 +9,9 @@ import 'package:nourex/features/auth/presentation/screens/login_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/register_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/verify_code_screen.dart';
 import 'package:nourex/features/banners/presentation/screens/all_banners_screen.dart';
+import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
+import 'package:nourex/features/cart/presentation/screens/cart_screen.dart';
+import 'package:nourex/features/cart/presentation/screens/complete_pay_screenn.dart';
 import 'package:nourex/features/categories/presentation/presentation/screens/categories_screen.dart';
 import 'package:nourex/features/home/business_logic/home_cubit.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
@@ -75,6 +78,10 @@ class AppRouter {
         );
       case Routes.homeScreen:
         return transition(screen: const HomeScreen(), cubit: HomeCubit());
+      case Routes.cartScreen:
+        return transition(screen: const CartScreen(), cubit: CartCubit());
+      case Routes.completePayScreen:
+        return transition(screen: const CompletePayScreen(), cubit: CartCubit());
       case Routes.searchScreen:
         return transition(screen: const SearchScreen(), cubit: SearchCubit());
       case Routes.filterScreen:
@@ -150,7 +157,7 @@ class AppRouter {
 
   List<Widget> userScreens = [
     BlocProvider(create: (context) => HomeCubit(), child: HomeScreen()),
-    Container(),
+    BlocProvider(create: (context) => CartCubit(), child: CartScreen()),
     MyOrdersScreen(),
     ProfileScreen(),
   ];

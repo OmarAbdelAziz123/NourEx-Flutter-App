@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
-import 'package:nourex/core/routing/routes_name.dart';
-import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
-import 'package:nourex/core/widgets/button/custom_button_widget.dart';
+import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_make_button_only.dart';
 import 'package:nourex/core/widgets/tab_bar/custom_tab_bar_widget.dart';
 import 'package:nourex/features/wallet/business_logic/wallet_cubit.dart';
 import 'package:nourex/features/wallet/presentation/widgets/my_balance_widget.dart';
@@ -45,38 +43,15 @@ class WalletScreen extends StatelessWidget {
                   },
                 ),
 
-                Expanded(
-                  child: _buildTabContent(cubit.selectedTabIndex),
-                ),
+                Expanded(child: _buildTabContent(cubit.selectedTabIndex)),
               ],
             );
           },
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-          left: 18.w,
-          right: 18.w,
-          bottom: 28.h,
-          top: 18.h,
-        ),
-        decoration: BoxDecoration(
-          color: AppColors.neutralColor100,
-          border: Border(
-            top: BorderSide(
-              color: AppColors.neutralColor100,
-              width: 1.w,
-            ),
-          ),
-        ),
-        child: CustomButtonWidget(
-          text: 'تحويل النقاط الى رصيد',
-          color: AppColors.primaryColor700,
-          onPressed: () {
-            print('click');
-            context.pushNamed(Routes.convertPointsToBalanceScreen);
-          },
-        ),
+      bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
+        buttonTitle: 'تحويل النقاط الى رصيد',
+        onPressed: () {},
       ),
     );
   }
