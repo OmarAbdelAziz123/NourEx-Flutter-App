@@ -24,6 +24,10 @@ class Routes {
   static const String convertPointsToBalanceScreen = 'convert_points_to_balance_screen';
   static const String termsAndConditionsScreen = 'terms_and_conditions_screen';
   static const String myOrdersScreen = 'my_orders_screen';
+  static const String orderDetailsScreen = 'order_details_screen';
+  static const String cancelOrderScreen = 'cancel_order_screen';
+  static const String supportDetailsScreenRoute = 'support_details_screen';
+  static const String editProfileScreen = 'edit_profile_screen';
   static const String mainLayoutScreen = 'main_layout_screen';
 
 }

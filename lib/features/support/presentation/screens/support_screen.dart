@@ -7,6 +7,7 @@ import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_have_buttons_widget.dart';
 import 'package:nourex/core/widgets/tab_bar/custom_tab_bar_widget.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
+import 'package:nourex/features/support/presentation/widgets/solved_widget.dart';
 
 class SupportScreen extends StatelessWidget {
   const SupportScreen({super.key});
@@ -57,7 +58,7 @@ class SupportScreen extends StatelessWidget {
         ),
         child: CustomBottomNavBarHaveButtonsWidget(
           haveText: false,
-          buttonTitle: 'حفظ',
+          buttonTitle: 'تواصل مع الدعم',
           onPressed: () {},
         ),
       ),
@@ -67,12 +68,7 @@ class SupportScreen extends StatelessWidget {
   Widget _buildTabContent(currentTabIndex) {
     switch (currentTabIndex) {
       case 0:
-        return Center(
-          child: Text(
-            'تم الحل',
-            style: Styles.highlightEmphasis,
-          ),
-        );
+        return SolvedWidget();
       case 1:
         return Center(
           child: Text(

@@ -13,6 +13,7 @@ import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_make_bu
 import 'package:nourex/core/widgets/button/custom_button_widget.dart';
 import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart';
 import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dart';
+import 'package:nourex/features/cart/presentation/screens/complete_pay_screenn.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
@@ -165,7 +166,9 @@ class CartScreen extends StatelessWidget {
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
         buttonTitle: 'استكمال الطلب',
         onPressed: () {
-          context.pushNamed(Routes.completePayScreen);
+          context.pushNamedWithSwipe(
+            Routes.completePayScreen,
+          );
         },
       ),
     );

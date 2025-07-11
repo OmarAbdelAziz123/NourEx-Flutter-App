@@ -6,8 +6,10 @@ import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_make_button_only.dart';
+import 'package:nourex/core/widgets/bottom_sheet/custom_shared_show_bottom_sheet.dart';
 import 'package:nourex/core/widgets/button/custom_button_widget.dart';
 import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dart';
+import 'package:nourex/features/cart/presentation/widgets/toggle_payment_methods_widget.dart';
 
 class CompletePayScreen extends StatelessWidget {
   const CompletePayScreen({super.key});
@@ -34,6 +36,7 @@ class CompletePayScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               18.verticalSpace,
+
               /// Total Price
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 16.h),
@@ -81,10 +84,7 @@ class CompletePayScreen extends StatelessWidget {
                         spacing: 4.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'العنوان',
-                            style: Styles.highlightSemiBold,
-                          ),
+                          Text('العنوان', style: Styles.highlightSemiBold),
                           Text(
                             'البلد - المدينة - اسم الشارع ',
                             style: Styles.captionRegular.copyWith(
@@ -98,7 +98,7 @@ class CompletePayScreen extends StatelessWidget {
                       Icons.arrow_forward_ios,
                       size: 18.sp,
                       color: AppColors.primaryColor700,
-                    )
+                    ),
                   ],
                 ),
               ),
@@ -120,10 +120,7 @@ class CompletePayScreen extends StatelessWidget {
               ),
               18.verticalSpace,
 
-              Text(
-                'ملاحظات حول الطلب',
-                style: Styles.highlightEmphasis,
-              ),
+              Text('ملاحظات حول الطلب', style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               CustomTextFormFieldWidget(
@@ -139,19 +136,36 @@ class CompletePayScreen extends StatelessWidget {
               ),
               18.verticalSpace,
 
-              Text(
-                'طريقة الدفع',
-                style: Styles.featureBold,
-              ),
-              8.verticalSpace,
+              TogglePaymentMethodsWidget(),
             ],
           ),
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
         buttonTitle: 'شراء الان',
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            isScrollControlled: true,
+            builder: (context) {
+              return CustomSharedShowBottomSheet(
+                headingName: 'طلبك رقم #12345',
+                imagePath:
+                'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
+                text1: 'تم طلب الاوردر',
+                text2: ' بنجاح',
+                description:
+                'شكراً لثقتك بنا! 🎉 طلبك رقم #12345 تم بنجاح وجاري معالجته. يمكنك متابعة حالة الطلب من خلال صفحة الطلبات الخاصة بك. سنقوم بإبلاغك بأي تحديثات تتعلق بالشحن والتوصيل قريبًا. إذا كان لديك أي استفسار، لا تتردد في التواصل مع فريق الدعم',
+                haveOneButton: false,
+                haveTextSpan: true,
+                buttonText1: 'التالي',
+                buttonText2: 'طلباتي',
+              );
+            },
+          );
+        },
       ),
     );
   }
 }
+

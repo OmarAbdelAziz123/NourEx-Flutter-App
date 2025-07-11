@@ -97,6 +97,7 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                           onTap2: () {
                             showModalBottomSheet(
                               context: context,
+                              isScrollControlled: true,
                               builder: (context) {
                                 return CustomSharedShowBottomSheet(
                                   headingName: 'تسجيل كضيف',

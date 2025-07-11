@@ -139,6 +139,7 @@ class CustomSharedShowBottomSheet extends StatelessWidget {
               ),
             ],
           ),
+          24.verticalSpace,
         ],
       ),
     );

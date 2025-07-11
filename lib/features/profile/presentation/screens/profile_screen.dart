@@ -75,8 +75,7 @@ class ProfileScreen extends StatelessWidget {
             builder: (context) {
               return CustomSharedShowBottomSheet(
                 headingName: 'تسجيل الخروج',
-                imagePath:
-                'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
+                imagePath: 'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
                 text1: 'هل أنت متأكد من رغبتك في تسجيل ',
                 text2: 'الخروج؟',
                 description: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
@@ -100,11 +99,11 @@ class ProfileScreen extends StatelessWidget {
             builder: (context) {
               return CustomSharedShowBottomSheet(
                 headingName: 'حذف الحساب',
-                imagePath:
-                'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
+                imagePath: 'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
                 text1: 'هل أنت متأكد من أنك تريد حذف ',
                 text2: 'حسابك؟',
-                description: 'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
+                description:
+                    'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
                 haveOneButton: false,
                 haveTextSpan: true,
                 buttonText1: 'الغاء',
@@ -131,18 +130,17 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(
-                right: 18.w,
-                left: 18.w,
-                bottom: 18.h,
-              ),
+              padding: EdgeInsets.only(right: 18.w, left: 18.w, bottom: 18.h),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     18.verticalSpace,
 
                     /// User Data
-                    CustomProfileContainerInSettingsWidget(),
+                    GestureDetector(
+                      onTap: () => context.pushNamed(Routes.editProfileScreen),
+                      child: CustomProfileContainerInSettingsWidget(),
+                    ),
                     18.verticalSpace,
 
                     ListView.separated(
@@ -152,9 +150,7 @@ class ProfileScreen extends StatelessWidget {
                       itemCount: settingsList.length,
                       separatorBuilder: (context, index) {
                         return Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 16.h,
-                          ),
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
                           child: CustomDividerInBottomSheet(),
                         );
                       },

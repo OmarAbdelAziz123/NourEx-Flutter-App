@@ -14,6 +14,9 @@ import 'package:nourex/features/cart/presentation/screens/cart_screen.dart';
 import 'package:nourex/features/cart/presentation/screens/complete_pay_screenn.dart';
 import 'package:nourex/features/categories/presentation/presentation/screens/categories_screen.dart';
 import 'package:nourex/features/home/business_logic/home_cubit.dart';
+import 'package:nourex/features/my_orders/business_logic/my_orders_cubit.dart';
+import 'package:nourex/features/my_orders/presentation/screens/cancel_order_screen.dart';
+import 'package:nourex/features/my_orders/presentation/screens/order_details_screen.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/presentation/screens/best_seller_screen.dart';
 import 'package:nourex/features/home/presentation/screens/home_screen.dart';
@@ -23,6 +26,7 @@ import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.
 import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/presentation/screens/about_us_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/change_password_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/profile_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/terms_and_conditions_screen.dart';
@@ -30,6 +34,7 @@ import 'package:nourex/features/search/business_logic/search_cubit.dart';
 import 'package:nourex/features/search/presentation/filter_screen.dart';
 import 'package:nourex/features/search/presentation/search_screen.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
+import 'package:nourex/features/support/presentation/screens/support_details_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_screen.dart';
 import 'package:nourex/features/wallet/business_logic/wallet_cubit.dart';
 import 'package:nourex/features/wallet/presentation/screens/convert_points_to_balance_screen.dart';
@@ -143,7 +148,17 @@ class AppRouter {
           cubit: ProfileCubit(),
         );
       case Routes.myOrdersScreen:
-        return transition(screen: const MyOrdersScreen());
+        return transition(screen: const MyOrdersScreen(), cubit: MyOrdersCubit());
+      case Routes.orderDetailsScreen:
+        return transition(screen: const OrderDetailsScreen(), cubit: MyOrdersCubit());
+      case Routes.cancelOrderScreen:
+        return transition(screen: CancelOrderScreen(), cubit: MyOrdersCubit());
+        case Routes.supportDetailsScreenRoute:
+        return transition(screen: const SupportDetailsScreen(), cubit: SupportCubit());
+
+        case Routes.editProfileScreen:
+        return transition(screen: const EditProfileScreen(), cubit: ProfileCubit());
+
       case Routes.mainLayoutScreen:
         final index = settings.arguments as int? ?? 0;
 

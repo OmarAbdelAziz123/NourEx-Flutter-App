@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/app_router.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/features/my_orders/data/models/order_data_model.dart';
 import 'package:nourex/features/my_orders/presentation/widgets/custom_order_container_widget.dart';
 
@@ -60,8 +63,15 @@ class PendingOrdersWidget extends StatelessWidget {
               return 16.verticalSpace;
             },
             itemBuilder: (context, index) {
-              return CustomOrderContainerWidget(
-                orderDataModel: ordersList[index],
+              return GestureDetector(
+                onTap: () {
+                  context.pushNamed(
+                    Routes.orderDetailsScreen,
+                  );
+                },
+                child: CustomOrderContainerWidget(
+                  orderDataModel: ordersList[index],
+                ),
               );
             },
           ),
