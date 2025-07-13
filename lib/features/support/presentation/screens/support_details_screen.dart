@@ -26,60 +26,60 @@ class SupportDetailsScreen extends StatelessWidget {
           onTapNotification: () {},
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 18.h,
-            left: 18.w,
-            right: 18.w,
-            bottom: 52.h,
-          ),
-          child: Column(
-            children: [
-              Column(
-                children: [Text('تم الحل', style: Styles.highlightEmphasis,),],
-              ),
-            ],
-          ),
+      body: Padding(
+        padding: EdgeInsets.only(
+          top: 18.h,
+          left: 18.w,
+          right: 18.w,
+          bottom: 34.h,
         ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            CustomBottomNavBarHaveButtonsWidget(
-              haveText: false,
-              buttonTitle: 'تم حل المشكلة',
-              onPressed: () {},
+            Expanded(
+              child: Column(
+                children: [
+                  Text('تم الحل', style: Styles.highlightEmphasis,),
+                  24.verticalSpace,
+                ],
+              ),
             ),
 
-            Row(
-              spacing: 12.w,
+            Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: CustomTextFormFieldWidget(
-                    hintText: 'الرساله',
-                    hintStyle: Styles.contentEmphasis,
-                    suffixIcon: IconButton(
-                      onPressed: () {},
-                      icon: SvgPicture.asset(
-                        'assets/svgs/gallery_icon.svg',
-                      ),
-                    ),
-                  ),
+                CustomBottomNavBarHaveButtonsWidget(
+                  haveText: false,
+                  buttonTitle: 'تم حل المشكلة',
+                  onPressed: () {},
                 ),
 
-                IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(
-                    'assets/svgs/send_icon.svg',
-                    fit: BoxFit.scaleDown,
-                  ),
+                Row(
+                  spacing: 12.w,
+                  children: [
+                    Expanded(
+                      child: CustomTextFormFieldWidget(
+                        hintText: 'الرساله',
+                        hintStyle: Styles.contentEmphasis,
+                        suffixIcon: IconButton(
+                          onPressed: () {},
+                          icon: SvgPicture.asset(
+                            'assets/svgs/gallery_icon.svg',
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    IconButton(
+                      onPressed: () {},
+                      icon: SvgPicture.asset(
+                        'assets/svgs/send_icon.svg',
+                        fit: BoxFit.scaleDown,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            24.verticalSpace,
           ],
         ),
       ),

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "644432752969",
+    "project_id": "noorex-8f738",
+    "storage_bucket": "noorex-8f738.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:644432752969:android:fe49db349fdc12fdc6ea98",
+        "android_client_info": {
+          "package_name": "com.nourex.nourex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2mW6d4dSLuMFSEj4v-7-51hwp3N5UI_4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

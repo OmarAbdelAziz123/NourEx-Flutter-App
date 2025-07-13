@@ -112,6 +112,10 @@ dependencies:
   # Rating
   flutter_rating_bar: ^4.0.1
 
+  # Firebase
+  firebase_core: ^3.15.1
+  firebase_messaging: ^15.2.9
+
 
 
 dev_dependencies:

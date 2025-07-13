@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +26,33 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>We need access to your camera to take photos.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We need access to your location even when you are not using the app.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location to improve user experience.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library to upload images.</string>
+	<key>NSUserNotificationUsageDescription</key>
+	<string>We use notifications to keep you updated.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+		<string>fetch</string>
+		<string>processing</string>
+	</array>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+    <false/>
+    <key>NSUserTrackingUsageDescription</key>
+    <string>هذا التطبيق يستخدم الإشعارات لتحسين تجربتك.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -41,41 +70,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-
-	<!-- For Internet -->
-    <key>NSAppTransportSecurity</key>
-    <dict>
-      <key>NSAllowsArbitraryLoads</key>
-      <true/>
-    </dict>
-
-    <!-- For Image Picker -->
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>We need access to your photo library to upload images.</string>
-    <key>NSCameraUsageDescription</key>
-    <string>We need access to your camera to take photos.</string>
-
-    <!-- For Local Notifications -->
-    <key>NSUserNotificationUsageDescription</key>
-    <string>We use notifications to keep you updated.</string>
-
-    <!-- For Location (if needed) -->
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>We need access to your location to improve user experience.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>We need access to your location even when you are not using the app.</string>
-
-    <!-- For Secure Storage (Keychain access) -->
-    <key>keychain-access-groups</key>
-    <array>
-      <string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
-    </array>
-
-
-
-	<key>CADisableMinimumFrameDurationOnPhone</key>
-	<true/>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<key>keychain-access-groups</key>
+	<array>
+		<string>$(AppIdentifierPrefix)$(CFBundleIdentifier)</string>
+	</array>
 </dict>
 </plist>
