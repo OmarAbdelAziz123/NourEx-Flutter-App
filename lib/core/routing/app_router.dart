@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nourex/core/routing/routes_name.dart';
+import 'package:nourex/features/addresses/business_logic/addresses_cubit.dart';
+import 'package:nourex/features/addresses/presentation/screens/add_new_address_screen.dart';
 import 'package:nourex/features/auth/business_logic/auth_cubit.dart';
 import 'package:nourex/features/auth/presentation/screens/choose_login_or_register_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/fill_password_screen.dart';
@@ -23,6 +25,7 @@ import 'package:nourex/features/home/presentation/screens/home_screen.dart';
 import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/presentation/main_layout.dart';
 import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.dart';
+import 'package:nourex/features/products/presentation/screens/product_details_screen.dart';
 import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/presentation/screens/about_us_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/change_password_screen.dart';
@@ -34,12 +37,15 @@ import 'package:nourex/features/search/business_logic/search_cubit.dart';
 import 'package:nourex/features/search/presentation/filter_screen.dart';
 import 'package:nourex/features/search/presentation/search_screen.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
+import 'package:nourex/features/support/presentation/screens/contact_support_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_details_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_screen.dart';
 import 'package:nourex/features/wallet/business_logic/wallet_cubit.dart';
 import 'package:nourex/features/wallet/presentation/screens/convert_points_to_balance_screen.dart';
 import 'package:nourex/features/wallet/presentation/screens/wallet_screen.dart';
 import 'package:page_transition/page_transition.dart';
+
+import '../../features/addresses/presentation/screens/addresses_screen.dart';
 
 class AppRouter {
   Route? generateRoute(RouteSettings settings) {
@@ -100,6 +106,11 @@ class AppRouter {
           screen: const BestSellerScreen(),
           cubit: ProductsCubit(),
         );
+      case Routes.productDetailsScreen:
+        return transition(
+          screen: const ProductDetailsScreen(),
+          cubit: ProductsCubit(),
+        );
       case Routes.fillPasswordScreen:
         final Map<String, dynamic> data =
             settings.arguments as Map<String, dynamic>;
@@ -156,8 +167,17 @@ class AppRouter {
         case Routes.supportDetailsScreenRoute:
         return transition(screen: const SupportDetailsScreen(), cubit: SupportCubit());
 
+        case Routes.contactSupportScreenRoute:
+        return transition(screen: const ContactSupportScreen(), cubit: SupportCubit());
+
         case Routes.editProfileScreen:
         return transition(screen: const EditProfileScreen(), cubit: ProfileCubit());
+
+        case Routes.addressesScreen:
+        return transition(screen: const AddressesScreen(), cubit: AddressesCubit());
+
+        case Routes.addNewAddressScreen:
+        return transition(screen: const AddNewAddressScreen(), cubit: AddressesCubit());
 
       case Routes.mainLayoutScreen:
         final index = settings.arguments as int? ?? 0;

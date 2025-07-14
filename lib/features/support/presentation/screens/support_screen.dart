@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_have_buttons_widget.dart';
@@ -59,7 +60,9 @@ class SupportScreen extends StatelessWidget {
         child: CustomBottomNavBarHaveButtonsWidget(
           haveText: false,
           buttonTitle: 'تواصل مع الدعم',
-          onPressed: () {},
+          onPressed: () {
+            context.pushNamed(Routes.contactSupportScreenRoute);
+          },
         ),
       ),
     );

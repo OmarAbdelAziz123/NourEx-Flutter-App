@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 
 class CustomDropdownButtonWidget<T> extends StatefulWidget {
   final String? hint;
   final List<T> items;
   final bool isString;
+  final bool? isSvgPic;
   final String Function(T)? getItemText;
   final String Function(T)? getItemIcon;
   final ValueChanged<T?>? onChanged;
@@ -19,6 +21,7 @@ class CustomDropdownButtonWidget<T> extends StatefulWidget {
     super.key,
     this.hint,
     this.isString = true,
+    this.isSvgPic = false,
     required this.items,
     this.getItemText,
     this.getItemIcon,
@@ -109,18 +112,29 @@ class _CustomDropdownButtonWidgetState<T>
                                     widget.onChanged!(selectedValue);
                                   },
                                   child: SvgPicture.asset(
-                                      'assets/images/svgs/close_icon.svg',
+                                    'assets/svgs/close_icon.svg',
                                   ),
                                 ),
                               ),
-                            CachedNetworkImage(
-                              imageUrl: widget.getItemIcon!(selectedValue as T),
-                              width: 24.w,
-                              height: 24.h,
-                              fit: BoxFit.contain,   errorWidget: (context, url, error) => Center(
-            child: Icon(Icons.error),
-          ),
-                            ),
+                            widget.isSvgPic == true
+                                ? CacheNetworkImagesWidget(
+                                    image:
+                                        widget.getItemIcon!(selectedValue as T),
+                                    width: 24.w,
+                                    height: 24.h,
+                                    boxFit: BoxFit.contain,
+                                  )
+                                : CachedNetworkImage(
+                                    imageUrl:
+                                        widget.getItemIcon!(selectedValue as T),
+                                    width: 24.w,
+                                    height: 24.h,
+                                    fit: BoxFit.contain,
+                                    errorWidget: (context, url, error) =>
+                                        Center(
+                                      child: Icon(Icons.error),
+                                    ),
+                                  ),
                           ],
                         ),
                       ),
@@ -131,7 +145,11 @@ class _CustomDropdownButtonWidgetState<T>
                           : (widget.isString
                               ? selectedValue.toString()
                               : widget.getItemText!(selectedValue as T)),
-                      style: TextStyle(color: Colors.black, fontSize: 16.sp),
+                      style: Styles.highlightEmphasis.copyWith(
+                        color: selectedValue == null
+                            ? AppColors.neutralColor600
+                            : AppColors.neutralColor1000,
+                      ),
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],
@@ -139,7 +157,7 @@ class _CustomDropdownButtonWidgetState<T>
                 AnimatedRotation(
                   turns: isDropdownOpen ? 0.5 : 0, // Rotates 180° when open
                   duration: Duration(milliseconds: 300),
-                  child: SvgPicture.asset('assets/images/svgs/arrow-down_icon.svg'),
+                  child: SvgPicture.asset('assets/svgs/arrow-down_icon.svg'),
                 ),
               ],
             ),
@@ -196,10 +214,7 @@ class _CustomDropdownButtonWidgetState<T>
                               widget.isString
                                   ? item.toString()
                                   : widget.getItemText!(item),
-                              style: TextStyle(
-                                fontSize: 16.sp,
-                                color: Colors.black,
-                              ),
+                              style: Styles.highlightStandard,
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),

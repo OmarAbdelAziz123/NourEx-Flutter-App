@@ -193,8 +193,13 @@ class HomeScreen extends StatelessWidget {
                             right: index == 0 ? 18.w : 0,
                             left: index == products.length - 1 ? 18.w : 12.w,
                           ),
-                          child: CustomProductCardItemWidget(
-                            product: products[index],
+                          child: GestureDetector(
+                            onTap: () {
+                              context.pushNamed(Routes.productDetailsScreen);
+                            },
+                            child: CustomProductCardItemWidget(
+                              product: products[index],
+                            ),
                           ),
                           // child: CustomProductCardItemSkeletonizerWidget(),
                         );

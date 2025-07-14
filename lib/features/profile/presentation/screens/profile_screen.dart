@@ -36,7 +36,7 @@ class ProfileScreen extends StatelessWidget {
       SettingsDataModel(
         iconPath: 'assets/svgs/address.svg',
         title: 'العناوين',
-        onTap: () {},
+        onTap: () => context.pushNamed(Routes.addressesScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/about_us.svg',

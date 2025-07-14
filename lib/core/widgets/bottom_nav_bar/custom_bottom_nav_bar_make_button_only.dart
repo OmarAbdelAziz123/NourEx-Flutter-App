@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/widgets/button/custom_button_widget.dart';
 
@@ -32,6 +33,10 @@ class CustomBottomNavBarMakeButtonOnly extends StatelessWidget {
         text: buttonTitle,
         color: AppColors.primaryColor700,
         onPressed: onPressed,
+        svgPic: SvgPicture.asset(
+          'assets/svgs/add_to_cart_icon.svg',
+          fit: BoxFit.scaleDown,
+        ),
       ),
     );
   }

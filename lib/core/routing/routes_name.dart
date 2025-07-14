@@ -13,6 +13,7 @@ class Routes {
   static const String categoriesScreen = 'categories_screen';
   static const String allBannersScreen = 'all_banners_screen';
   static const String bestSellerScreen = 'best_seller_screen';
+  static const String productDetailsScreen = 'product_details_screen';
   static const String fillPasswordScreen = 'fill_password_screen';
   static const String forgetPasswordScreen = 'forget_password_screen';
   static const String profileScreen = 'profile_screen';
@@ -27,7 +28,10 @@ class Routes {
   static const String orderDetailsScreen = 'order_details_screen';
   static const String cancelOrderScreen = 'cancel_order_screen';
   static const String supportDetailsScreenRoute = 'support_details_screen';
+  static const String contactSupportScreenRoute = 'contact_support_screen';
   static const String editProfileScreen = 'edit_profile_screen';
+  static const String addressesScreen = 'addresses_screen';
+  static const String addNewAddressScreen = 'add_new_address_screen';
   static const String mainLayoutScreen = 'main_layout_screen';
 
 }

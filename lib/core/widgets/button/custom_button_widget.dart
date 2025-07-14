@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 
 class CustomButtonWidget extends StatelessWidget {
   final VoidCallback? onPressed;
   final IconData? iconData;
+  final Widget? svgPic;
   final String? text;
   final Color? color;
   final Color? textColor;
@@ -27,6 +29,7 @@ class CustomButtonWidget extends StatelessWidget {
   const CustomButtonWidget({
     super.key,
     this.onPressed,
+    this.svgPic,
     this.textStyle,
     this.iconData,
     this.text,
@@ -85,7 +88,10 @@ class CustomButtonWidget extends StatelessWidget {
                   color: textColor ?? AppColors.neutralColor100,
                   size: 25.sp,
                 ),
-              if (iconData != null) 7.horizontalSpace,
+              if(svgPic != null)
+                svgPic!,
+              if(svgPic != null) 8.horizontalSpace,
+              if (iconData != null) 8.horizontalSpace,
               Text(
                 text!,
                 style: textStyle ?? Styles.highlightSemiBold.copyWith(
