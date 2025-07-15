@@ -135,7 +135,7 @@ abstract class Styles {
   );
   static TextStyle get contentSemiBold => getLocalizedTextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.w600,
     color: AppColors.neutralColor1000,
   );
   static TextStyle contentEmphasis = getLocalizedTextStyle(
