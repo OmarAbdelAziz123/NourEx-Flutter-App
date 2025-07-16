@@ -21,6 +21,7 @@ class CustomSharedShowBottomSheet extends StatelessWidget {
     this.text2Color,
     this.buttonText1,
     this.buttonText2,
+    this.onPressedOnOneButton,
     this.onTap1,
     this.onTap2,
   });
@@ -36,6 +37,7 @@ class CustomSharedShowBottomSheet extends StatelessWidget {
   final Color? text2Color;
   final String? buttonText1;
   final String? buttonText2;
+  final VoidCallback? onPressedOnOneButton;
   final VoidCallback? onTap1;
   final VoidCallback? onTap2;
 
@@ -101,6 +103,7 @@ class CustomSharedShowBottomSheet extends StatelessWidget {
           haveOneButton == true
               ? CustomButtonWidget(
             text: buttonText1,
+            onPressed: onPressedOnOneButton ?? () {},
             fontSize: 16.sp,
             color: AppColors.primaryColor700,
             padding: EdgeInsets.symmetric(

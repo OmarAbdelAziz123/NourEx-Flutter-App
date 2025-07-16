@@ -4,7 +4,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
-import 'package:nourex/core/services/firebase/fcm.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';

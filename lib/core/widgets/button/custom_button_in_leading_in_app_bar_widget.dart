@@ -19,7 +19,7 @@ class CustomButtonInLeadingInAppBarWidget extends StatelessWidget {
               Navigator.of(context).pop();
             },
             child: Container(
-              padding: EdgeInsets.all(6.sp),
+              // padding: EdgeInsets.all(6.sp),
               decoration: BoxDecoration(
                 border: Border.all(
                   color: AppColors.neutralColor600,

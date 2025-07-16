@@ -21,3 +21,58 @@ final class AuthCountdownChanged extends AuthState {
 }
 
 final class AuthCountdownFinished extends AuthState {}
+
+/// Login States
+final class LoginLoadingState extends AuthState {}
+
+final class LoginSuccessState extends AuthState {}
+
+final class LoginErrorState extends AuthState {
+  final String error;
+
+  LoginErrorState(this.error);
+}
+
+/// Forget Password
+final class ForgetPasswordLoadingState extends AuthState {}
+
+final class ForgetPasswordSuccessState extends AuthState {}
+
+final class ForgetPasswordErrorState extends AuthState {
+  final String error;
+
+  ForgetPasswordErrorState(this.error);
+}
+
+/// Confirm Email OTP
+final class ConfirmPhoneEmailOTPLoadingState extends AuthState {}
+
+final class ConfirmPhoneEmailOTPSuccessState extends AuthState {}
+
+final class ConfirmPhoneEmailOTPErrorState extends AuthState {
+  final String error;
+
+  ConfirmPhoneEmailOTPErrorState(this.error);
+}
+
+/// Register States
+final class RegisterLoadingState extends AuthState {}
+
+final class RegisterSuccessState extends AuthState {}
+
+final class RegisterErrorState extends AuthState {
+  final String error;
+
+  RegisterErrorState(this.error);
+}
+
+/// Set Password States
+final class SetPasswordLoadingState extends AuthState {}
+
+final class SetPasswordSuccessState extends AuthState {}
+
+final class SetPasswordErrorState extends AuthState {
+  final String error;
+
+  SetPasswordErrorState(this.error);
+}

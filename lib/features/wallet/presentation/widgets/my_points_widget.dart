@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nourex/components/wallet/custom_transactions_history_from_wallet_skeletonizer_widget.dart';
-import 'package:nourex/components/wallet/custom_transactions_history_from_wallet_widget.dart';
-import 'package:nourex/components/wallet/models/transactions_history_data_model.dart';
+import 'package:nourex/features/wallet/data/models/transactions_history_data_model.dart';
+import 'package:nourex/features/wallet/presentation/widgets/custom_transactions_history_from_wallet_skeletonizer_widget.dart';
+import 'package:nourex/features/wallet/presentation/widgets/custom_transactions_history_from_wallet_widget.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';

@@ -44,7 +44,7 @@ class CustomSharedBottomSheetReview extends StatelessWidget {
       child: Container(
         width: double.infinity,
         padding:
-        EdgeInsets.only(left: 18.w, right: 18.w, bottom: 18.h, top: 12.h),
+        EdgeInsets.only(left: 18.w, right: 18.w, bottom: 34.h, top: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(

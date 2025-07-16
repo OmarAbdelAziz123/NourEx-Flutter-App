@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nourex/core/routing/routes_name.dart';
+import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/features/auth/business_logic/auth_cubit.dart';
 import 'package:nourex/features/auth/presentation/screens/choose_login_or_register_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/login_screen.dart';
@@ -33,8 +34,8 @@ import 'package:nourex/features/wallet/presentation/screens/wallet_screen.dart';
 final Map<String, WidgetBuilder> routeBuilderMap = {
   // Routes.splashScreen: (_) => const SplashScreen(),
   Routes.chooseLoginOrRegisterScreen: (_) => const ChooseLoginOrRegisterScreen(),
-  Routes.loginScreen: (_) => BlocProvider(create: (_) => AuthCubit(), child: const LoginScreen()),
-  Routes.registerScreen: (_) => BlocProvider(create: (_) => AuthCubit(), child: const RegisterScreen()),
+  Routes.loginScreen: (_) => BlocProvider(create: (_) => AuthCubit(getIt()), child: const LoginScreen()),
+  Routes.registerScreen: (_) => BlocProvider(create: (_) => AuthCubit(getIt()), child: const RegisterScreen()),
   Routes.homeScreen: (_) => BlocProvider(create: (_) => HomeCubit(), child: const HomeScreen()),
   Routes.cartScreen: (_) => BlocProvider(create: (_) => CartCubit(), child: const CartScreen()),
   Routes.completePayScreen: (_) => BlocProvider(create: (_) => CartCubit(), child: const CompletePayScreen()),
@@ -44,12 +45,12 @@ final Map<String, WidgetBuilder> routeBuilderMap = {
   Routes.allBannersScreen: (_) => const AllBannersScreen(),
   Routes.bestSellerScreen: (_) => BlocProvider(create: (_) => ProductsCubit(), child: const BestSellerScreen()),
   Routes.profileScreen: (_) => const ProfileScreen(),
-  Routes.aboutUsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(), child: const AboutUsScreen()),
-  Routes.privacyPolicyScreen: (_) => BlocProvider(create: (_) => ProfileCubit(), child: const PrivacyPolicyScreen()),
+  Routes.aboutUsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const AboutUsScreen()),
+  Routes.privacyPolicyScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const PrivacyPolicyScreen()),
   Routes.supportScreen: (_) => BlocProvider(create: (_) => SupportCubit(), child: const SupportScreen()),
   Routes.walletScreen: (_) => BlocProvider(create: (_) => WalletCubit(), child: const WalletScreen()),
   Routes.convertPointsToBalanceScreen: (_) => BlocProvider(create: (_) => WalletCubit(), child: const ConvertPointsToBalanceScreen()),
-  Routes.termsAndConditionsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(), child: const TermsAndConditionsScreen()),
+  Routes.termsAndConditionsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const TermsAndConditionsScreen()),
   Routes.myOrdersScreen: (_) => const MyOrdersScreen(),
   Routes.orderDetailsScreen: (_) => const OrderDetailsScreen(),
 };

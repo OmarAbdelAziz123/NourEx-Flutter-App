@@ -1,4 +1,16 @@
-class FailureException {
+class FailureException implements Exception {
   final String errMessage;
-  FailureException({required this.errMessage});
+  final int? statusCode;
+  final Map<String, dynamic>? error;
+
+  FailureException({
+    required this.errMessage,
+    this.statusCode,
+    this.error,
+  });
+
+  @override
+  String toString() {
+    return "FailureException: $errMessage (Status: $statusCode)";
+  }
 }

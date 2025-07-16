@@ -2,6 +2,7 @@ class CacheKeys {
   static const String userToken = 'token';
   static const String currentLanguage = 'currentLanguage';
   static const String userName = 'userName';
+  static const String userPhone = 'userPhone';
   static const String userImage = 'userImage';
   static const String userRole = 'userRole';
   static const String stationId = 'stationId';

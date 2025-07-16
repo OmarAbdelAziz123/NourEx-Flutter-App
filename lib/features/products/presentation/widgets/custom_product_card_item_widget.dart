@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nourex/components/products/custom_price_after_and_before_widget.dart';
-import 'package:nourex/components/products/models/product_data_model.dart';
+import 'package:nourex/features/products/presentation/widgets/custom_price_after_and_before_widget.dart';
+import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/networks_helper/errors/exceptions.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_have_buttons_widget.dart';
@@ -14,6 +17,8 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,7 +36,9 @@ class LoginScreen extends StatelessWidget {
       ),
       bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state is LoginSuccessState) {
+            context.pushNamedAndRemoveUntil(Routes.mainLayoutScreen);
+          }
         },
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -54,9 +61,18 @@ class LoginScreen extends StatelessWidget {
             ),
             onPressed: () {
               if (authCubit.formKey.currentState!.validate()) {
-                debugPrint('Email: ${authCubit.emailController.text}');
-                debugPrint(
-                    'Password: ${authCubit.passwordController.text}');
+                if(authCubit.showCheckIcon == false) {
+                  ToastManager.showCustomToast(
+                    message: 'يجب ان تقبل الشروط والاحكام',
+                    backgroundColor: AppColors.redColor200,
+                  );
+                } else {
+                  debugPrint('Email: ${authCubit.emailController.text}');
+                  debugPrint(
+                      'Password: ${authCubit.passwordController.text}');
+                  authCubit.login();
+                }
+
               } else {
                 // Show validation errors
               }

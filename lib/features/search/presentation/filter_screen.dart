@@ -7,6 +7,7 @@ import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/button/custom_button_widget.dart';
+import 'package:nourex/core/widgets/container/custom_rating_filter_item_widget.dart';
 import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dart';
 import 'package:nourex/features/search/business_logic/search_cubit.dart';
 
@@ -101,40 +102,16 @@ class FilterScreen extends StatelessWidget {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: List.generate(5, (index) {
-                      final rating = 1 + index;
-                      final isSelected = rating == selected;
+                      final rating = index + 1;
 
-                      return Padding(
-                        padding: EdgeInsets.only(left: 8.w),
-                        child: InkWell(
-                          onTap: () => context.read<SearchCubit>().toggleRating(rating),
-                          borderRadius: BorderRadius.circular(40.r),
-                          child: AnimatedContainer(
-                            duration: const Duration(milliseconds: 300),
-                            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
-                            decoration: BoxDecoration(
-                              color: isSelected ? AppColors.primaryColor700 : Colors.white,
-                              border: Border.all(color: AppColors.primaryColor700),
-                              borderRadius: BorderRadius.circular(40.r),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  rating.toString(),
-                                  style: Styles.contentEmphasis.copyWith(
-                                    color: isSelected ? Colors.white : AppColors.primaryColor700,
-                                  ),
-                                ),
-                                4.horizontalSpace,
-                                Icon(
-                                  Icons.star,
-                                  size: 18.sp,
-                                  color: isSelected ? Colors.white : AppColors.primaryColor700,
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                      return CustomRatingFilterItem(
+                        rating: rating,
+                        selectedRating: selected,
+                        onTap: () => context.read<SearchCubit>().toggleRating(rating),
+                        selectedColor: AppColors.primaryColor700,
+                        unselectedColor: Colors.white,
+                        selectedTextStyle: Styles.contentEmphasis.copyWith(color: Colors.white),
+                        unselectedTextStyle: Styles.contentEmphasis.copyWith(color: AppColors.primaryColor700),
                       );
                     }),
                   );

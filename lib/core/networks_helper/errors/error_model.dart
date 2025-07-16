@@ -1,19 +1,27 @@
 class ErrorModel {
-  final String status;
-  final String errorMessage;
-  final int code;
+  final String message;
+  final int? statusCode;
+  final Map<String, dynamic> error;
+  final String? stack;
 
   ErrorModel({
-    required this.status,
-    required this.errorMessage,
-    required this.code,
+    required this.message,
+    this.statusCode,
+    required this.error,
+    this.stack,
   });
 
   factory ErrorModel.fromJson(Map<String, dynamic> jsonData) {
     return ErrorModel(
-      status: jsonData["status"] ?? "Unknown",
-      errorMessage: jsonData["error"] ?? "An unexpected error occurred",
-      code: jsonData["code"] ?? 0,
+      message: jsonData["message"] ?? "An unexpected error occurred",
+      statusCode: jsonData["status_code"], // Nullable
+      error: jsonData["error"] ?? {},
+      stack: jsonData["stack"], // Nullable
     );
+  }
+
+  @override
+  String toString() {
+    return "ErrorModel: $message (Status: $statusCode)";
   }
 }

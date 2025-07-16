@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nourex/components/products/custom_product_card_item_in_cart.dart';
-import 'package:nourex/components/products/custom_product_card_item_widget.dart';
-import 'package:nourex/components/products/models/product_data_model.dart';
+import 'package:nourex/features/cart/presentation/widgets/custom_product_card_item_in_cart.dart';
+import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';

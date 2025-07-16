@@ -95,7 +95,7 @@ void notificationSnackBar({
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Nourex",
+                        "Noorex",
                         style: TextStyle(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w600,

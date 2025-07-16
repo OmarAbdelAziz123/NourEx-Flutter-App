@@ -16,6 +16,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,6 +36,15 @@ class RegisterScreen extends StatelessWidget {
       bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
+          if (state is RegisterSuccessState) {
+            context.pushNamed(
+              Routes.verificationScreen,
+              arguments: {
+                'screenName': Routes.registerScreen,
+                'emailAddress': authCubit.emailController.text,
+              },
+            );
+          }
         },
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -59,14 +70,15 @@ class RegisterScreen extends StatelessWidget {
                 debugPrint('Name: ${authCubit.userNameController.text}');
                 debugPrint('Email: ${authCubit.emailController.text}');
                 debugPrint('Phone: ${authCubit.phoneController.text}');
+                authCubit.register();
                 /// TODO: navigate to verification screen Success
-                context.pushNamed(
-                  Routes.verificationScreen,
-                  arguments: {
-                    'screenName': Routes.registerScreen,
-                    'emailAddress': authCubit.emailController.text,
-                  },
-                );
+                // context.pushNamed(
+                //   Routes.verificationScreen,
+                //   arguments: {
+                //     'screenName': Routes.registerScreen,
+                //     'emailAddress': authCubit.emailController.text,
+                //   },
+                // );
               } else {
                 // Show validation errors
               }

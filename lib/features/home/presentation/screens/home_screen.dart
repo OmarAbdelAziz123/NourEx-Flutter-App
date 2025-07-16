@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/features/categories/data/model/category_model_data.dart';
 import 'package:nourex/features/categories/presentation/presentation/widgets/custom_category_in_all_categories_widget.dart';
-import 'package:nourex/components/products/custom_product_card_item_widget.dart';
-import 'package:nourex/components/products/models/product_data_model.dart';
-import 'package:nourex/components/wallet/models/transactions_history_data_model.dart';
+import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_widget.dart';
 import 'package:nourex/core/widgets/row/show_more_row_widget.dart';
 import 'package:nourex/features/banners/presentation/widgets/banner_widget.dart';
+import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -58,26 +57,6 @@ class HomeScreen extends StatelessWidget {
         countOfNumber: '200',
         productPriceBefore: '2000',
         productPriceAfter: '1500',
-      ),
-    ];
-    final transactionsHistoryList = [
-      TransactionsHistoryDataModel(
-        method: 'deposit',
-        orderNumber: '987n30',
-        date: '20 يونيو 2025',
-        numberOfTransactions: '100+',
-      ),
-      TransactionsHistoryDataModel(
-        method: 'to_withdraw',
-        orderNumber: '4687m',
-        date: '20 يونيو 2025',
-        numberOfTransactions: '100+',
-      ),
-      TransactionsHistoryDataModel(
-        method: 'deposit',
-        orderNumber: '987n30',
-        date: '20 يونيو 2025',
-        numberOfTransactions: '100+',
       ),
     ];
 

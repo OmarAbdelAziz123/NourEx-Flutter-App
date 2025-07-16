@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:nourex/core/routing/routes_name.dart';
+import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/features/addresses/business_logic/addresses_cubit.dart';
 import 'package:nourex/features/addresses/presentation/screens/add_new_address_screen.dart';
 import 'package:nourex/features/auth/business_logic/auth_cubit.dart';
@@ -36,6 +37,8 @@ import 'package:nourex/features/profile/presentation/screens/terms_and_condition
 import 'package:nourex/features/search/business_logic/search_cubit.dart';
 import 'package:nourex/features/search/presentation/filter_screen.dart';
 import 'package:nourex/features/search/presentation/search_screen.dart';
+import 'package:nourex/features/splash/business_logic/splash_cubit.dart';
+import 'package:nourex/features/splash/presentation/screens/splash_screen.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
 import 'package:nourex/features/support/presentation/screens/contact_support_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_details_screen.dart';
@@ -72,12 +75,14 @@ class AppRouter {
     }
 
     switch (settings.name) {
+      case Routes.splashScreen:
+        return transition(screen: const SplashScreen(), cubit: SplashCubit());
       case Routes.chooseLoginOrRegisterScreen:
         return transition(screen: const ChooseLoginOrRegisterScreen());
       case Routes.loginScreen:
-        return transition(screen: const LoginScreen(), cubit: AuthCubit());
+        return transition(screen: const LoginScreen(), cubit: AuthCubit(getIt()));
       case Routes.registerScreen:
-        return transition(screen: const RegisterScreen(), cubit: AuthCubit());
+        return transition(screen: const RegisterScreen(), cubit: AuthCubit(getIt()));
       case Routes.verificationScreen:
         // final String emailAddress = settings.arguments as String;
         final Map<String, dynamic> data =
@@ -85,14 +90,17 @@ class AppRouter {
 
         return transition(
           screen: VerifyCodeScreen(data: data),
-          cubit: AuthCubit()..startCountdown(),
+          cubit: AuthCubit(getIt())..startCountdown(),
         );
       case Routes.homeScreen:
         return transition(screen: const HomeScreen(), cubit: HomeCubit());
       case Routes.cartScreen:
         return transition(screen: const CartScreen(), cubit: CartCubit());
       case Routes.completePayScreen:
-        return transition(screen: const CompletePayScreen(), cubit: CartCubit());
+        return transition(
+          screen: const CompletePayScreen(),
+          cubit: CartCubit(),
+        );
       case Routes.searchScreen:
         return transition(screen: const SearchScreen(), cubit: SearchCubit());
       case Routes.filterScreen:
@@ -117,37 +125,28 @@ class AppRouter {
 
         return transition(
           screen: FillPasswordScreen(data: data),
-          cubit: AuthCubit(),
+          cubit: AuthCubit(getIt()),
         );
       case Routes.forgetPasswordScreen:
-        return transition(screen: ForgetPasswordScreen(), cubit: AuthCubit());
+        return transition(screen: ForgetPasswordScreen(), cubit: AuthCubit(getIt()));
       case Routes.profileScreen:
         return transition(screen: const ProfileScreen());
       case Routes.changePassword:
         return transition(
           screen: const ChangePasswordScreen(),
-          cubit: ProfileCubit(),
+          cubit: ProfileCubit(getIt()),
         );
       case Routes.aboutUsScreen:
-        return transition(
-          screen: const AboutUsScreen(),
-          cubit: ProfileCubit(),
-        );
+        return transition(screen: const AboutUsScreen(), cubit: ProfileCubit(getIt()));
       case Routes.privacyPolicyScreen:
         return transition(
           screen: const PrivacyPolicyScreen(),
-          cubit: ProfileCubit(),
+          cubit: ProfileCubit(getIt()),
         );
       case Routes.supportScreen:
-        return transition(
-          screen: const SupportScreen(),
-          cubit: SupportCubit(),
-        );
+        return transition(screen: const SupportScreen(), cubit: SupportCubit());
       case Routes.walletScreen:
-        return transition(
-          screen: const WalletScreen(),
-          cubit: WalletCubit(),
-        );
+        return transition(screen: const WalletScreen(), cubit: WalletCubit());
       case Routes.convertPointsToBalanceScreen:
         return transition(
           screen: const ConvertPointsToBalanceScreen(),
@@ -156,28 +155,49 @@ class AppRouter {
       case Routes.termsAndConditionsScreen:
         return transition(
           screen: const TermsAndConditionsScreen(),
-          cubit: ProfileCubit(),
+          cubit: ProfileCubit(getIt()),
         );
       case Routes.myOrdersScreen:
-        return transition(screen: const MyOrdersScreen(), cubit: MyOrdersCubit());
+        return transition(
+          screen: const MyOrdersScreen(),
+          cubit: MyOrdersCubit(),
+        );
       case Routes.orderDetailsScreen:
-        return transition(screen: const OrderDetailsScreen(), cubit: MyOrdersCubit());
+        return transition(
+          screen: const OrderDetailsScreen(),
+          cubit: MyOrdersCubit(),
+        );
       case Routes.cancelOrderScreen:
         return transition(screen: CancelOrderScreen(), cubit: MyOrdersCubit());
-        case Routes.supportDetailsScreenRoute:
-        return transition(screen: const SupportDetailsScreen(), cubit: SupportCubit());
+      case Routes.supportDetailsScreenRoute:
+        return transition(
+          screen: const SupportDetailsScreen(),
+          cubit: SupportCubit(),
+        );
 
-        case Routes.contactSupportScreenRoute:
-        return transition(screen: const ContactSupportScreen(), cubit: SupportCubit());
+      case Routes.contactSupportScreenRoute:
+        return transition(
+          screen: const ContactSupportScreen(),
+          cubit: SupportCubit(),
+        );
 
-        case Routes.editProfileScreen:
-        return transition(screen: const EditProfileScreen(), cubit: ProfileCubit());
+      case Routes.editProfileScreen:
+        return transition(
+          screen: const EditProfileScreen(),
+          cubit: ProfileCubit(getIt()),
+        );
 
-        case Routes.addressesScreen:
-        return transition(screen: const AddressesScreen(), cubit: AddressesCubit());
+      case Routes.addressesScreen:
+        return transition(
+          screen: const AddressesScreen(),
+          cubit: AddressesCubit(),
+        );
 
-        case Routes.addNewAddressScreen:
-        return transition(screen: const AddNewAddressScreen(), cubit: AddressesCubit());
+      case Routes.addNewAddressScreen:
+        return transition(
+          screen: const AddNewAddressScreen(),
+          cubit: AddressesCubit(),
+        );
 
       case Routes.mainLayoutScreen:
         final index = settings.arguments as int? ?? 0;
@@ -194,6 +214,6 @@ class AppRouter {
     BlocProvider(create: (context) => HomeCubit(), child: HomeScreen()),
     BlocProvider(create: (context) => CartCubit(), child: CartScreen()),
     MyOrdersScreen(),
-    ProfileScreen(),
+    BlocProvider(create: (context) => ProfileCubit(getIt()), child: ProfileScreen()),
   ];
 }

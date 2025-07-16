@@ -16,6 +16,8 @@ class VerifyCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,6 +36,12 @@ class VerifyCodeScreen extends StatelessWidget {
       bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
+          if (state is ConfirmPhoneEmailOTPSuccessState) {
+            context.pushNamed(Routes.fillPasswordScreen, arguments: {
+              'screenName': data['screenName'],
+              'emailAddress': data['emailAddress'],
+            });
+          }
         },
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -44,10 +52,11 @@ class VerifyCodeScreen extends StatelessWidget {
             onPressed: () {
               if (authCubit.formKey.currentState!.validate()) {
                 debugPrint('OTP: ${authCubit.otpController.text}');
-                context.pushNamed(Routes.fillPasswordScreen, arguments: {
-                  'screenName': data['screenName'],
-                  'emailAddress': data['emailAddress'],
-                });
+                authCubit.confirmForgetPassword(email: data['emailAddress']);
+                // context.pushNamed(Routes.fillPasswordScreen, arguments: {
+                //   'screenName': data['screenName'],
+                //   'emailAddress': data['emailAddress'],
+                // });
               } else {
                 // Show validation errors
               }

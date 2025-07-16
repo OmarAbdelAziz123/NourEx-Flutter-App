@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:nourex/components/products/custom_product_card_item_widget.dart';
-import 'package:nourex/components/products/models/product_data_model.dart';
+import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -14,6 +13,7 @@ import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart'
 import 'package:nourex/features/my_orders/presentation/widgets/custom_container_in_order_details_to_connect_the_three_status_widget.dart';
 import 'package:nourex/features/my_orders/presentation/widgets/custom_row_inn_container_order_details_widget.dart';
 import 'package:nourex/features/my_orders/presentation/widgets/time_line_stage_widget.dart';
+import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_widget.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({super.key});

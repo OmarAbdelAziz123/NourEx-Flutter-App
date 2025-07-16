@@ -1,12 +1,15 @@
 class EndPoints {
   /// BaseUrl
-  static const String baseUrl = 'https://ecommerce.backend.tanfeethi.com.sa/';
+  static const String baseUrl = 'https://noorex.vercel.app/';
 
   /// User Application EndPoints
   /// Auth
-  static const String login = 'api/user/auth/login';
-  static const String register = 'api/user/auth/register';
-  static const String logout = 'api/user/auth/logout';
+  static const String login = 'auth/login';
+  static const String register = 'auth/register';
+  static const String emailOTP = 'auth/emailOTP';
+  static String confirmPhoneEmailOTP(String email) => 'auth/confirmPhoneEmailOTP/$email';
+  static String setPassword(String email) => 'auth/setPassword/$email';
+  static const String logout = 'auth/logOut';
 
   /// Home
   static const String showAllBanners = 'api/frontend/sliders';

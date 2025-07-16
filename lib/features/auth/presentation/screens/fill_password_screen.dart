@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_have_buttons_widget.dart';
 import 'package:nourex/core/widgets/bottom_sheet/custom_shared_show_bottom_sheet.dart';
 import 'package:nourex/core/widgets/button/custom_button_in_leading_in_app_bar_widget.dart';
@@ -14,6 +16,8 @@ class FillPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -32,6 +36,13 @@ class FillPasswordScreen extends StatelessWidget {
       bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
+          if(state is SetPasswordSuccessState) {
+            if(data['screenName'] == 'forgetPassword') {
+              handleForgetPasswordFlow(context, authCubit);
+            } else {
+              handleSignUpFlow(context, authCubit);
+            }
+          }
         },
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -42,10 +53,11 @@ class FillPasswordScreen extends StatelessWidget {
                 data['screenName'] == 'forgetPassword'
                     ? 'تأكيد'
                     : 'إنشاء الحساب',
-            onPressed:
-                data['screenName'] == 'forgetPassword'
-                    ? () => handleForgetPasswordFlow(context, authCubit)
-                    : () => handleSignUpFlow(context, authCubit),
+            onPressed: () {
+              if(authCubit.formKey.currentState!.validate()) {
+                authCubit.setPassword(email: data['emailAddress']);
+              }
+            }
           );
         },
       ),
@@ -63,7 +75,7 @@ class FillPasswordScreen extends StatelessWidget {
         context: context,
         isScrollControlled: true,
         builder: (context) {
-          return const CustomSharedShowBottomSheet(
+          return CustomSharedShowBottomSheet(
             headingName: 'نسيت كلمة المرور',
             imagePath: 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
             text1: 'تم تسجيل حسابك',
@@ -73,6 +85,10 @@ class FillPasswordScreen extends StatelessWidget {
             haveOneButton: true,
             haveTextSpan: true,
             buttonText1: 'تسجيل الدخول',
+            onPressedOnOneButton: () {
+              print('تسجيل الدخول');
+              context.pushNamedAndRemoveUntil(Routes.loginScreen);
+            },
           );
         },
       );
@@ -90,7 +106,7 @@ class FillPasswordScreen extends StatelessWidget {
         context: context,
         isScrollControlled: true,
         builder: (context) {
-          return const CustomSharedShowBottomSheet(
+          return CustomSharedShowBottomSheet(
             headingName: 'إنشاء حساب',
             imagePath: 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
             text1: 'تم تسجيل حسابك',
@@ -100,6 +116,10 @@ class FillPasswordScreen extends StatelessWidget {
             haveOneButton: true,
             haveTextSpan: true,
             buttonText1: 'هيا بنا',
+            onPressedOnOneButton: () {
+              // print('هيا بنا');
+              // context.pushNamedAndRemoveUntil(Routes.loginScreen);
+            },
           );
         },
       );

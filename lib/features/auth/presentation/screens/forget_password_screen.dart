@@ -16,6 +16,8 @@ class ForgetPasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -32,6 +34,15 @@ class ForgetPasswordScreen extends StatelessWidget {
       bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
           // TODO: implement listener
+          if(state is ForgetPasswordSuccessState) {
+            context.pushNamed(
+              Routes.verificationScreen,
+              arguments: {
+                'screenName': 'forgetPassword',
+                'emailAddress': authCubit.emailController.text,
+              },
+            );
+          }
         },
         builder: (context, state) {
           final authCubit = context.read<AuthCubit>();
@@ -55,13 +66,14 @@ class ForgetPasswordScreen extends StatelessWidget {
             onPressed: () {
               if (authCubit.formKey.currentState!.validate()) {
                 debugPrint('Email: ${authCubit.emailController.text}');
-                context.pushNamed(
-                  Routes.verificationScreen,
-                  arguments: {
-                    'screenName': 'forgetPassword',
-                    'emailAddress': authCubit.emailController.text,
-                  },
-                );
+                authCubit.forgetPassword();
+                // context.pushNamed(
+                //   Routes.verificationScreen,
+                //   arguments: {
+                //     'screenName': 'forgetPassword',
+                //     'emailAddress': authCubit.emailController.text,
+                //   },
+                // );
               } else {
                 // Show validation errors
               }

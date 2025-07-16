@@ -1,8 +1,13 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/core/networks_helper/api_results/api_result.dart';
 import 'package:nourex/core/networks_helper/errors/error_model.dart';
+import 'package:nourex/core/networks_helper/errors/failure.dart';
+import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 
 class ToastManager {
@@ -13,13 +18,15 @@ class ToastManager {
     required String message,
     Color backgroundColor = Colors.red,
     IconData icon = Icons.error_outline,
-    Duration duration = const Duration(seconds: 3),
+    Duration duration = const Duration(seconds: 5),
   }) {
     // Get the OverlayState from navigatorKey
     final overlayState = AppConstants.navigatorKey.currentState?.overlay;
 
     if (overlayState == null) {
-      print("Error: OverlayState is null. Make sure navigatorKey is set.");
+      if (kDebugMode) {
+        print("Error: OverlayState is null. Make sure navigatorKey is set.");
+      }
       return;
     }
 
@@ -63,7 +70,7 @@ class ToastManager {
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w500,
                       ),
-                      maxLines: 2,
+                      maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -92,75 +99,39 @@ class ServerException implements Exception {
 
   factory ServerException.fromResponse(int? statusCode, dynamic response,
       {String? message}) {
-    print("Raw response: $response");
+    debugPrint("Raw response: $response");
 
-    // Check if response is a Dio Response object
     final data = response is Response ? response.data : response;
 
-    // Ensure data is a Map
     final Map<String, dynamic>? errorData = data is String
-        ? jsonDecode(data) // Decode if response is a JSON string
+        ? jsonDecode(data)
         : data is Map<String, dynamic>
-            ? data
-            : null;
+        ? data
+        : null;
 
-    print("Parsed errorData: $errorData");
+    debugPrint("Parsed errorData: $errorData");
 
-    // Extract only the "message" field
-    final String errorMessage = errorData?["error"]?.toString() ??
-        message ??
-        'An unexpected error occurred';
-
-    print("Extracted errorMessage: $errorMessage");
+    final String errorMessage =
+        errorData?["message"] ?? message ?? 'An unexpected error occurred';
 
     final errorModel = ErrorModel(
-      status: errorData?["status"] ?? 'Unknown',
-      errorMessage: errorMessage,
-      code: errorData?["code"] ?? statusCode ?? 0,
+      message: errorMessage,
+      statusCode: errorData?["status_code"] ?? statusCode ?? 0,
+      error: errorData?["error"],
+      stack: errorData?["stack"],
     );
 
-    // Show toast message with the extracted error message
-    ToastManager.showCustomToast(
-      message: errorModel.errorMessage,
-    );
-    // customToast(
-    //   msg: errorMessage, // Displaying only the "message" field
-    //   color: Colors.red,
+    // ToastManager.showCustomToast(
+    //   message: errorModel.message,
+    //   backgroundColor: Colors.red,
+    //   icon: Icons.error_outline,
+    //   duration: const Duration(seconds: 3),
     // );
-    // customToast2(msg: errorModel.errorMessage, color: Colors.red);
 
     return ServerException(errorModel);
   }
 }
 
-// class ServerException implements Exception {
-//   final ErrorModel errorModel;
-//
-//   ServerException(this.errorModel);
-//
-//   factory ServerException.fromResponse(int? statusCode, dynamic response, {String? message}) {
-//     final Map<String, dynamic>? errorData = response is Map<String, dynamic> ? response : null;
-//
-//     // Extract only the "message" field if it exists
-//     final String errorMessage = errorData?["message"]?.toString() ?? message ?? 'An unexpected error occurred';
-//
-//     final errorModel = ErrorModel(
-//       status: errorData?["status"] ?? 'Unknown',
-//       errorMessage: errorMessage,  // Only showing the message key
-//       code: errorData?["code"] ?? statusCode ?? 0,
-//     );
-//
-//     // Show toast message with the extracted error message
-//     customToast(
-//       msg: errorMessage, // Displaying only the "message" field
-//       color: Colors.red,
-//     );
-//
-//     return ServerException(errorModel);
-//   }
-// }
-
-//!CacheException
 class CacheException implements Exception {
   final String errorMessage;
 
@@ -219,59 +190,108 @@ class UnknownException extends ServerException {
   UnknownException(super.errorModel);
 }
 
-handleDioException(DioException e) {
+void handleDioException(DioException e) {
+  if (e.response?.data is! Map<String, dynamic>) {
+    throw UnknownException(
+      ErrorModel(
+        message: "Unexpected error",
+        statusCode: 500,
+        error: {},
+        stack: e.toString(),
+      ),
+    );
+  }
+
+  final errorData = ErrorModel.fromJson(e.response!.data);
+
   switch (e.type) {
     case DioExceptionType.connectionError:
-      throw ConnectionErrorException(ErrorModel.fromJson(e.response!.data));
+      throw ConnectionErrorException(errorData);
+
     case DioExceptionType.badCertificate:
-      throw BadCertificateException(ErrorModel.fromJson(e.response!.data));
+      throw BadCertificateException(errorData);
+
     case DioExceptionType.connectionTimeout:
-      throw ConnectionTimeoutException(ErrorModel.fromJson(e.response!.data));
+      throw ConnectionTimeoutException(errorData);
 
     case DioExceptionType.receiveTimeout:
-      throw ReceiveTimeoutException(ErrorModel.fromJson(e.response!.data));
+      throw ReceiveTimeoutException(errorData);
 
     case DioExceptionType.sendTimeout:
-      throw SendTimeoutException(ErrorModel.fromJson(e.response!.data));
+      throw SendTimeoutException(errorData);
 
     case DioExceptionType.badResponse:
       switch (e.response?.statusCode) {
-        case 400: // Bad request
-
-          throw BadResponseException(ErrorModel.fromJson(e.response!.data));
-
-        case 401: //unauthorized
-          throw UnauthorizedException(ErrorModel.fromJson(e.response!.data));
-
-        case 403: //forbidden
-          throw ForbiddenException(ErrorModel.fromJson(e.response!.data));
-
-        case 404: //not found
-          throw NotFoundException(ErrorModel.fromJson(e.response!.data));
-
-        case 409: //coefficient
-
-          throw CoefficientException(ErrorModel.fromJson(e.response!.data));
-
+        case 400:
+          throw BadResponseException(errorData);
+        case 401:
+          throw UnauthorizedException(errorData);
+        case 403:
+          throw ForbiddenException(errorData);
+        case 404:
+          throw NotFoundException(errorData);
+        case 409:
+          throw CoefficientException(errorData);
         case 422:
-          throw ValidationErrorException(ErrorModel.fromJson(e.response!.data));
-
-        case 504: // Bad request
-
+          throw ValidationErrorException(errorData);
+        case 504:
           throw BadResponseException(
             ErrorModel(
-                status: '504', errorMessage: e.response!.data, code: 504),
+              message: "Gateway Timeout",
+              statusCode: 504,
+              error: {}, stack: '',
+            ),
           );
+        default:
+          throw UnknownException(errorData);
       }
 
     case DioExceptionType.cancel:
-      throw CancelException(
-        ErrorModel(errorMessage: e.toString(), status: '500', code: 500),
-      );
+      throw CancelException(errorData);
 
     case DioExceptionType.unknown:
-      throw UnknownException(
-        ErrorModel(errorMessage: e.toString(), status: '500', code: 500),
-      );
+      throw UnknownException(errorData);
   }
+}
+
+ApiResult<String> handleConnectionError() {
+  final String errorMessage = 'error.networkError'.tr();
+
+  ToastManager.showCustomToast(
+    message: errorMessage,
+    backgroundColor: AppColors.redColor200,
+    icon: Icons.wifi_off,
+    duration: const Duration(seconds: 3),
+  );
+
+  return ApiResult.failure(FailureException(errMessage: errorMessage));
+}
+
+void handleApiError(Map<String, dynamic> response) {
+  String message = response['message'] ?? 'An unknown error occurred';
+  // bool isValidationError = message == 'error.wrongVerification'.tr();
+
+  if (response.containsKey('errors') && response['errors'] is Map) {
+    /// Collect all error messages and join them into one string
+    String errors = response['errors'].values.join("\n");
+
+    ToastManager.showCustomToast(
+      message: errors.isNotEmpty ? errors : 'Unknown validation error', // Fallback message
+      backgroundColor: AppColors.redColor200,
+      icon: Icons.error_outline,
+      duration: const Duration(seconds: 3),
+    );
+
+    throw FailureException(errMessage: errors);
+  }
+
+  // Default error handling (for cases without 'errors' key)
+  ToastManager.showCustomToast(
+    message: message.isNotEmpty ? message : 'An unknown error occurred',
+    backgroundColor: AppColors.redColor200,
+    icon: Icons.error_outline,
+    duration: const Duration(seconds: 3),
+  );
+
+  throw FailureException(errMessage: message);
 }

@@ -3,11 +3,19 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
+import 'package:nourex/core/cache_helper/cache_helper.dart';
+import 'package:nourex/core/cache_helper/cache_keys.dart';
+import 'package:nourex/core/utils/easy_loading.dart';
+import 'package:nourex/features/auth/data/models/user_data_model.dart';
+import 'package:nourex/features/auth/data/repos/repos.dart';
 
 part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitial());
+  AuthCubit(this.authRepos) : super(AuthInitial());
+
+  final AuthRepos authRepos;
+  UserDataModel? userDataModel;
 
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -26,6 +34,119 @@ class AuthCubit extends Cubit<AuthState> {
   Timer? countdownTimer;
   int countdown = 60;
   bool canResend = false;
+
+  /// Login Function
+  Future<void> login() async {
+    showLoading();
+    emit(LoginLoadingState());
+
+    final result = await authRepos.login(
+      phoneOrEmail: emailController.text,
+      password: passwordController.text,
+      acceptTerms: showCheckIcon,
+      fcmToken: CacheHelper.getData(key: CacheKeys.deviceToken),
+    );
+
+    result.when(
+      success: (success) {
+        hideLoading();
+        userDataModel = success;
+        emit(LoginSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(LoginErrorState(failure));
+      },
+    );
+  }
+
+  /// Forget Password Function
+  Future<void> forgetPassword() async {
+    showLoading();
+    emit(ForgetPasswordLoadingState());
+
+    final result = await authRepos.forgetPassword(email: emailController.text);
+
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(ForgetPasswordSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(ForgetPasswordErrorState(failure));
+      },
+    );
+  }
+
+  /// Confirm Forget Password Function
+  Future<void> confirmForgetPassword({required String email}) async {
+    showLoading();
+    emit(ConfirmPhoneEmailOTPLoadingState());
+
+    final result = await authRepos.confirmPhoneEmailOTP(
+      phoneOrEmail: email,
+      otp: otpController.text,
+    );
+
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(ConfirmPhoneEmailOTPSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(ConfirmPhoneEmailOTPErrorState(failure));
+      },
+    );
+  }
+
+  /// Register Function
+  Future<void> register() async {
+    showLoading();
+    emit(RegisterLoadingState());
+
+    final result = await authRepos.register(
+      name: userNameController.text,
+      email: emailController.text,
+      phone: phoneController.text,
+      acceptTerms: showCheckIcon,
+    );
+
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(RegisterSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(RegisterErrorState(failure));
+      },
+    );
+  }
+
+  /// Set Password Function
+  Future<void> setPassword({required String email}) async {
+    showLoading();
+    emit(SetPasswordLoadingState());
+
+    final result = await authRepos.setPassword(
+      phoneOrEmail: email,
+      password: passwordController.text,
+      cPassword: confirmPasswordController.text,
+    );
+
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(SetPasswordSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(SetPasswordErrorState(failure));
+      },
+    );
+  }
 
   /// Toggle Password
   void userToggleObscure() {
@@ -68,6 +189,7 @@ class AuthCubit extends Cubit<AuthState> {
   void resendCode() {
     if (canResend) {
       // TODO: Call resend logic here (API or local logic)
+      forgetPassword();
       startCountdown(); // Restart countdown
     }
   }

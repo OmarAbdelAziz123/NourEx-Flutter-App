@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
@@ -8,6 +9,7 @@ import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/bottom_sheet/custom_shared_show_bottom_sheet.dart';
 import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart';
 import 'package:nourex/features/localization/presentation/localization_screen.dart';
+import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/data/models/settings/settings_data_model.dart';
 import 'package:nourex/features/profile/presentation/widgets/custom_profile_container_in_settings_widget.dart';
 import 'package:nourex/features/profile/presentation/widgets/custom_row_in_settings_widget.dart';
@@ -65,55 +67,6 @@ class ProfileScreen extends StatelessWidget {
         title: 'الدعم',
         onTap: () => context.pushNamed(Routes.supportScreen),
       ),
-      SettingsDataModel(
-        iconPath: 'assets/svgs/logout.svg',
-        title: 'تسجيل خروج',
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context) {
-              return CustomSharedShowBottomSheet(
-                headingName: 'تسجيل الخروج',
-                imagePath: 'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
-                text1: 'هل أنت متأكد من رغبتك في تسجيل ',
-                text2: 'الخروج؟',
-                description: 'هل أنت متأكد أنك تريد تسجيل الخروج؟',
-                haveOneButton: false,
-                haveTextSpan: true,
-                buttonText1: 'الغاء',
-                buttonText2: 'خروج',
-                text2Color: AppColors.yellowColor100,
-              );
-            },
-          );
-        },
-      ),
-      SettingsDataModel(
-        iconPath: 'assets/svgs/remove.svg',
-        title: 'حذف الحساب',
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            builder: (context) {
-              return CustomSharedShowBottomSheet(
-                headingName: 'حذف الحساب',
-                imagePath: 'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
-                text1: 'هل أنت متأكد من أنك تريد حذف ',
-                text2: 'حسابك؟',
-                description:
-                    'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
-                haveOneButton: false,
-                haveTextSpan: true,
-                buttonText1: 'الغاء',
-                buttonText2: 'حذف',
-                text2Color: AppColors.redColor100,
-              );
-            },
-          );
-        },
-      ),
     ];
 
     return Scaffold(
@@ -158,6 +111,97 @@ class ProfileScreen extends StatelessWidget {
                         return CustomRowInSettingsWidget(
                           isLang: index == 5,
                           settingsDataModel: settingsList[index],
+                        );
+                      },
+                    ),
+
+                    BlocConsumer<ProfileCubit, ProfileState>(
+                      listener: (context, state) {
+                        if (state is LogoutSuccessState) {
+                          context.pushNamedAndRemoveUntil(Routes.chooseLoginOrRegisterScreen);
+                        }
+                      },
+                      builder: (context, state) {
+                        final profileCubit = context.read<ProfileCubit>();
+
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.h),
+                          child: Column(
+                            children: [
+                              CustomDividerInBottomSheet(),
+                              16.verticalSpace,
+
+                              CustomRowInSettingsWidget(
+                                isLang: false,
+                                settingsDataModel: SettingsDataModel(
+                                  iconPath: 'assets/svgs/logout.svg',
+                                  title: 'تسجيل خروج',
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return CustomSharedShowBottomSheet(
+                                          headingName: 'تسجيل الخروج',
+                                          imagePath:
+                                              'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
+                                          text1:
+                                              'هل أنت متأكد من رغبتك في تسجيل ',
+                                          text2: 'الخروج؟',
+                                          description:
+                                              'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+                                          haveOneButton: false,
+                                          haveTextSpan: true,
+                                          buttonText1: 'الغاء',
+                                          buttonText2: 'خروج',
+                                          text2Color: AppColors.yellowColor100,
+                                          onTap1: () {
+                                            Navigator.pop(context);
+                                          },
+                                          onTap2: () {
+                                            profileCubit.userLogout();
+                                          },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                              16.verticalSpace,
+
+                              CustomDividerInBottomSheet(),
+                              16.verticalSpace,
+
+                              CustomRowInSettingsWidget(
+                                isLang: false,
+                                settingsDataModel: SettingsDataModel(
+                                  iconPath: 'assets/svgs/remove.svg',
+                                  title: 'حذف الحساب',
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      builder: (context) {
+                                        return CustomSharedShowBottomSheet(
+                                          headingName: 'حذف الحساب',
+                                          imagePath: 'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
+                                          text1: 'هل أنت متأكد من أنك تريد حذف ',
+                                          text2: 'حسابك؟',
+                                          description:
+                                          'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
+                                          haveOneButton: false,
+                                          haveTextSpan: true,
+                                          buttonText1: 'الغاء',
+                                          buttonText2: 'حذف',
+                                          text2Color: AppColors.redColor100,
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
                         );
                       },
                     ),

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:nourex/components/products/custom_product_card_item_widget.dart';
-import 'package:nourex/components/products/models/product_data_model.dart';
+import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
-import 'package:nourex/core/themes/app_colors.dart';
-import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/features/categories/business_logic/categories_cubit.dart';
 import 'package:nourex/features/products/presentation/widgets/category_item_in_row_widget.dart';
+import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_widget.dart';
 
 class BestSellerScreen extends StatelessWidget {
   const BestSellerScreen({super.key});

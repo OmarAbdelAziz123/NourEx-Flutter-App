@@ -10,6 +10,7 @@ import 'package:nourex/core/cache_helper/cache_keys.dart';
 import 'package:nourex/core/extensions/log_util.dart';
 import 'package:nourex/core/networks_helper/dio_helper/dio_helper.dart';
 import 'package:nourex/core/routing/app_router.dart';
+import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/core/services/firebase/fcm.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/utils/bloc_observer.dart';
@@ -24,7 +25,7 @@ Future<void> handleBackgroundMessage(RemoteMessage message) async {
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await setupDependencyInjection();
+  await setupDependencyInjection();
   FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
 
   await Firebase.initializeApp(
