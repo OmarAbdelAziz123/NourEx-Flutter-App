@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,8 +30,8 @@ class FillPasswordFormWidget extends StatelessWidget {
               Center(
                 child: Text(
                   data['screenName'] == 'forgetPassword'
-                      ? 'انشاء كلمة مرور جديدة'
-                      : 'كلمة المرور',
+                      ? 'createNewPassword'.tr()
+                      : 'password'.tr(),
                   style: Styles.heading1,
                   textAlign: TextAlign.center,
                 ),
@@ -40,7 +41,7 @@ class FillPasswordFormWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Center(
                   child: Text(
-                    'يرجي إضافة كلمة مرور قوية للحفاظ على بياناتك',
+                    'passwordDescription'.tr(),
                     style: Styles.contentRegular.copyWith(
                       height: 2.h,
                       color: AppColors.neutralColor600,
@@ -54,8 +55,8 @@ class FillPasswordFormWidget extends StatelessWidget {
               /// Password field
               Text(
                 data['screenName'] == 'forgetPassword'
-                    ? 'كلمة المرور الجديدة'
-                    : 'كلمة المرور',
+                    ? 'newPassword'.tr()
+                    : 'password'.tr(),
                 style: Styles.highlightEmphasis,
               ),
               16.verticalSpace,
@@ -66,8 +67,8 @@ class FillPasswordFormWidget extends StatelessWidget {
                 keyboardType: TextInputType.visiblePassword,
                 hintText:
                     data['screenName'] == 'forgetPassword'
-                        ? 'قم بإدخال كلمة المرور الجديدةالخاصة بك '
-                        : 'قم بإدخال كلمة المرور الخاصة بك هنا',
+                        ? 'newPasswordDescription'.tr()
+                        : 'confirmPassword'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -88,8 +89,8 @@ class FillPasswordFormWidget extends StatelessWidget {
               /// Confirm password field
               Text(
                 data['screenName'] == 'forgetPassword'
-                    ? 'تأكيد كلمة المرور الجديدة'
-                    : 'تأكيد كلمة المرور',
+                    ? 'confirmNewPassword'.tr()
+                    : 'confirmNewPasswordDescription'.tr(),
                 style: Styles.highlightEmphasis,
               ),
               16.verticalSpace,
@@ -100,8 +101,8 @@ class FillPasswordFormWidget extends StatelessWidget {
                 keyboardType: TextInputType.visiblePassword,
                 hintText:
                     data['screenName'] == 'forgetPassword'
-                        ? 'قم بإدخال تاكيد كلمة المرور الجديدة الخاصة بك هنا'
-                        : 'قم بإدخال تأكيد كلمة المرور الخاصة بك هنا',
+                        ? 'confirmNewPasswordDescription2'.tr()
+                        : 'confirmPasswordDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),

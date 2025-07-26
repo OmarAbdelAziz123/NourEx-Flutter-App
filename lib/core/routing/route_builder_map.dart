@@ -10,6 +10,7 @@ import 'package:nourex/features/banners/presentation/screens/all_banners_screen.
 import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/cart/presentation/screens/cart_screen.dart';
 import 'package:nourex/features/cart/presentation/screens/complete_pay_screenn.dart';
+import 'package:nourex/features/categories/business_logic/categories_cubit.dart';
 import 'package:nourex/features/categories/presentation/presentation/screens/categories_screen.dart';
 import 'package:nourex/features/home/business_logic/home_cubit.dart';
 import 'package:nourex/features/home/presentation/screens/home_screen.dart';
@@ -41,9 +42,9 @@ final Map<String, WidgetBuilder> routeBuilderMap = {
   Routes.completePayScreen: (_) => BlocProvider(create: (_) => CartCubit(), child: const CompletePayScreen()),
   Routes.searchScreen: (_) => BlocProvider(create: (_) => SearchCubit(), child: const SearchScreen()),
   Routes.filterScreen: (_) => BlocProvider(create: (_) => SearchCubit(), child: const FilterScreen()),
-  Routes.categoriesScreen: (_) => const CategoriesScreen(),
+  Routes.categoriesScreen: (_) => BlocProvider(create: (_) => CategoriesCubit(getIt())..getInitialCategories(), child: const CategoriesScreen()),
   Routes.allBannersScreen: (_) => const AllBannersScreen(),
-  Routes.bestSellerScreen: (_) => BlocProvider(create: (_) => ProductsCubit(), child: const BestSellerScreen()),
+  Routes.bestSellerScreen: (_) => BlocProvider(create: (_) => ProductsCubit(getIt()), child: const BestSellerScreen()),
   Routes.profileScreen: (_) => const ProfileScreen(),
   Routes.aboutUsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const AboutUsScreen()),
   Routes.privacyPolicyScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const PrivacyPolicyScreen()),

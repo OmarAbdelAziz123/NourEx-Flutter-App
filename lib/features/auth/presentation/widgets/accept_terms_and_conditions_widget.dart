@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,10 +56,10 @@ class AcceptTermsAndConditionsWidget extends StatelessWidget {
                 ),
               ),
               CustomRichText(
-                text1: 'أوافق على ',
-                text2: 'سياسة الخصوصية ',
-                text3: 'و ',
-                text4: 'شروط الخدمة',
+                text1: 'accept'.tr(),
+                text2: 'privacyPolicy'.tr(),
+                text3: 'and'.tr(),
+                text4: 'termsOfService'.tr(),
                 textStyle1: Styles.captionRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),

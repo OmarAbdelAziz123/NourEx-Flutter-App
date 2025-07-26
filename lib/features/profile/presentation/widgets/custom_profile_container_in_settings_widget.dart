@@ -6,9 +6,16 @@ import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 import 'package:nourex/features/profile/presentation/widgets/custom_arrow_in_containers_widget.dart';
 
-class CustomProfileContainerInSettingsWidget extends StatelessWidget {
-  const CustomProfileContainerInSettingsWidget({
+class CustomProfileContainerWidget extends StatelessWidget {
+  final String name;
+  final String email;
+  final String imagePath;
+
+  const CustomProfileContainerWidget({
     super.key,
+    required this.name,
+    required this.email,
+    required this.imagePath,
   });
 
   @override
@@ -17,46 +24,42 @@ class CustomProfileContainerInSettingsWidget extends StatelessWidget {
       width: double.infinity,
       padding: EdgeInsets.all(12.sp),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          AppConstants.borderRadius + 4.r,
-        ),
-        border: Border.all(
-          width: 1.w,
-          color: AppColors.neutralColor300,
-        ),
+        borderRadius: BorderRadius.circular(AppConstants.borderRadius + 4.r),
+        border: Border.all(width: 1.w, color: AppColors.neutralColor300),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
-            spacing: 12.w,
             children: [
+              /// Profile Image
               CacheNetworkImagesWidget(
-                image: 'assets/pngs/profile_image.png',
+                image: imagePath,
                 borderRadius: AppConstants.borderRadius,
                 boxFit: BoxFit.scaleDown,
                 width: 54.w,
                 height: 54.h,
               ),
+              SizedBox(width: 12.w),
+
+              /// Name and Email
               Column(
-                spacing: 2.h,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Text(name, style: Styles.highlightEmphasis),
                   Text(
-                    'عمر عبدالعزيز محمد',
-                    style: Styles.highlightEmphasis,
-                  ),
-                  Text(
-                    '3omarabdelaziz123@gmail.com',
+                    email,
                     style: Styles.captionEmphasis.copyWith(
                       color: AppColors.neutralColor600,
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
           ),
-          CustomArrowInContainersWidget(),
+
+          /// Arrow Icon
+          const CustomArrowInContainersWidget(),
         ],
       ),
     );

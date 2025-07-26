@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -21,7 +22,7 @@ class CompletePayScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'السلة',
+          title: 'cart'.tr(),
           isSubScreen: true,
           onTapBack: () {
             context.pop();
@@ -53,12 +54,12 @@ class CompletePayScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      'سعر الكلي',
+                      'totalPrice2'.tr(),
                       style: Styles.highlightEmphasis.copyWith(
                         color: AppColors.neutralColor600,
                       ),
                     ),
-                    Text('SAR 565', style: Styles.heading4),
+                    Text('565 ${'currency'.tr()}', style: Styles.heading4),
                   ],
                 ),
               ),
@@ -84,7 +85,7 @@ class CompletePayScreen extends StatelessWidget {
                         spacing: 4.h,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('العنوان', style: Styles.highlightSemiBold),
+                          Text('address'.tr(), style: Styles.highlightSemiBold),
                           Text(
                             'البلد - المدينة - اسم الشارع ',
                             style: Styles.captionRegular.copyWith(
@@ -106,7 +107,7 @@ class CompletePayScreen extends StatelessWidget {
 
               /// Add Address
               CustomButtonWidget(
-                text: 'اضافة عنوان',
+                text: 'addAddress'.tr(),
                 color: AppColors.neutralColor100,
                 textStyle: Styles.contentEmphasis.copyWith(
                   color: AppColors.primaryColor700,
@@ -120,7 +121,7 @@ class CompletePayScreen extends StatelessWidget {
               ),
               18.verticalSpace,
 
-              Text('ملاحظات حول الطلب', style: Styles.highlightEmphasis),
+              Text('notesInOrder'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               CustomTextFormFieldWidget(
@@ -129,7 +130,7 @@ class CompletePayScreen extends StatelessWidget {
                 maxLines: 5,
                 controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
-                hintText: 'قم بادخال ملاحظاتك حول  الطلب هنا',
+                hintText: 'notesInOrderDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -142,24 +143,24 @@ class CompletePayScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'شراء الان',
+        buttonTitle: 'buyNow'.tr(),
         onPressed: () {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             builder: (context) {
               return CustomSharedShowBottomSheet(
-                headingName: 'طلبك رقم #12345',
+                headingName: '${'orderNumber'.tr()} #12345',
                 imagePath:
                 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-                text1: 'تم طلب الاوردر',
-                text2: ' بنجاح',
+                text1: 'orderNumberDescription'.tr(),
+                text2: 'accountCreatedSuccess'.tr(),
                 description:
-                'شكراً لثقتك بنا! 🎉 طلبك رقم #12345 تم بنجاح وجاري معالجته. يمكنك متابعة حالة الطلب من خلال صفحة الطلبات الخاصة بك. سنقوم بإبلاغك بأي تحديثات تتعلق بالشحن والتوصيل قريبًا. إذا كان لديك أي استفسار، لا تتردد في التواصل مع فريق الدعم',
+                'orderNumberDescription2'.tr(),
                 haveOneButton: false,
                 haveTextSpan: true,
-                buttonText1: 'التالي',
-                buttonText2: 'طلباتي',
+                buttonText1: 'next'.tr(),
+                buttonText2: 'myOrders'.tr(),
               );
             },
           );

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,7 +12,7 @@ import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widg
 class CustomProductCardItemWidget extends StatelessWidget {
   const CustomProductCardItemWidget({super.key, required this.product});
 
-  final ProductDataModel product;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class CustomProductCardItemWidget extends StatelessWidget {
       child: Row(
         children: [
           CacheNetworkImagesWidget(
-            image: product.productImage,
+            image: product.mainImageURL ?? '',
             borderRadius: 3.r,
             boxFit: BoxFit.fill,
             width: 110.w,
@@ -43,20 +44,22 @@ class CustomProductCardItemWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                product.productName,
+                product.name ?? '',
                 style: Styles.highlightEmphasis,
               ),
               Row(
                 spacing: 4.w,
                 children: [
                   Text(
-                    product.productRate,
+                    '2.5',
+                    // product.productRate,
                     style: Styles.contentEmphasis.copyWith(
                       color: AppColors.yellowColor100,
                     ),
                   ),
                   ...List.generate(
-                    double.tryParse(product.productRate)?.round() ?? 0,
+                    double.tryParse('2.5')?.round() ?? 0,
+                    // double.tryParse(product.productRate)?.round() ?? 0,
                         (index) => SvgPicture.asset(
                       'assets/svgs/stars.svg',
                       fit: BoxFit.scaleDown,
@@ -65,7 +68,8 @@ class CustomProductCardItemWidget extends StatelessWidget {
                   // SvgPicture.asset('assets/svgs/stars.svg'),
                   SvgPicture.asset('assets/svgs/small_circle.svg'),
                   Text(
-                    '${product.countOfNumber} طلب',
+                    '30 ${'order'.tr()}',
+                    // '${product.countOfNumber} ${'order'.tr()}',
                     style: Styles.contentRegular.copyWith(
                       color: AppColors.neutralColor400,
                     ),
@@ -73,8 +77,8 @@ class CustomProductCardItemWidget extends StatelessWidget {
                 ],
               ),
               CustomPriceAfterAndBeforeWidget(
-                priceBefore: '${product.productPriceBefore} ل.س',
-                priceAfter: '${product.productPriceAfter} ل.س  ',
+                priceBefore: '${product.price} ${'currency'.tr()}',
+                priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
               ),
             ],
           ),

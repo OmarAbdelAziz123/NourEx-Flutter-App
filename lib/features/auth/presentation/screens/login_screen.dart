@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,10 +46,10 @@ class LoginScreen extends StatelessWidget {
 
           return CustomBottomNavBarHaveButtonsWidget(
             haveText: true,
-            buttonTitle: 'تسجيل الدخول',
+            buttonTitle: 'login2'.tr(),
             widgetUpOfButton: CustomRichText(
-              text1: 'ليس لديك حساب ؟  ',
-              text2: 'إنشاء حساب',
+              text1: 'doNotHaveAccount'.tr(),
+              text2: 'register'.tr(),
               textStyle1: Styles.contentRegular.copyWith(
                 color: AppColors.neutralColor300,
               ),
@@ -63,7 +64,7 @@ class LoginScreen extends StatelessWidget {
               if (authCubit.formKey.currentState!.validate()) {
                 if(authCubit.showCheckIcon == false) {
                   ToastManager.showCustomToast(
-                    message: 'يجب ان تقبل الشروط والاحكام',
+                    message: 'acceptTerms'.tr(),
                     backgroundColor: AppColors.redColor200,
                   );
                 } else {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,7 @@ class ForgetPasswordFormWidget extends StatelessWidget {
               40.verticalSpace,
               Center(
                 child: Text(
-                  'نسيت كلمة المرور',
+                  'forgetPassword'.tr(),
                   style: Styles.heading1,
                   textAlign: TextAlign.center,
                 ),
@@ -35,7 +36,7 @@ class ForgetPasswordFormWidget extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Center(
                   child: Text(
-                    'الرجاء إدخال بريدك الإلكتروني لإرسال رمز التأكيد إليه ',
+                    'confirmPasswordDescription2'.tr(),
                     style: Styles.contentRegular.copyWith(
                       height: 2.h,
                       color: AppColors.neutralColor600,
@@ -47,12 +48,12 @@ class ForgetPasswordFormWidget extends StatelessWidget {
               32.verticalSpace,
 
               /// Email Address Field
-              Text('البريد الإلكتروني', style: Styles.highlightEmphasis),
+              Text('email'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 controller: authCubit.emailController,
                 keyboardType: TextInputType.emailAddress,
-                hintText: 'قم بإدخال بريدك الإلكتروني الخاص بك هنا',
+                hintText: 'emailDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),

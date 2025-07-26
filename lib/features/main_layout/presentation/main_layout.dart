@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -53,7 +54,7 @@ class MainLayout extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'الرئيسية',
+                  label: 'home'.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
@@ -68,7 +69,7 @@ class MainLayout extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'السلة',
+                  label: 'cart'.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
@@ -83,7 +84,7 @@ class MainLayout extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'سجل طلباتي',
+                  label: 'orders'.tr(),
                 ),
                 BottomNavigationBarItem(
                   icon: SvgPicture.asset(
@@ -98,7 +99,7 @@ class MainLayout extends StatelessWidget {
                       BlendMode.srcIn,
                     ),
                   ),
-                  label: 'الإعدادت',
+                  label: 'settings'.tr(),
                 ),
               ],
               onTap: (index) {

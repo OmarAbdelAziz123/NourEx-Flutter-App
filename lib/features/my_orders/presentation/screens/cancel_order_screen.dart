@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -31,7 +32,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'أرجاع الطلب',
+          title: 'returnOrder'.tr(),
           isSubScreen: true,
           haveOnlyNotification: true,
           onTapBack: () {
@@ -52,7 +53,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'سبب أرجاع الطلب ',
+                'returnOrderDescription'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -65,7 +66,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                 maxLines: 5,
                 controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
-                hintText: 'قم بإدخال أرجاع الطلب هنا',
+                hintText: 'returnOrderDescription2'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -73,7 +74,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
               24.verticalSpace,
 
               Text(
-                'قم بختيار المنتج',
+                'selectProduct'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -83,7 +84,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
               24.verticalSpace,
 
               Text(
-                'صوره المنتج',
+                'productImage'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -104,7 +105,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                 borderWidth: 1.w,
                 controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
-                hintText: 'قم بتصور المنتج',
+                hintText: 'productDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -114,7 +115,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
               /// Row Selected Images
               if (selectedImages.isNotEmpty) ...[
                 Text(
-                  'الصور المختارة (${selectedImages.length})',
+                  '${'selectedImages'.tr()} (${selectedImages.length})',
                   style: Styles.highlightEmphasis.copyWith(
                     color: AppColors.neutralColor1000,
                   ),
@@ -163,7 +164,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
           children: [
             Expanded(
               child: CustomButtonWidget(
-                text: 'إرجاع الطلب',
+                text: 'returnOrder'.tr(),
                 color: AppColors.primaryColor700,
                 onPressed: () {
                   print('Filter');
@@ -173,16 +174,16 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
                     isScrollControlled: true,
                     builder: (context) {
                       return CustomSharedShowBottomSheet(
-                        headingName: 'أرجاع الطلب',
+                        headingName: 'returnOrder'.tr(),
                         imagePath:
                             'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
                         haveTextSpan: true,
-                        text1: 'تم أرسال طلب ',
-                        text2: 'أرجاع الطلب',
-                        description: 'تم أرسال طلب أرجاع الطلب. سنقوم بإبلاغك بأي تحديثات. إذا كان لديك أي استفسار، لا تتردد في التواصل مع فريق الدعم',
+                        text1: 'orderSent'.tr(),
+                        text2: 'returnOrder'.tr(),
+                        description: 'orderSentDescription'.tr(),
                         haveOneButton: false,
-                        buttonText1: 'تواصل مع الدعم',
-                        buttonText2: 'طلباتي',
+                        buttonText1: 'contactSupport'.tr(),
+                        buttonText2: 'myOrders'.tr(),
                         onTap1: () {},
                         onTap2: () {},
                       );
@@ -193,7 +194,7 @@ class _CancelOrderScreenState extends State<CancelOrderScreen> {
             ),
             Expanded(
               child: CustomButtonWidget(
-                text: 'إلغاء الطلب',
+                text: 'cancelOrder'.tr(),
                 textColor: AppColors.primaryColor700,
                 borderSide: BorderSide(
                   color: AppColors.primaryColor700,

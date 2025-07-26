@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/cache_helper/cache_keys.dart';
+import 'package:nourex/core/extensions/log_util.dart';
 import 'package:nourex/core/networks_helper/api_results/api_result.dart';
 import 'package:nourex/core/networks_helper/errors/error_handler.dart';
 import 'package:nourex/core/networks_helper/errors/exceptions.dart';
@@ -31,6 +32,7 @@ class AuthRepos {
         fcmToken: fcmToken,
       );
       if (response == null) {
+        print('response is null');
         return ApiResult.failure(ErrorHandler.handleApiError(null));
       }
 
@@ -40,7 +42,7 @@ class AuthRepos {
         /// Save user data to shared preferences
         /// Save Id
         final userId = userData.result?.id;
-        await CacheHelper.saveSecuredString(
+        await CacheHelper.saveData(
           key: CacheKeys.userId,
           value: userId,
         );
@@ -54,14 +56,14 @@ class AuthRepos {
 
         /// Sve Email
         final userEmail = userData.result?.email;
-        await CacheHelper.saveSecuredString(
+        await CacheHelper.saveData(
           key: CacheKeys.userEmail,
           value: userEmail,
         );
 
         /// Save Name
         final userName = userData.result?.name;
-        await CacheHelper.saveSecuredString(
+        await CacheHelper.saveData(
           key: CacheKeys.userName,
           value: userName,
         );
@@ -74,15 +76,15 @@ class AuthRepos {
         );
 
         /// Save Image
-        final userImage = userData.result?.imageUrl;
-        await CacheHelper.saveSecuredString(
-          key: CacheKeys.userImage,
-          value: userImage,
-        );
+        // final userImage = userData.result?.imageUrl;
+        // await CacheHelper.saveData(
+        //   key: CacheKeys.userImage,
+        //   value: userImage,
+        // );
 
         /// Save Role
         final userRole = userData.result?.role;
-        await CacheHelper.saveSecuredString(
+        await CacheHelper.saveData(
           key: CacheKeys.userRole,
           value: userRole,
         );
@@ -94,6 +96,10 @@ class AuthRepos {
         if (kDebugMode) {
           print('✅ Token saved: $userToken');
           print('✅ User en logged in: ${userData.result?.name}');
+          print('✅ User email: ${CacheHelper.getData(key: CacheKeys.userEmail)}');
+          print('✅ User name: ${CacheHelper.getData(key: CacheKeys.userName)}');
+          print('✅ User phone: ${CacheHelper.getData(key: CacheKeys.userPhone)}');
+          print('✅ User image: ${CacheHelper.getData(key: CacheKeys.userImage)}');
         }
 
         /// Show success toast
@@ -105,11 +111,22 @@ class AuthRepos {
         );
 
         return ApiResult.success(userData);
-      } else {
-        return ApiResult.failure(ErrorHandler.handleApiError(response));
+      }
+      else {
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<UserDataModel>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
       }
     } on DioException catch (e) {
-      return ApiResult.failure(ErrorHandler.handleDioError(e));
+        return ApiResult.failure(ErrorHandler.handleDioError(e));
     } catch (e, stackTrace) {
       print('❌ Unexpected error: $e');
       print('📌 Stack trace: $stackTrace');
@@ -136,7 +153,17 @@ class AuthRepos {
 
         return ApiResult.success(response.data['message']);
       } else {
-        return ApiResult.failure(ErrorHandler.handleApiError(response));
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
       }
     } on DioException catch (e) {
       return ApiResult.failure(ErrorHandler.handleDioError(e));
@@ -172,7 +199,17 @@ class AuthRepos {
 
         return ApiResult.success(response.data['message']);
       } else {
-        return ApiResult.failure(ErrorHandler.handleApiError(response));
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
       }
     } on DioException catch (e) {
       return ApiResult.failure(ErrorHandler.handleDioError(e));
@@ -212,7 +249,17 @@ class AuthRepos {
 
         return ApiResult.success(response.data['message']);
       } else {
-        return ApiResult.failure(ErrorHandler.handleApiError(response));
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
       }
     } on DioException catch (e) {
       return ApiResult.failure(ErrorHandler.handleDioError(e));
@@ -250,7 +297,17 @@ class AuthRepos {
 
         return ApiResult.success(response.data['message']);
       } else {
-        return ApiResult.failure(ErrorHandler.handleApiError(response));
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
       }
     } on DioException catch (e) {
       return ApiResult.failure(ErrorHandler.handleDioError(e));

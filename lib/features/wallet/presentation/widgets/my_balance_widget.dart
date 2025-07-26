@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/features/wallet/data/models/transactions_history_data_model.dart';
@@ -76,14 +77,14 @@ class MyBalanceWidget extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    'رصيدك الحالي',
+                    'balance2'.tr(),
                     style: Styles.captionRegular.copyWith(
                       color: AppColors.neutralColor200,
                     ),
                   ),
                   12.verticalSpace,
                   Text(
-                    '10000 ل.س',
+                    '10000 ${'currency'.tr()}',
                     style: Styles.heading1.copyWith(
                       color: AppColors.neutralColor100,
                     ),
@@ -95,7 +96,7 @@ class MyBalanceWidget extends StatelessWidget {
 
           18.verticalSpace,
           ShowMoreRowWidget(
-            title: 'سجل المعاملاتً',
+            title: 'transactionsً'.tr(),
             onTapShowMore: () {},
           ),
           12.verticalSpace,

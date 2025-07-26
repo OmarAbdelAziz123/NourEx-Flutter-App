@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -32,7 +33,7 @@ class LoginFormWidget extends StatelessWidget {
               40.verticalSpace,
               Center(
                 child: Text(
-                  'تسجيل الدخول',
+                  'login2'.tr(),
                   style: Styles.heading1,
                   textAlign: TextAlign.center,
                 ),
@@ -43,7 +44,7 @@ class LoginFormWidget extends StatelessWidget {
                   horizontal: 20.w,
                 ),
                 child: Text(
-                  'الرجاء إدخال بريدك الإلكتروني وكلمة المرور للوصول إلى حسابك.',
+                  'emailDescription2'.tr(),
                   style: Styles.contentRegular.copyWith(
                     height: 2.h,
                     color: AppColors.neutralColor600,
@@ -54,12 +55,12 @@ class LoginFormWidget extends StatelessWidget {
               32.verticalSpace,
 
               /// Email Address Field
-              Text('البريد الإلكتروني', style: Styles.highlightEmphasis),
+              Text('email'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 controller: authCubit.emailController,
                 keyboardType: TextInputType.emailAddress,
-                hintText: 'قم بإدخال بريدك الإلكتروني الخاص بك هنا',
+                hintText: 'emailDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -68,13 +69,13 @@ class LoginFormWidget extends StatelessWidget {
               18.verticalSpace,
 
               /// Password Field
-              Text('كلمة المرور', style: Styles.highlightEmphasis),
+              Text('password'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 obscureText: authCubit.isObscure,
                 controller: authCubit.passwordController,
                 keyboardType: TextInputType.visiblePassword,
-                hintText: 'قم بإدخال كلمة المرور الخاصة بك هنا',
+                hintText: 'confirmPassword'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -103,7 +104,7 @@ class LoginFormWidget extends StatelessWidget {
                       context.pushNamed(Routes.forgetPasswordScreen);
                     },
                     child: Text(
-                      'نسيت كلمة المرور؟',
+                      'forgetPassword?'.tr(),
                       style: Styles.contentRegular.copyWith(
                         color: AppColors.secondaryColor500,
                         decoration: TextDecoration.underline,

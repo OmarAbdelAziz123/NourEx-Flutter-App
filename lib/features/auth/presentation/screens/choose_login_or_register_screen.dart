@@ -1,6 +1,5 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
@@ -29,13 +28,13 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                'مرحبا بك في نوريكس ',
+                'welcomeInNourex'.tr(),
                 style: Styles.heading1,
               ),
               10.verticalSpace,
 
               Text(
-                'اختر طريقة التسجيل الخاصه بك',
+                'chooseRegistrationMethod'.tr(),
                 style: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -62,7 +61,7 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomButtonWidget(
-                          text: 'تسجيل دخول',
+                          text: 'login'.tr(),
                           color: AppColors.primaryColor700,
                           textColor: AppColors.neutralColor100,
                           borderRadius: AppConstants.borderRadius,
@@ -72,7 +71,7 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                         ),
                         18.verticalSpace,
                         CustomButtonWidget(
-                          text: 'إنشاء حساب',
+                          text: 'register'.tr(),
                           color: Colors.transparent,
                           boxShadow: [],
                           textColor: AppColors.primaryColor700,
@@ -87,8 +86,8 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                         ),
                         18.verticalSpace,
                         CustomRichText(
-                          text1: 'لا أريد إنشاء حساب الأن  ',
-                          text2: 'تسجيل كضيف',
+                          text1: 'doNotCreateAccount'.tr(),
+                          text2: 'loginAsGuest'.tr(),
                           textStyle1: Styles.contentRegular.copyWith(
                             color: AppColors.neutralColor600,
                           ),
@@ -102,16 +101,16 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                               isScrollControlled: true,
                               builder: (context) {
                                 return CustomSharedShowBottomSheet(
-                                  headingName: 'تسجيل كضيف',
+                                  headingName: 'loginAsGuest'.tr(),
                                   imagePath:
                                   'assets/svgs/yellow_icon_in_bottom_sheet_icon.svg',
                                   title:
-                                  'أهلاً بك! يمكنك إستكشاف التطبيق وتصفح المنتجات بكل حرية',
+                                  'welcomeForYou'.tr(),
                                   description:
-                                  'لن تتمكن من إتمام عمليات الشراء إلا بعد تسجيل الدخول أو إنشاء حساب.',
+                                  'loginToBuy'.tr(),
                                   haveOneButton: false,
-                                  buttonText1: 'تسجيل الدخول',
-                                  buttonText2: 'تسجيل كضيف',
+                                  buttonText1: 'login2'.tr(),
+                                  buttonText2: 'loginAsGuest'.tr(),
                                   onTap1: () {
                                     context.pop();
                                     context.pushNamed(Routes.loginScreen);

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,10 +52,10 @@ class RegisterScreen extends StatelessWidget {
 
           return CustomBottomNavBarHaveButtonsWidget(
             haveText: true,
-            buttonTitle: 'التالي',
+            buttonTitle: 'next'.tr(),
             widgetUpOfButton: CustomRichText(
-              text1: 'لدي لديك حساب ؟  ',
-              text2: 'تسجيل دخول',
+              text1: 'haveAccount'.tr(),
+              text2: 'login'.tr(),
               textStyle1: Styles.contentRegular.copyWith(
                 color: AppColors.neutralColor300,
               ),

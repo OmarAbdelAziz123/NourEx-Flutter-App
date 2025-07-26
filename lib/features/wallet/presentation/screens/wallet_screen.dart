@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -20,7 +21,7 @@ class WalletScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'محفظتي',
+          title: 'wallet'.tr(),
           isSubScreen: true,
           onTapBack: () {
             context.pop();
@@ -37,7 +38,7 @@ class WalletScreen extends StatelessWidget {
             return Column(
               children: [
                 CustomTabBarWidget(
-                  tabs: const ['نقاطي', 'رصيدي'],
+                  tabs: ['points1'.tr(), 'balance'.tr()],
                   selectedIndex: cubit.selectedTabIndex,
                   onTabChanged: (index) {
                     cubit.changeTab(index);
@@ -51,7 +52,7 @@ class WalletScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'تحويل النقاط الى رصيد',
+        buttonTitle: 'convertBalance'.tr(),
         onPressed: () {
           context.pushNamed(Routes.convertPointsToBalanceScreen);
         },

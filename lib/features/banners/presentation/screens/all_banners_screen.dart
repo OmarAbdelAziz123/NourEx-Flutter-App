@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -25,7 +26,7 @@ class AllBannersScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'عروض خاصة',
+          title: 'specialOffers'.tr(),
           isSubScreen: true,
           onTapBack: () {
             context.pop();

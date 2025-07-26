@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,10 +26,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
             children: [
               18.verticalSpace,
 
-              Text(
-                'الإسم بالكامل*',
-                style: Styles.highlightEmphasis,
-              ),
+              Text('fullNameRequired'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               /// Full Name Field
@@ -36,7 +34,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 controller: cubit.fullNameController,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                hintText: 'قم بإدخال الإسم بالكامل هنا',
+                hintText: 'enterFullName'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -44,10 +42,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
               ),
               16.verticalSpace,
 
-              Text(
-                'رقم الجوال*',
-                style: Styles.highlightEmphasis,
-              ),
+              Text('phoneNumberRequired'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               /// Phone Field
@@ -55,37 +50,16 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 controller: cubit.phoneController,
                 keyboardType: TextInputType.phone,
                 textInputAction: TextInputAction.next,
-                hintText: 'قم بإدخال رقم الجوال هنا',
+                hintText: 'enterPhoneNumber'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
-                validator: (value) => AppValidator.validateEgyptPhoneNumber(value!),
+                validator:
+                    (value) => AppValidator.validateEgyptPhoneNumber(value!),
               ),
               16.verticalSpace,
 
-              Text(
-                'البلد*',
-                style: Styles.highlightEmphasis,
-              ),
-              8.verticalSpace,
-
-              /// Country Field
-              CustomTextFormFieldWidget(
-                controller: cubit.countryController,
-                keyboardType: TextInputType.name,
-                textInputAction: TextInputAction.next,
-                hintText: 'قم بإدخال إسم البلد هنا',
-                hintStyle: Styles.contentRegular.copyWith(
-                  color: AppColors.neutralColor600,
-                ),
-                validator: (value) => AppValidator.validateUsername(value!),
-              ),
-              16.verticalSpace,
-
-              Text(
-                'المدينة*',
-                style: Styles.highlightEmphasis,
-              ),
+              Text('cityRequired'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               /// City Field
@@ -93,7 +67,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 controller: cubit.cityController,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                hintText: 'قم بإدخال إسم المدينة هنا',
+                hintText: 'enterCity'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -101,10 +75,23 @@ class AddNewAddressFormWidget extends StatelessWidget {
               ),
               16.verticalSpace,
 
-              Text(
-                'الشارع*',
-                style: Styles.highlightEmphasis,
+              Text('zoneRequired'.tr(), style: Styles.highlightEmphasis),
+              8.verticalSpace,
+
+              /// Zone Field
+              CustomTextFormFieldWidget(
+                controller: cubit.zoneController,
+                keyboardType: TextInputType.name,
+                textInputAction: TextInputAction.next,
+                hintText: 'enterZone'.tr(),
+                hintStyle: Styles.contentRegular.copyWith(
+                  color: AppColors.neutralColor600,
+                ),
+                validator: (value) => AppValidator.validateUsername(value!),
               ),
+              16.verticalSpace,
+
+              Text('streetRequired'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               /// Street Field
@@ -112,72 +99,114 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 controller: cubit.streetController,
                 keyboardType: TextInputType.name,
                 textInputAction: TextInputAction.next,
-                hintText: 'قم بإدخالإسم الشارع هنا',
+                hintText: 'enterStreet'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
                 validator: (value) => AppValidator.validateUsername(value!),
               ),
-              16.verticalSpace,
+              32.verticalSpace,
 
-              Row(
-                spacing: 16.w,
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'رقم الشقة',
-                          style: Styles.highlightEmphasis,
-                        ),
-                        8.verticalSpace,
-                        CustomTextFormFieldWidget(
-                          controller: cubit.apartmentController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          hintText: 'قم بإدخال رقم الشقة',
-                          hintStyle: Styles.contentRegular.copyWith(
-                            color: AppColors.neutralColor600,
-                          ),
-                          validator: (value) => AppValidator.validateUsername(value!),
-                        ),
-                        16.verticalSpace,
-                      ],
-                    ),
+              /// Is Main Address Section with Enhanced UX
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 12.h),
+                decoration: BoxDecoration(
+                  color: AppColors.neutralColor100, // Light background
+                  borderRadius: BorderRadius.circular(
+                    AppConstants.borderRadius,
                   ),
+                  border: Border.all(
+                    color:
+                        cubit.isMain
+                            ? AppColors.primaryColor700
+                            : AppColors.neutralColor300,
+                    width: 1.w,
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /// Main checkbox row
+                    InkWell(
+                      onTap: () {
+                        cubit.toggleIsMain();
+                      },
+                      child: Row(
+                        spacing: 8.w,
+                        children: [
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Checkbox(
+                              value: cubit.isMain,
+                              onChanged: (value) {
+                                cubit.toggleIsMain();
+                              },
+                              activeColor: AppColors.primaryColor700,
+                              checkColor: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                  AppConstants.borderRadius - 4.w,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Column(
+                              spacing: 4.h,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'isMainAddress'.tr(),
+                                  style: Styles.highlightEmphasis.copyWith(
+                                    color:
+                                        cubit.isMain
+                                            ? AppColors.primaryColor700
+                                            : AppColors.neutralColor800,
+                                  ),
+                                ),
+                                Text(
+                                  'mainAddressDescription'.tr(),
+                                  style: Styles.contentRegular.copyWith(
+                                    color: AppColors.neutralColor600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'رقم المبنى',
-                          style: Styles.highlightEmphasis,
+                    /// Optional: Show additional info when selected
+                    if (cubit.isMain) ...[
+                      12.verticalSpace,
+                      Container(
+                        padding: EdgeInsets.all(12.sp),
+                        decoration: BoxDecoration(
+                          color: AppColors.primaryColor700.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(AppConstants.borderRadius - 2.w),
                         ),
-                        8.verticalSpace,
-                        CustomTextFormFieldWidget(
-                          controller: cubit.buildingNumberController,
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.next,
-                          hintText: 'قم بإدخال رقم المبني',
-                          hintStyle: Styles.contentRegular.copyWith(
-                            color: AppColors.neutralColor600,
-                          ),
-                          validator: (value) => AppValidator.validateUsername(value!),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'mainAddressNote'.tr(),
+                                style: Styles.contentRegular.copyWith(
+                                  color: AppColors.primaryColor700,
+                                  fontSize: 12.sp,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        16.verticalSpace,
-                      ],
-                    ),
-                  ),
-                ],
+                      ),
+                    ],
+                  ],
+                ),
               ),
               16.verticalSpace,
 
-              Text(
-                'ملاحضات',
-                style: Styles.highlightEmphasis,
-              ),
+              Text('notes'.tr(), style: Styles.highlightEmphasis),
               8.verticalSpace,
 
               CustomTextFormFieldWidget(
@@ -186,7 +215,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 maxLines: 5,
                 controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
-                hintText: 'قم بإدخال الملاحضات الخاصة بك هنا',
+                hintText: 'enterNotes'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),

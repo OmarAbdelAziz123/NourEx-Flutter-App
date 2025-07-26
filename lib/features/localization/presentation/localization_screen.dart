@@ -33,7 +33,7 @@ void showLocalizationBottomSheet(BuildContext context) {
                   ),
                   SizedBox(height: 20.h),
                   LanguageOption(
-                    label: 'العربية'.tr(),
+                    label: 'ar'.tr(),
                     selected: currentLocale == 'ar_EG',
                     onTap: () {
                       localizationCubit
@@ -44,7 +44,7 @@ void showLocalizationBottomSheet(BuildContext context) {
                   ),
                   SizedBox(height: 10.h),
                   LanguageOption(
-                    label: 'English'.tr(),
+                    label: 'en'.tr(),
                     selected: currentLocale == 'en_UK',
                     onTap: () {
                       localizationCubit
@@ -62,8 +62,6 @@ void showLocalizationBottomSheet(BuildContext context) {
     },
   );
 }
-
-
 
 class LanguageOption extends StatelessWidget {
   final String label;

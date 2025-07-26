@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -49,10 +50,10 @@ class ForgetPasswordScreen extends StatelessWidget {
 
           return CustomBottomNavBarHaveButtonsWidget(
             haveText: true,
-            buttonTitle: 'تأكيد',
+            buttonTitle: 'confirm'.tr(),
             widgetUpOfButton: CustomRichText(
-              text1: ' لدي حساب بالفعل ؟  ',
-              text2: 'تسجيل دخول',
+              text1: 'accountCreatedDescription2'.tr(),
+              text2: 'login'.tr(),
               textStyle1: Styles.contentRegular.copyWith(
                 color: AppColors.neutralColor300,
               ),

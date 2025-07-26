@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,8 +52,8 @@ class FillPasswordScreen extends StatelessWidget {
             haveText: false,
             buttonTitle:
                 data['screenName'] == 'forgetPassword'
-                    ? 'تأكيد'
-                    : 'إنشاء الحساب',
+                    ? 'confirm'.tr()
+                    : 'register2'.tr(),
             onPressed: () {
               if(authCubit.formKey.currentState!.validate()) {
                 authCubit.setPassword(email: data['emailAddress']);
@@ -76,15 +77,15 @@ class FillPasswordScreen extends StatelessWidget {
         isScrollControlled: true,
         builder: (context) {
           return CustomSharedShowBottomSheet(
-            headingName: 'نسيت كلمة المرور',
+            headingName: 'forgetPassword'.tr(),
             imagePath: 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-            text1: 'تم تسجيل حسابك',
-            text2: ' بنجاح',
+            text1: 'accountCreated'.tr(),
+            text2: 'accountCreatedSuccess'.tr(),
             description:
-                'حاول الاحتفاظ بكلمة المرور بعيدا لتفادي سرقة حسابك و بياناتك',
+                'accountCreatedDescription'.tr(),
             haveOneButton: true,
             haveTextSpan: true,
-            buttonText1: 'تسجيل الدخول',
+            buttonText1: 'login2'.tr(),
             onPressedOnOneButton: () {
               print('تسجيل الدخول');
               context.pushNamedAndRemoveUntil(Routes.loginScreen);
@@ -107,18 +108,18 @@ class FillPasswordScreen extends StatelessWidget {
         isScrollControlled: true,
         builder: (context) {
           return CustomSharedShowBottomSheet(
-            headingName: 'إنشاء حساب',
+            headingName: 'register'.tr(),
             imagePath: 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-            text1: 'تم تسجيل حسابك',
-            text2: ' بنجاح',
+            text1: 'accountCreated'.tr(),
+            text2: 'accountCreatedSuccess'.tr(),
             description:
-                'لن تتمكن من إتمام عمليات الشراء إلا بعد تسجيل الدخول أو إنشاء حساب.',
+                'loginToBuy'.tr(),
             haveOneButton: true,
             haveTextSpan: true,
-            buttonText1: 'هيا بنا',
+            buttonText1: 'letStart'.tr(),
             onPressedOnOneButton: () {
               // print('هيا بنا');
-              // context.pushNamedAndRemoveUntil(Routes.loginScreen);
+              context.pushNamedAndRemoveUntil(Routes.loginScreen);
             },
           );
         },

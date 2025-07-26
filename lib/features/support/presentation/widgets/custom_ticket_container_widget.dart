@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -35,7 +36,7 @@ class CustomTicketContainerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'رقم التذكرة',
+                'trackingNumber'.tr(),
                 style: Styles.highlightSemiBold,
               ),
               Text(

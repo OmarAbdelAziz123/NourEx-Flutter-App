@@ -41,6 +41,9 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await CacheHelper.init();
 
+  // await CacheHelper.clearAllSecuredData();
+  // await CacheHelper.clearAllData();
+
   Bloc.observer = MyBlocObserver();
 
   AppConstants.userToken = await CacheHelper.getSecuredString(key: CacheKeys.userToken);

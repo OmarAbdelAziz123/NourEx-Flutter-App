@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -18,7 +19,7 @@ class ConvertPointsToBalanceScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'تحويل النقاط الى رصيد',
+          title: 'convertPoints'.tr(),
           isSubScreen: true,
           onTapBack: () {
             context.pop();
@@ -36,7 +37,7 @@ class ConvertPointsToBalanceScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'عدد النقاط',
+                    'points'.tr(),
                     style: Styles.highlightEmphasis,
                   ),
                 ),
@@ -47,7 +48,7 @@ class ConvertPointsToBalanceScreen extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'رصيد',
+                    'balance'.tr(),
                     style: Styles.highlightEmphasis,
                   ),
                 ),
@@ -59,7 +60,7 @@ class ConvertPointsToBalanceScreen extends StatelessWidget {
                 Expanded(
                   child: CustomTextFormFieldWidget(
                     controller: TextEditingController(),
-                    hintText: 'قم بإدخال عدد النقاط',
+                    hintText: 'points2'.tr(),
                     hintStyle: Styles.captionRegular.copyWith(
                       color: AppColors.neutralColor600,
                     ),
@@ -103,7 +104,7 @@ class ConvertPointsToBalanceScreen extends StatelessWidget {
           ),
         ),
         child: CustomButtonWidget(
-          text: 'تحويل',
+          text: 'convert'.tr(),
           color: AppColors.primaryColor700,
           onPressed: () {
             print('click');

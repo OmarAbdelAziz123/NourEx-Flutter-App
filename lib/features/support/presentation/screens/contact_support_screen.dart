@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -27,7 +28,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'تواصل مع الدعم',
+          title: 'contactSupport'.tr(),
           isSubScreen: true,
           onTapBack: () {
             context.pop();
@@ -43,14 +44,14 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
             children: [
               18.verticalSpace,
               Text(
-                'الموضوع',
+                'subject'.tr(),
                 style: Styles.highlightEmphasis,
               ),
               8.verticalSpace,
 
               /// TODO: add dropdown
               CustomDropdownButtonWidget<String>(
-                  hint: 'اختر الموضوع',
+                  hint: 'selectSubject'.tr(),
                   isSvgPic: true,
                   onChanged: (selectedBrand) {
                     setState(() {
@@ -72,15 +73,15 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                     }
                   },
                   items: [
-                    'مشكلة في التطبيق',
-                    'مشكلة في الحساب',
-                    'مشكلة في التسجيل',
+                    'errorInAccount'.tr(),
+                    'errorInAccount'.tr(),
+                    'errorInRegister'.tr(),
                   ]),
 
               16.verticalSpace,
 
               Text(
-                'الرسالة',
+                'message'.tr(),
                 style: Styles.highlightEmphasis,
               ),
               8.verticalSpace,
@@ -91,7 +92,7 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
                 maxLines: 5,
                 controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
-                hintText: 'قم بإدخال الرسالة  الخاصة بك هنا',
+                hintText: 'message2'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -101,22 +102,22 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'إرسال',
+        buttonTitle: 'send'.tr(),
         onPressed: () {
           showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             builder: (context) {
               return CustomSharedShowBottomSheet(
-                headingName: 'تواصل مع الدعم',
+                headingName: 'contactSupport'.tr(),
                 imagePath: 'assets/svgs/green_icon_in_bottom_sheet_icon.svg',
-                text1: 'تم ارسال طلبك ',
-                text2: 'بنجاح',
+                text1: 'orderSent2'.tr(),
+                text2: 'accountCreatedSuccess'.tr(),
                 description:
-                    'رقم التذكرة: #TICKET-12987، سنقوم بالرد عليك خلال 48 ساعة',
+                    '${'trackingNumber'.tr()} #TICKET-12987، ${'willReply'.tr()}',
                 haveOneButton: true,
                 haveTextSpan: true,
-                buttonText1: 'التالي',
+                buttonText1: 'next'.tr(),
                 text2Color: AppColors.greenColor100,
               );
             },

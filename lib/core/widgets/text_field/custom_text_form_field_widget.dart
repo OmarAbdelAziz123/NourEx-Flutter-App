@@ -195,7 +195,7 @@ class CustomTextFormFieldWidget extends StatelessWidget {
         contentPadding: contentPadding ??
             EdgeInsets.symmetric(
                 horizontal: width ?? 15.w, vertical: height ?? 15.h),
-        fillColor: backgroundColor ?? AppColors.neutralColor100,
+        fillColor: backgroundColor ?? Colors.white,
       ),
       maxLines: isChat ? null : maxLines ?? 1,
       minLines: isChat ? null : minLines,

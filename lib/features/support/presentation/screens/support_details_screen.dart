@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -37,7 +38,7 @@ class SupportDetailsScreen extends StatelessWidget {
             Expanded(
               child: Column(
                 children: [
-                  Text('تم الحل', style: Styles.highlightEmphasis,),
+                  Text('solved'.tr(), style: Styles.highlightEmphasis,),
                   24.verticalSpace,
                 ],
               ),
@@ -48,7 +49,7 @@ class SupportDetailsScreen extends StatelessWidget {
               children: [
                 CustomBottomNavBarHaveButtonsWidget(
                   haveText: false,
-                  buttonTitle: 'تم حل المشكلة',
+                  buttonTitle: 'solvedProblem'.tr(),
                   onPressed: () {},
                 ),
 
@@ -57,7 +58,7 @@ class SupportDetailsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomTextFormFieldWidget(
-                        hintText: 'الرساله',
+                        hintText: 'theMessage'.tr(),
                         hintStyle: Styles.contentEmphasis,
                         suffixIcon: IconButton(
                           onPressed: () {},

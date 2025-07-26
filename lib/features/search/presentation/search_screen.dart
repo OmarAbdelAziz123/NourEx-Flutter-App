@@ -26,91 +26,91 @@ class SearchScreen extends StatelessWidget {
             builder: (context, state) {
               final cubit = context.read<SearchCubit>();
               final searchController = cubit.searchController;
-              final products = [
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '3',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '5',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '3',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '5',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '3',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '5',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '3',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-                ProductDataModel(
-                  productName: 'تيشرت بولو',
-                  productImage: 'assets/pngs/shirt.png',
-                  productRate: '5',
-                  countOfNumber: '200',
-                  productPriceBefore: '2000',
-                  productPriceAfter: '1500',
-                ),
-              ];
+              // final products = [
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '3',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '5',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '3',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '5',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '3',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '5',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '3',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              //   ProductDataModel(
+              //     productName: 'تيشرت بولو',
+              //     productImage: 'assets/pngs/shirt.png',
+              //     productRate: '5',
+              //     countOfNumber: '200',
+              //     productPriceBefore: '2000',
+              //     productPriceAfter: '1500',
+              //   ),
+              // ];
 
               return Column(
                 children: [
                   /// Products List
-                  Expanded(
-                    child: ListView.separated(
-                      itemCount: products.length,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 18.w,
-                        vertical: 18.h,
-                      ),
-                      separatorBuilder: (context, index) => 12.verticalSpace,
-                      itemBuilder: (context, index) {
-                        return CustomProductCardItemWidget(
-                          product: products[index],
-                        );
-                      },
-                    ),
-                  ),
+                  // Expanded(
+                  //   child: ListView.separated(
+                  //     itemCount: products.length,
+                  //     padding: EdgeInsets.symmetric(
+                  //       horizontal: 18.w,
+                  //       vertical: 18.h,
+                  //     ),
+                  //     separatorBuilder: (context, index) => 12.verticalSpace,
+                  //     itemBuilder: (context, index) {
+                  //       return CustomProductCardItemWidget(
+                  //         product: products[index],
+                  //       );
+                  //     },
+                  //   ),
+                  // ),
                 ],
               );
             },

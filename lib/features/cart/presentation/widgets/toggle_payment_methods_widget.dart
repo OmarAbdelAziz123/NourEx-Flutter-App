@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('طريقة الدفع', style: Styles.featureBold),
+        Text('paymentMethod'.tr(), style: Styles.featureBold),
         8.verticalSpace,
 
         BlocBuilder<CartCubit, CartState>(
@@ -57,7 +58,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
                               : 'assets/svgs/disable_checkbox.svg',
                           fit: BoxFit.scaleDown,
                         ),
-                        Text('محفظتي', style: Styles.contentEmphasis),
+                        Text('wallet'.tr(), style: Styles.contentEmphasis),
                       ],
                     ),
                   ),
@@ -95,7 +96,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
                         ),
 
                         Text(
-                          'عند الاستلام',
+                          'received'.tr(),
                           style: Styles.contentEmphasis,
                         ),
                       ],

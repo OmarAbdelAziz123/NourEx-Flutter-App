@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,47 +20,48 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-    ];
+    // final products = [
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    // ];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'السلة',
+          title: 'cart'.tr(),
+          isSubScreen: true,
           onTapSearch: () {},
           onTapNotification: () {},
         ),
@@ -70,30 +72,30 @@ class CartScreen extends StatelessWidget {
           child: Column(
             children: [
               18.verticalSpace,
-              ListView.separated(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                itemCount: products.length,
-                physics: const NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => 20.verticalSpace,
-                itemBuilder:
-                    (context, index) => CustomProductCardItemInCartWidget(
-                      product: products[index],
-                    ),
-              ),
+              // ListView.separated(
+              //   shrinkWrap: true,
+              //   padding: EdgeInsets.zero,
+              //   itemCount: products.length,
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   separatorBuilder: (context, index) => 20.verticalSpace,
+              //   itemBuilder:
+              //       (context, index) => CustomProductCardItemInCartWidget(
+              //         product: products[index],
+              //       ),
+              // ),
               18.verticalSpace,
-              Row(children: [Text('التفاصيل', style: Styles.featureBold)]),
+              Row(children: [Text('details'.tr(), style: Styles.featureBold)]),
               12.verticalSpace,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'قيمة المنتجات',
+                    'productValue'.tr(),
                     style: Styles.contentEmphasis.copyWith(
                       color: AppColors.neutralColor600,
                     ),
                   ),
-                  Text('565 ل.س', style: Styles.contentEmphasis),
+                  Text('565 ${'currency'.tr()}', style: Styles.contentEmphasis),
                 ],
               ),
               16.verticalSpace,
@@ -101,13 +103,13 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'التخفيض',
+                    'discount'.tr(),
                     style: Styles.contentEmphasis.copyWith(
                       color: AppColors.neutralColor600,
                     ),
                   ),
                   Text(
-                    '-113 ل.س',
+                    '-113 ${'currency'.tr()}',
                     style: Styles.contentEmphasis.copyWith(
                       color: AppColors.redColor100,
                     ),
@@ -121,12 +123,12 @@ class CartScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'السعر الكلي',
+                    'totalPrice'.tr(),
                     style: Styles.highlightEmphasis.copyWith(
                       color: AppColors.neutralColor600,
                     ),
                   ),
-                  Text('467 ل.س', style: Styles.heading4),
+                  Text('467 ${'currency'.tr()}', style: Styles.heading4),
                 ],
               ),
               18.verticalSpace,
@@ -139,7 +141,7 @@ class CartScreen extends StatelessWidget {
                       controller: TextEditingController(),
                       backgroundColor: AppColors.neutralColor100,
                       textInputAction: TextInputAction.done,
-                      hintText: 'كود الخصم',
+                      hintText: 'discountCode'.tr(),
                       hintStyle: Styles.captionRegular.copyWith(
                         color: AppColors.neutralColor600,
                       ),
@@ -152,7 +154,7 @@ class CartScreen extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: CustomButtonWidget(
-                      text: 'تفعيل',
+                      text: 'activate'.tr(),
                       color: AppColors.primaryColor700,
                     ),
                   ),
@@ -163,7 +165,7 @@ class CartScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'استكمال الطلب',
+        buttonTitle: 'complete'.tr(),
         onPressed: () {
           context.pushNamedWithSwipe(
             Routes.completePayScreen,

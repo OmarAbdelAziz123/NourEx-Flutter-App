@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -36,7 +37,7 @@ class CustomOrderContainerWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomRichText(
-                text1: 'رقم الطلب : ',
+                text1: 'orderNumber3'.tr(),
                 textStyle1: Styles.highlightSemiBold,
                 text2: orderDataModel.orderNumber,
                 textStyle2: Styles.highlightEmphasis,

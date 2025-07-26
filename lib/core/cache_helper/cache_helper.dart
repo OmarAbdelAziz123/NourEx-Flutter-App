@@ -25,7 +25,7 @@ class CacheHelper {
   static String getCurrentLanguage() {
     return CacheHelper.getData(
       key: CacheKeys.currentLanguage,
-    ) ?? "en";
+    ) ?? "ar";
   }
 
   static Future<void> changeLanguageToAr() async {
@@ -67,7 +67,7 @@ class CacheHelper {
     await flutterSecureStorage.write(key: key, value: value.toString());
   }
 
-  static Future getSecuredString({
+  static Future<String?> getSecuredString({
     required String key,
   }) async {
     const flutterSecureStorage = FlutterSecureStorage();

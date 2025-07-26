@@ -29,7 +29,7 @@ class DioHelper {
     dio.options.headers = {
       "Accept": "application/json",
       // "language": CacheHelper.getCurrentLanguage().toString(),
-      "language": CacheHelper.getCurrentLanguage(),
+      "Language": CacheHelper.getCurrentLanguage(),
       // "authorization": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3ZTM2OTc2NDE2MmMyYTlhNzY0M2I5YyIsImZ1bGxOYW1lIjoiQWJhbm91YiBVc2VyIiwiZW1haWwiOiJ1c2VyQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzQzMDExMTM3fQ.lM0i17w3PqLFKDXi-p9V8WO4ExbWF_lFBcqvjS139fg'
       "authorization": token,
       // "${await CacheHelper.getSecuredString(key: CacheKeys.userToken)}",
@@ -42,7 +42,7 @@ class DioHelper {
 
     dio.options.headers = {
       "Accept": "application/json",
-      "language": CacheHelper.getCurrentLanguage(),
+      "Language": CacheHelper.getCurrentLanguage(),
       // "Lang": CacheHelper.getCurrentLanguage().toString(),
       "authorization": token,
     };
@@ -70,7 +70,7 @@ class DioHelper {
       "Accept": "application/json",
       // "language": 'ar',
       // "language": CacheHelper.getCurrentLanguage().toString(),
-      "language": CacheHelper.getData(key: 'selectedLanguage') ?? 'ar', // Default to Arabic if not set
+      "Language": CacheHelper.getData(key: 'selectedLanguage') ?? 'ar', // Default to Arabic if not set
       "authorization": token,
 
     };
@@ -83,7 +83,7 @@ class DioHelper {
     dio.options.headers = {
       "Accept": "application/json",
       // "language": 'ar',
-      "language": CacheHelper.getCurrentLanguage().toString(),
+      "Language": CacheHelper.getCurrentLanguage().toString(),
       "authorization": token,
 
     };
@@ -96,7 +96,7 @@ class DioHelper {
     dio.options.headers = {
       "Accept": "application/json",
       // "language": 'ar',
-      "language": CacheHelper.getCurrentLanguage().toString(),
+      "Language": CacheHelper.getCurrentLanguage().toString(),
       "authorization": token,
     };
     return await dio.delete(endPoint, data: data);

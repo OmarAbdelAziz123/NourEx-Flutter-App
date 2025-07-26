@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/cache_helper/cache_keys.dart';
+import 'package:nourex/core/networks_helper/errors/exceptions.dart';
+import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/auth/data/models/user_data_model.dart';
 import 'package:nourex/features/auth/data/repos/repos.dart';
@@ -44,7 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
       phoneOrEmail: emailController.text,
       password: passwordController.text,
       acceptTerms: showCheckIcon,
-      fcmToken: CacheHelper.getData(key: CacheKeys.deviceToken),
+      fcmToken: CacheHelper.getData(key: CacheKeys.deviceToken) ?? 'Empty',
     );
 
     result.when(
@@ -55,7 +57,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (failure) {
         hideLoading();
-        emit(LoginErrorState(failure));
+        emit(LoginErrorState(failure.toString()));
       },
     );
   }
@@ -74,7 +76,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (failure) {
         hideLoading();
-        emit(ForgetPasswordErrorState(failure));
+        emit(ForgetPasswordErrorState(failure.toString()));
       },
     );
   }
@@ -96,7 +98,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (failure) {
         hideLoading();
-        emit(ConfirmPhoneEmailOTPErrorState(failure));
+        emit(ConfirmPhoneEmailOTPErrorState(failure.toString()));
       },
     );
   }
@@ -120,7 +122,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (failure) {
         hideLoading();
-        emit(RegisterErrorState(failure));
+        emit(RegisterErrorState(failure.toString()));
       },
     );
   }
@@ -143,7 +145,7 @@ class AuthCubit extends Cubit<AuthState> {
       },
       failure: (failure) {
         hideLoading();
-        emit(SetPasswordErrorState(failure));
+        emit(SetPasswordErrorState(failure.toString()));
       },
     );
   }

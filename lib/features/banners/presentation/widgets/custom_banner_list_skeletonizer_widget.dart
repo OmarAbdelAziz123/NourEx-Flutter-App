@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/utils/app_constants.dart';
@@ -21,7 +22,7 @@ class CustomBannerListSkeletonizerWidget extends StatelessWidget {
       enabled: true,
       child: Column(
         children: [
-          ShowMoreRowWidget(title: 'عروض خاصة', onTapShowMore: () {}),
+          ShowMoreRowWidget(title: 'specialOffers'.tr(), onTapShowMore: () {}),
           12.verticalSpace,
 
           CarouselSlider.builder(

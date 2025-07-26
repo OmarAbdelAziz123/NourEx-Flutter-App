@@ -13,7 +13,7 @@ import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widg
 class CustomProductCardItemInCartWidget extends StatelessWidget {
   const CustomProductCardItemInCartWidget({super.key, required this.product});
 
-  final ProductDataModel product;
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
               children: [
                 /// Product Image
                 CacheNetworkImagesWidget(
-                  image: product.productImage,
+                  image: product.mainImageURL ?? '',
                   borderRadius: 12.r,
                   haveBorder: false,
                   boxFit: BoxFit.cover,
@@ -80,12 +80,12 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.productName, style: Styles.highlightEmphasis),
+                  Text(product.name ?? '', style: Styles.highlightEmphasis),
                   Row(
                     children: [
                       CustomPriceAfterAndBeforeWidget(
-                        priceBefore: '${product.productPriceBefore} ل.س',
-                        priceAfter: '${product.productPriceAfter} ل.س  ',
+                        priceBefore: '${product.price}${'currency'}',
+                        priceAfter: '${product.discount} ${'currency'}  ',
                       ),
                     ],
                   ),
@@ -112,7 +112,8 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                               bottomLeft: Radius.circular(0),
                             ),
                             child: Text(
-                              product.countOfNumber,
+                              '1',
+                              // product.countOfNumber,
                               style: Styles.contentRegular,
                             ),
                           ),

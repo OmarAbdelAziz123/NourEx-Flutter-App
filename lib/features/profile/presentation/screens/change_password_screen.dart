@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ class ChangePasswordScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'تغير كلمة السر',
+          title: 'changePassword'.tr(),
           isSubScreen: true,
           haveOnlyNotification: false,
           onTapBack: () {
@@ -44,7 +45,7 @@ class ChangePasswordScreen extends StatelessWidget {
 
           return CustomBottomNavBarHaveButtonsWidget(
             haveText: false,
-            buttonTitle: 'حفظ',
+            buttonTitle: 'save'.tr(),
             onPressed: () {
               if(profileCubit.formKey.currentState!.validate()){
                 print(profileCubit.passwordController.text);

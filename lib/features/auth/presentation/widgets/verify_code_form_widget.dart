@@ -30,7 +30,7 @@ class VerifyCodeFormWidget extends StatelessWidget {
             children: [
               40.verticalSpace,
               Text(
-                'رمز التحقق',
+                'otp'.tr(),
                 style: Styles.heading1,
                 textAlign: TextAlign.center,
               ),
@@ -40,7 +40,7 @@ class VerifyCodeFormWidget extends StatelessWidget {
                 child: Column(
                   children: [
                     Text(
-                      'تم إرسال رمز التحقق على بريدك الإلكتروني ',
+                      'otpDescription'.tr(),
                       style: Styles.contentRegular.copyWith(
                         height: 2.h,
                         color: AppColors.neutralColor600,
@@ -94,7 +94,7 @@ class VerifyCodeFormWidget extends StatelessWidget {
                   onChanged: (pin) {},
                   onCompleted: (pin) {
                     print('Pin entered: $pin');
-                    // authCubit.userVerifyOtpByEmail(emailAddress);
+                    authCubit.confirmForgetPassword(email: data['emailAddress']);
                   },
                   defaultPinTheme: PinTheme(
                     width: AppConstants.screenHeight(context) / 14,
@@ -132,9 +132,9 @@ class VerifyCodeFormWidget extends StatelessWidget {
 
               /// Resend Code
               CustomRichText(
-                text1: 'ستنتهي صلاحية الكود خلال ',
+                text1: 'otpDescription2'.tr(),
                 textStyle1: Styles.contentRegular,
-                text2: '( ${authCubit.countdown} ثانية ) ',
+                text2: '( ${authCubit.countdown} ${'second'.tr()} ) ',
                 textStyle2: Styles.contentRegular.copyWith(
                   color:
                       authCubit.canResend
@@ -142,7 +142,7 @@ class VerifyCodeFormWidget extends StatelessWidget {
                           : AppColors.primaryColor700,
                   fontWeight: FontWeight.bold,
                 ),
-                text3: authCubit.canResend ? 'إعادة إرسال' : '',
+                text3: authCubit.canResend ? 'resend'.tr() : '',
                 textStyle3: Styles.contentRegular.copyWith(
                   color:
                       authCubit.canResend

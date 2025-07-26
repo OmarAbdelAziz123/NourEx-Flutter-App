@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,79 +21,79 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = [
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '3',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-      ProductDataModel(
-        productName: 'تيشرت بولو',
-        productImage: 'assets/pngs/shirt.png',
-        productRate: '5',
-        countOfNumber: '200',
-        productPriceBefore: '2000',
-        productPriceAfter: '1500',
-      ),
-    ];
+    // final products = [
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '3',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    //   ProductDataModel(
+    //     productName: 'تيشرت بولو',
+    //     productImage: 'assets/pngs/shirt.png',
+    //     productRate: '5',
+    //     countOfNumber: '200',
+    //     productPriceBefore: '2000',
+    //     productPriceAfter: '1500',
+    //   ),
+    // ];
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'الاوردر رقم : 21343434341',
+          title: '${'orderNumber'.tr()} : 21343434341',
           isSubScreen: true,
           haveOnlyNotification: true,
           onTapBack: () {
@@ -108,7 +109,7 @@ class OrderDetailsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               18.verticalSpace,
-              Text('مراحل التنفيذ', style: Styles.highlightEmphasis),
+              Text('executionSteps'.tr(), style: Styles.highlightEmphasis),
               12.verticalSpace,
 
               /// Status Timeline with IntrinsicHeight for better alignment
@@ -127,10 +128,10 @@ class OrderDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         TimelineStageWidget(
-                          stage: 'المرحلة الأولى',
-                          status: 'مكتملة',
-                          description: 'تم شحن الطلب من المستودع',
-                          buttonText: 'مكتملة',
+                          stage: 'firstStep'.tr(),
+                          status: 'completed'.tr(),
+                          description: 'firstStepDescription'.tr(),
+                          buttonText: 'completed'.tr(),
                           isCompleted: true,
                         ),
                       ],
@@ -152,10 +153,10 @@ class OrderDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         TimelineStageWidget(
-                          stage: 'المرحلة الثانية',
-                          status: 'جاري التوصيل',
-                          description: 'جارٍ تجهيز الطلب في مركز الشحن',
-                          buttonText: 'اكتمل',
+                          stage: 'secondStep'.tr(),
+                          status: 'secondStepDescription'.tr(),
+                          description: 'thirdStep'.tr(),
+                          buttonText: 'fourthStep'.tr(),
                           isCompleted: true,
                         ),
                       ],
@@ -169,11 +170,11 @@ class OrderDetailsScreen extends StatelessWidget {
                     children: [
                       SvgPicture.asset('assets/svgs/delevered_icon1.svg'),
                       TimelineStageWidget(
-                        stage: 'المرحلة الثالثة',
-                        status: 'تم التوصيل',
+                        stage: 'thirdStepDescription'.tr(),
+                        status: 'delivered'.tr(),
                         description:
-                            'تم شحن الطلب وهو الآن في الطريق إلى موقعك',
-                        buttonText: 'اكتمل',
+                            'fourthStepDescription'.tr(),
+                        buttonText: 'fourthStep'.tr(),
                         isCompleted: true,
                       ),
                     ],
@@ -183,7 +184,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
               /// Order Details
               24.verticalSpace,
-              Text('معلومات المنتج', style: Styles.highlightEmphasis),
+              Text('productInfo'.tr(), style: Styles.highlightEmphasis),
               12.verticalSpace,
               Container(
                 decoration: BoxDecoration(
@@ -209,7 +210,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w, top: 8.h),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'الاسم : ',
+                        title: 'name'.tr(),
                         value: 'عمر عبدالعزيز',
                       ),
                     ),
@@ -217,7 +218,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'رقم الهاتف :',
+                        title: 'phone'.tr(),
                         value: '01023359621',
                       ),
                     ),
@@ -225,7 +226,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'التاريخ :',
+                        title: 'date'.tr(),
                         value: '19 ديسمبر 2024',
                       ),
                     ),
@@ -233,7 +234,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'العنوان : ',
+                        title: 'address2'.tr(),
                         value: 'العنوان : العنوان : ',
                       ),
                     ),
@@ -241,7 +242,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'الملاحظات : ',
+                        title: 'notes2'.tr(),
                         value: 'نص نص نص',
                       ),
                     ),
@@ -249,7 +250,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 8.h),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'رقم الاوردر :',
+                        title: 'orderNumber2'.tr(),
                         value: '21343434341',
                       ),
                     ),
@@ -259,22 +260,22 @@ class OrderDetailsScreen extends StatelessWidget {
               18.verticalSpace,
 
               /// Order Products
-              Text('المنتجات', style: Styles.featureBold),
+              Text('products'.tr(), style: Styles.featureBold),
               12.verticalSpace,
-              Container(
-                child: ListView.separated(
-                  shrinkWrap: true,
-                  padding: EdgeInsets.zero,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: products.length,
-                  itemBuilder: (context, index) {
-                    return CustomProductCardItemWidget(
-                      product: products[index],
-                    );
-                  },
-                  separatorBuilder: (context, index) => 12.verticalSpace,
-                ),
-              ),
+              // Container(
+              //   child: ListView.separated(
+              //     shrinkWrap: true,
+              //     padding: EdgeInsets.zero,
+              //     physics: const NeverScrollableScrollPhysics(),
+              //     itemCount: products.length,
+              //     itemBuilder: (context, index) {
+              //       return CustomProductCardItemWidget(
+              //         product: products[index],
+              //       );
+              //     },
+              //     separatorBuilder: (context, index) => 12.verticalSpace,
+              //   ),
+              // ),
 
               24.verticalSpace,
             ],
@@ -282,7 +283,7 @@ class OrderDetailsScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'أرجاع الطلب',
+        buttonTitle: 'returnOrder'.tr(),
         onPressed: () {
           context.pushNamed(Routes.cancelOrderScreen);
         },

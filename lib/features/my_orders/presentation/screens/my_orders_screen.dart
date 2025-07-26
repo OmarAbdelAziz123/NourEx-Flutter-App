@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,7 +18,7 @@ class MyOrdersScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'سجل طلباتي',
+          title: 'orders'.tr(),
           onTapSearch: () {},
           onTapNotification: () {},
         ),
@@ -30,7 +31,7 @@ class MyOrdersScreen extends StatelessWidget {
             return Column(
               children: [
                 CustomTabBarWidget(
-                  tabs: const ['قيد الانتظار', 'تم التوصيل', 'ملغي'],
+                  tabs: ['pending'.tr(), 'delivered'.tr(), 'cancelled'.tr()],
                   selectedIndex: cubit.selectedTabIndex,
                   onTabChanged: (index) {
                     cubit.changeTab(index);
@@ -54,14 +55,14 @@ class MyOrdersScreen extends StatelessWidget {
       case 1:
         return Center(
           child: Text(
-            'تم التوصيل',
+            'delivered'.tr(),
             style: Styles.captionEmphasis,
           ),
         );
       case 2:
         return Center(
           child: Text(
-            'ملغي',
+            'cancelled'.tr(),
             style: Styles.captionEmphasis,
           ),
         );

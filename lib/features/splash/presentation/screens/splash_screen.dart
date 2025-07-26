@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
@@ -227,12 +228,7 @@ class _SplashScreenState extends State<SplashScreen>
                         child: Opacity(
                           opacity: (_logoAnimation.value * 0.8).clamp(0.0, 1.0),
                           child: Text(
-                            'أحدث طريقة التسجيل الخاصة بك',
-                            // style: TextStyle(
-                            //   fontSize: 14.sp,
-                            //   color: const Color(0xFF666666),
-                            //   fontWeight: FontWeight.w400,
-                            // ),
+                            'register22'.tr(),
                             style: Styles.highlightSemiBold.copyWith(
                               color: AppColors.neutralColor600,
                             ),
@@ -265,7 +261,7 @@ class _SplashScreenState extends State<SplashScreen>
                         ),
                         SizedBox(height: 16.h),
                         Text(
-                          'جاري التحميل...',
+                          'loading'.tr(),
                           style: Styles.captionRegular.copyWith(
                             color: AppColors.neutralColor600,
                           ),

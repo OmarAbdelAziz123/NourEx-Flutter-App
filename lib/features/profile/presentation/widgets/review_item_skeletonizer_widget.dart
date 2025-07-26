@@ -1,32 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
+import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class ReviewItemWidget extends StatelessWidget {
-  final String reviewerName;
-  final String profileImagePath;
-  final String reviewText;
-  final String timeAgo;
-  final double rating;
+class ReviewItemSkeletonizerWidget extends StatelessWidget {
   final bool isArabic;
-  final VoidCallback? onPressedMore;
 
-  const ReviewItemWidget({
-    super.key,
-    required this.reviewerName,
-    required this.profileImagePath,
-    required this.reviewText,
-    required this.timeAgo,
-    required this.rating,
-    required this.onPressedMore,
-    this.isArabic = true,
-  });
+  const ReviewItemSkeletonizerWidget({super.key, this.isArabic = true});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Skeletonizer(
+      enabled: true,
       child: Column(
         spacing: 12.h,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,13 +32,14 @@ class ReviewItemWidget extends StatelessWidget {
                 child: Row(
                   spacing: 16.w,
                   children: [
-                    Image.asset(
-                      profileImagePath,
+                    CacheNetworkImagesWidget(
+                      image: 'assets/pngs/profile_image.png',
+                      borderRadius: 4.r,
+                      boxFit: BoxFit.fill,
                       width: 48.w,
                       height: 48.w,
-                      fit: BoxFit.fill,
                     ),
-                    Text(reviewerName, style: Styles.contentEmphasis),
+                    Text('Name here', style: Styles.contentEmphasis),
                   ],
                 ),
               ),
@@ -68,13 +58,13 @@ class ReviewItemWidget extends StatelessWidget {
                       ),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        border: Border.all(color: AppColors.primaryColor700),
+                        border: Border.all(color: AppColors.neutralColor200),
                         borderRadius: BorderRadius.circular(40.r),
                       ),
                       child: Row(
                         children: [
                           Text(
-                            rating.toString(),
+                            '2.5',
                             style: Styles.contentEmphasis.copyWith(
                               color: AppColors.primaryColor700,
                             ),
@@ -88,13 +78,7 @@ class ReviewItemWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    IconButton(
-                      onPressed: onPressedMore,
-                      icon: Icon(
-                        Icons.more_vert,
-                        color: AppColors.neutralColor600,
-                      ),
-                    ),
+                    IconButton(onPressed: () {}, icon: Icon(Iconsax.more)),
                   ],
                 ),
               ),
@@ -111,7 +95,7 @@ class ReviewItemWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.w),
             child: Text(
-              reviewText,
+              'الخدمة كانت رائعة جدًا! مقدم الخدمة محترف ووصل في الوقت المحدد. أنصح الجميع بالتعامل معه. شكرًا لتطبيق حرفة على التجربة الممتازة',
               style: Styles.contentEmphasis.copyWith(height: 1.4.h),
             ),
           ),
@@ -120,7 +104,7 @@ class ReviewItemWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.w),
             child: Text(
-              timeAgo,
+              'منذ 6 ساعات',
               style: Styles.contentEmphasis.copyWith(
                 color: AppColors.neutralColor600,
               ),

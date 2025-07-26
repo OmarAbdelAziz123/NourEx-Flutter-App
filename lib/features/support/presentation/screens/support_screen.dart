@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -37,7 +38,7 @@ class SupportScreen extends StatelessWidget {
             return Column(
               children: [
                 CustomTabBarWidget(
-                  tabs: const ['تم الحل', 'جاري العمل عليه', 'مرفوضة'],
+                  tabs: ['solved'.tr(), 'inProgress'.tr(), 'rejected'.tr()],
                   selectedIndex: cubit.selectedTabIndex,
                   onTabChanged: (index) {
                     cubit.changeTab(index);
@@ -59,7 +60,7 @@ class SupportScreen extends StatelessWidget {
         ),
         child: CustomBottomNavBarHaveButtonsWidget(
           haveText: false,
-          buttonTitle: 'تواصل مع الدعم',
+          buttonTitle: 'contactSupport'.tr(),
           onPressed: () {
             context.pushNamed(Routes.contactSupportScreenRoute);
           },
@@ -75,14 +76,14 @@ class SupportScreen extends StatelessWidget {
       case 1:
         return Center(
           child: Text(
-            'جاري العمل عليه',
+            'inProgress'.tr(),
             style: Styles.highlightEmphasis,
           ),
         );
       case 2:
         return Center(
           child: Text(
-            'مرفوضة',
+            'rejected'.tr(),
             style: Styles.highlightEmphasis,
           ),
         );

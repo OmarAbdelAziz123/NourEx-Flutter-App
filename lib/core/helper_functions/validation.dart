@@ -178,19 +178,37 @@ class AppValidator {
   }
 
 
+  // static String? validateSyrianPhoneNumber(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'validation.phone.required'.tr();
+  //   }
+  //
+  //   final phoneRegExp = RegExp(r'^09[0-9]{8}$');
+  //
+  //   if (!phoneRegExp.hasMatch(value)) {
+  //     return 'validation.phone.invalid'.tr();
+  //   }
+  //
+  //   return null;
+  // }
   static String? validateSyrianPhoneNumber(String? value) {
-    if (value == null || value.isEmpty) {
+    if (value == null || value.trim().isEmpty) {
       return 'validation.phone.required'.tr();
     }
 
-    final phoneRegExp = RegExp(r'^09[0-9]{8}$');
+    final cleaned = value.trim().replaceAll(RegExp(r'\s+'), '');
 
-    if (!phoneRegExp.hasMatch(value)) {
+    // يسمح بـ +963، 00963، 963، 0 أو لا شيء قبل 9XXXXXXXX
+    final phoneRegExp = RegExp(r'^(00963|963|\+963|0)?9\d{8}$');
+
+    if (!phoneRegExp.hasMatch(cleaned)) {
       return 'validation.phone.invalid'.tr();
     }
 
     return null;
   }
+
+
 
 
   static String? validateOTP(String? value) {

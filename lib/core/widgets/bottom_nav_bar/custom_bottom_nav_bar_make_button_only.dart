@@ -7,10 +7,12 @@ import 'package:nourex/core/widgets/button/custom_button_widget.dart';
 class CustomBottomNavBarMakeButtonOnly extends StatelessWidget {
   const CustomBottomNavBarMakeButtonOnly({
     super.key,
+    this.isHaveSvg = false,
     required this.buttonTitle,
     required this.onPressed,
   });
 
+  final bool isHaveSvg;
   final String buttonTitle;
   final VoidCallback onPressed;
 
@@ -33,7 +35,7 @@ class CustomBottomNavBarMakeButtonOnly extends StatelessWidget {
         text: buttonTitle,
         color: AppColors.primaryColor700,
         onPressed: onPressed,
-        svgPic: SvgPicture.asset(
+        svgPic: isHaveSvg == false ? null : SvgPicture.asset(
           'assets/svgs/add_to_cart_icon.svg',
           fit: BoxFit.scaleDown,
         ),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,7 @@ class FilterScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'تصفية',
+          title: 'filter'.tr(),
           isSubScreen: true,
           haveOnlyNotification: true,
           onTapBack: () {
@@ -40,7 +41,7 @@ class FilterScreen extends StatelessWidget {
             children: [
               /// Price Range Filter From
               Text(
-                'السعر من',
+                'priceFrom'.tr(),
                 style: Styles.contentEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -55,7 +56,7 @@ class FilterScreen extends StatelessWidget {
                 ),
                 backgroundColor: Colors.transparent,
                 cursorColor: AppColors.primaryColor700,
-                hintText: 'قم بإدخال السعر من هنا',
+                hintText: 'priceFrom2'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -64,7 +65,7 @@ class FilterScreen extends StatelessWidget {
 
               /// Price Range Filter To
               Text(
-                'السعر إلى',
+                'priceTo'.tr(),
                 style: Styles.contentEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -79,7 +80,7 @@ class FilterScreen extends StatelessWidget {
                   color: AppColors.neutralColor1000,
                 ),
                 cursorColor: AppColors.primaryColor700,
-                hintText: 'قم بإدخال السعر إلى هنا',
+                hintText: 'priceTo2'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -88,7 +89,7 @@ class FilterScreen extends StatelessWidget {
 
               /// Review Filter
               Text(
-                'التقيمات',
+                'reviews'.tr(),
                 style: Styles.contentEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -143,7 +144,7 @@ class FilterScreen extends StatelessWidget {
           children: [
             Expanded(
               child: CustomButtonWidget(
-                text: 'تصفية',
+                text: 'filter'.tr(),
                 color: AppColors.primaryColor700,
                 onPressed: () {
                   print('Filter');
@@ -155,7 +156,7 @@ class FilterScreen extends StatelessWidget {
             ),
             Expanded(
               child: CustomButtonWidget(
-                text: 'إلغاء',
+                text: 'cancel2'.tr(),
                 textColor: AppColors.primaryColor700,
                 borderSide: BorderSide(
                   color: AppColors.primaryColor700,

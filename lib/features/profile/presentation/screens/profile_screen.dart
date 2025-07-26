@@ -11,7 +11,7 @@ import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart'
 import 'package:nourex/features/localization/presentation/localization_screen.dart';
 import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/data/models/settings/settings_data_model.dart';
-import 'package:nourex/features/profile/presentation/widgets/custom_profile_container_in_settings_widget.dart';
+import 'package:nourex/features/profile/presentation/widgets/custom_call_profile_container_in_settings_widget.dart';
 import 'package:nourex/features/profile/presentation/widgets/custom_row_in_settings_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -22,49 +22,49 @@ class ProfileScreen extends StatelessWidget {
     final List settingsList = [
       SettingsDataModel(
         iconPath: 'assets/svgs/change_password.svg',
-        title: 'تغير كلمة السر',
+        title: 'changePassword'.tr(),
         onTap: () => context.pushNamed(Routes.changePassword),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/wallet.svg',
-        title: 'محفظتي',
+        title: 'wallet'.tr(),
         onTap: () => context.pushNamed(Routes.walletScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/my_rates.svg',
-        title: 'تقييماتي',
-        onTap: () {},
+        title: 'myReviews'.tr(),
+        onTap: () => context.pushNamed(Routes.myReviewsScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/address.svg',
-        title: 'العناوين',
+        title: 'addresses'.tr(),
         onTap: () => context.pushNamed(Routes.addressesScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/about_us.svg',
-        title: 'حول الشركة',
+        title: 'aboutUs'.tr(),
         onTap: () => context.pushNamed(Routes.aboutUsScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/language.svg',
-        title: 'لغة التطبيق',
+        title: 'language'.tr(),
         onTap: () {
           showLocalizationBottomSheet(context);
         },
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/privacy.svg',
-        title: 'سياسة الخصوصية',
+        title: 'privacyPolicy'.tr(),
         onTap: () => context.pushNamed(Routes.privacyPolicyScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/security.svg',
-        title: 'الشروط والأحكام',
+        title: 'termsAndConditions'.tr(),
         onTap: () => context.pushNamed(Routes.termsAndConditionsScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/support.svg',
-        title: 'الدعم',
+        title: 'support'.tr(),
         onTap: () => context.pushNamed(Routes.supportScreen),
       ),
     ];
@@ -83,17 +83,14 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: 18.w, left: 18.w, bottom: 18.h),
+              padding: EdgeInsets.only(right: 18.w, left: 18.w,),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
                     18.verticalSpace,
 
                     /// User Data
-                    GestureDetector(
-                      onTap: () => context.pushNamed(Routes.editProfileScreen),
-                      child: CustomProfileContainerInSettingsWidget(),
-                    ),
+                    CustomCallProfileContainerInSettingsWidget(),
                     18.verticalSpace,
 
                     ListView.separated(
@@ -135,25 +132,25 @@ class ProfileScreen extends StatelessWidget {
                                 isLang: false,
                                 settingsDataModel: SettingsDataModel(
                                   iconPath: 'assets/svgs/logout.svg',
-                                  title: 'تسجيل خروج',
+                                  title: 'logout'.tr(),
                                   onTap: () {
                                     showModalBottomSheet(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (context) {
                                         return CustomSharedShowBottomSheet(
-                                          headingName: 'تسجيل الخروج',
+                                          headingName: 'logout2'.tr(),
                                           imagePath:
                                               'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
                                           text1:
-                                              'هل أنت متأكد من رغبتك في تسجيل ',
-                                          text2: 'الخروج؟',
+                                              'AreYouSure'.tr(),
+                                          text2: 'exit'.tr(),
                                           description:
-                                              'هل أنت متأكد أنك تريد تسجيل الخروج؟',
+                                              'exitDescription'.tr(),
                                           haveOneButton: false,
                                           haveTextSpan: true,
-                                          buttonText1: 'الغاء',
-                                          buttonText2: 'خروج',
+                                          buttonText1: 'cancel'.tr(),
+                                          buttonText2: 'goOut'.tr(),
                                           text2Color: AppColors.yellowColor100,
                                           onTap1: () {
                                             Navigator.pop(context);
@@ -176,23 +173,23 @@ class ProfileScreen extends StatelessWidget {
                                 isLang: false,
                                 settingsDataModel: SettingsDataModel(
                                   iconPath: 'assets/svgs/remove.svg',
-                                  title: 'حذف الحساب',
+                                  title: 'removeAccount'.tr(),
                                   onTap: () {
                                     showModalBottomSheet(
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (context) {
                                         return CustomSharedShowBottomSheet(
-                                          headingName: 'حذف الحساب',
+                                          headingName: 'removeAccount'.tr(),
                                           imagePath: 'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
-                                          text1: 'هل أنت متأكد من أنك تريد حذف ',
+                                          text1: 'removeAccountDescription'.tr(),
                                           text2: 'حسابك؟',
                                           description:
-                                          'هل أنت متأكد من أنك تريد حذف حسابك؟ سيتم فقدان جميع بياناتك بشكل نهائي!',
+                                          'removeAccountDescription2'.tr(),
                                           haveOneButton: false,
                                           haveTextSpan: true,
-                                          buttonText1: 'الغاء',
-                                          buttonText2: 'حذف',
+                                          buttonText1: 'cancel'.tr(),
+                                          buttonText2: 'remove'.tr(),
                                           text2Color: AppColors.redColor100,
                                         );
                                       },

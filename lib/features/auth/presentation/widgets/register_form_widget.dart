@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -30,7 +31,7 @@ class RegisterFormWidget extends StatelessWidget {
               40.verticalSpace,
               Center(
                 child: Text(
-                  'إنشاء حساب',
+                  'register'.tr(),
                   style: Styles.heading1,
                   textAlign: TextAlign.center,
                 ),
@@ -41,7 +42,7 @@ class RegisterFormWidget extends StatelessWidget {
                   horizontal: 20.w,
                 ),
                 child: Text(
-                  'الرجاء إدخال بريدك الإلكتروني وسنرسل رمز التأكيد إلى بريدك الإلكتروني',
+                  'enterEmail'.tr(),
                   style: Styles.contentRegular.copyWith(
                     height: 2.h,
                     color: AppColors.neutralColor600,
@@ -52,12 +53,12 @@ class RegisterFormWidget extends StatelessWidget {
               32.verticalSpace,
 
               /// User Name
-              Text('اسم المستخدم', style: Styles.highlightEmphasis),
+              Text('username'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 controller: authCubit.userNameController,
                 keyboardType: TextInputType.emailAddress,
-                hintText: 'قم بإدخال اسم المستخدم الخاص بك هنا',
+                hintText: 'enterUsername'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -66,12 +67,12 @@ class RegisterFormWidget extends StatelessWidget {
               18.verticalSpace,
 
               /// Email Address Field
-              Text('البريد الإلكتروني', style: Styles.highlightEmphasis),
+              Text('email'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 controller: authCubit.emailController,
                 keyboardType: TextInputType.emailAddress,
-                hintText: 'قم بإدخال بريدك الإلكتروني الخاص بك هنا',
+                hintText: 'emailDescription'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -80,12 +81,12 @@ class RegisterFormWidget extends StatelessWidget {
               18.verticalSpace,
 
               /// Phone Number Field
-              Text('رقم الجوال', style: Styles.highlightEmphasis),
+              Text('phoneNumber'.tr(), style: Styles.highlightEmphasis),
               16.verticalSpace,
               CustomTextFormFieldWidget(
                 controller: authCubit.phoneController,
                 keyboardType: TextInputType.phone,
-                hintText: 'قم بإدخال رقم  الخاصة بك هنا',
+                hintText: 'enterPhoneNumber2'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),

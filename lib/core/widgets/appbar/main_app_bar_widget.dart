@@ -71,7 +71,7 @@ class MainAppBarWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          CacheHelper.getData(key: CacheKeys.userToken) == null
+                          CacheHelper.getSecuredString(key: CacheKeys.userToken) == null
                               ? 'welcome'.tr()
                               : 'haveANiceDay'.tr(),
                           style: Styles.contentEmphasis.copyWith(

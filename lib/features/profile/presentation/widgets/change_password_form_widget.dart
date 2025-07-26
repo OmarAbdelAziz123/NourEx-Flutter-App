@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,7 +25,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
             children: [
               /// Password Field
               Text(
-                'كلمة المرور الحالية',
+                'currentPassword'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -34,7 +35,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
                 obscureText: profileCubit.isObscure,
                 controller: profileCubit.passwordController,
                 keyboardType: TextInputType.visiblePassword,
-                hintText: 'كلمة المرور الحالية',
+                hintText: 'currentPassword'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
@@ -53,7 +54,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
 
               /// New Password Field
               Text(
-                'كلمة المرور الجديدة',
+                'newPassword'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -63,7 +64,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
                 obscureText: profileCubit.isObscure2,
                 controller: profileCubit.newPasswordController,
                 keyboardType: TextInputType.visiblePassword,
-                hintText: 'كلمة المرور الجديدة',
+                hintText: 'newPassword'.tr(),
                 backgroundColor: Colors.white,
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
@@ -83,7 +84,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
 
               /// Confirm New Password Field
               Text(
-                'تأكيد كلمة المرور الجديدة',
+                'confirmNewPassword'.tr(),
                 style: Styles.highlightEmphasis.copyWith(
                   color: AppColors.neutralColor1000,
                 ),
@@ -93,7 +94,7 @@ class ChangePasswordFormWidget extends StatelessWidget {
                 obscureText: profileCubit.isObscure3,
                 controller: profileCubit.confirmNewPasswordController,
                 keyboardType: TextInputType.visiblePassword,
-                hintText: 'قم بتأكيد كلمة المرور الخاصه بك',
+                hintText: 'passwordDescription2'.tr(),
                 backgroundColor: Colors.white,
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,

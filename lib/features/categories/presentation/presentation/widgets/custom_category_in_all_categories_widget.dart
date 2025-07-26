@@ -25,6 +25,7 @@ class CustomCategoryInAllCategoriesWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.r),
       ),
       child: Column(
+        spacing: 12.h,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           /// Category Image
@@ -36,7 +37,6 @@ class CustomCategoryInAllCategoriesWidget extends StatelessWidget {
             haveBorder: false,
             borderRadius: AppConstants.borderRadius,
           ),
-          12.verticalSpace,
 
           /// Category Name
           Text(
@@ -52,136 +52,6 @@ class CustomCategoryInAllCategoriesWidget extends StatelessWidget {
   }
 }
 
-class CustomCategoryInAllCategoriesSkeletonizerWidget extends StatelessWidget {
-  const CustomCategoryInAllCategoriesSkeletonizerWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Skeletonizer(
-      enabled: true,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /// Skeleton for image
-            Container(
-              width: 110.w,
-              height: 110.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              ),
-              child: CacheNetworkImagesWidget(
-                image: 'assets/pngs/clothes_man.png',
-                boxFit: BoxFit.fill,
-              ),
-            ),
-            12.verticalSpace,
-
-            /// Skeleton for text
-            Container(
-              width: 80.w,
-              height: 14.h,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              ),
-              child: Text(
-                'ملابس رجالية',
-                style: Styles.captionBold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
 /// In Home Screen
-class CustomCategoryInHomeWidget extends StatelessWidget {
-  const CustomCategoryInHomeWidget(
-      {super.key, required this.imageUrl, required this.categoryName});
 
-  final String imageUrl;
-  final String categoryName;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 76.w,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(15.r),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          /// Category Image
-          CacheNetworkImagesWidget(
-            image: imageUrl,
-            boxFit: BoxFit.fill,
-            width: 76.w,
-            height: 76.h,
-            haveBorder: false,
-            borderRadius: AppConstants.borderRadius,
-          ),
-          12.verticalSpace,
-
-          /// Category Name
-          Text(
-            categoryName,
-            style: Styles.captionBold.copyWith(
-              color: AppColors.neutralColor1000,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CustomCategoryInHomeSkeletonizerWidget extends StatelessWidget {
-  const CustomCategoryInHomeSkeletonizerWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Skeletonizer(
-      enabled: true,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            /// Skeleton for image
-            Container(
-              width: 76.w,
-              height: 76.h,
-              decoration: BoxDecoration(
-                color: AppColors.neutralColor200,
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              ),
-            ),
-            12.verticalSpace,
-
-            /// Skeleton for text
-            Container(
-              width: 40.w,
-              height: 10.h,
-              decoration: BoxDecoration(
-                color: AppColors.neutralColor200,
-                borderRadius: BorderRadius.circular(AppConstants.borderRadius),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
