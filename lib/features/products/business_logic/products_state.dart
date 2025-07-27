@@ -78,3 +78,23 @@ final class GetProductVariantErrorState extends ProductsState {
   GetProductVariantErrorState(this.message);
 }
 
+// Add these states to your existing products_state.dart file
+
+class VariantSelectionUpdated extends ProductsState {
+  final Map<String, String?> selectedVariants;
+  final num? selectedPrice;
+
+  VariantSelectionUpdated(this.selectedVariants, this.selectedPrice);
+
+  @override
+  List<Object?> get props => [selectedVariants, selectedPrice];
+}
+
+class MainImageUpdated extends ProductsState {
+  final String imageUrl;
+
+  MainImageUpdated(this.imageUrl);
+
+  @override
+  List<Object?> get props => [imageUrl];
+}
