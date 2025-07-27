@@ -57,3 +57,24 @@ class GetProductByIdErrorState extends ProductsState {
   final String message;
   GetProductByIdErrorState(this.message);
 }
+
+class ProductVariantSelectedState extends ProductsState {
+  final Variants selectedVariant;
+  ProductVariantSelectedState(this.selectedVariant);
+}
+
+class ProductVariantNotFoundState extends ProductsState {}
+
+///
+final class GetProductVariantLoadingState extends ProductsState {}
+
+final class GetProductVariantSuccessState extends ProductsState {
+  final VariantOption variant;
+  GetProductVariantSuccessState(this.variant);
+}
+
+final class GetProductVariantErrorState extends ProductsState {
+  final String message;
+  GetProductVariantErrorState(this.message);
+}
+

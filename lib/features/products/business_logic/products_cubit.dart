@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:meta/meta.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
+import 'package:nourex/features/products/data/models/variant_option.dart';
 import 'package:nourex/features/products/data/repos/repos.dart';
 
 part 'products_state.dart';
@@ -11,12 +11,16 @@ part 'products_state.dart';
 class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.productsRepos) : super(ProductsInitial()) {
     _initScrollListener();
+
     /// ✅ Add scroll listener on cubit creation
     getInitialProducts();
+
     /// ✅ Load initial data when cubit is created
   }
 
-  int selectedRating = 0; /// ✅ "الكل" هو الافتراضي
+  int selectedRating = 0;
+
+  /// ✅ "الكل" هو الافتراضي
 
   final ProductsRepos productsRepos;
 
@@ -100,7 +104,8 @@ class ProductsCubit extends Cubit<ProductsState> {
   }
 
   /// Get Products By Category
-  Future<void> getInitialProductsByCategory({required String categoryId}) async {
+  Future<void> getInitialProductsByCategory(
+      {required String categoryId}) async {
     emit(GetProductByCategoryLoadingState());
     currentPage = 1;
     allProducts.clear();
@@ -116,7 +121,8 @@ class ProductsCubit extends Cubit<ProductsState> {
         allProducts = data.result ?? [];
         totalPages = data.pagination?.pages ?? 1;
         emit(
-          GetProductByCategorySuccessState(allProducts, currentPage >= totalPages),
+          GetProductByCategorySuccessState(
+              allProducts, currentPage >= totalPages),
         );
       },
       failure: (error) {
@@ -142,7 +148,8 @@ class ProductsCubit extends Cubit<ProductsState> {
       success: (data) {
         allProducts.addAll(data.result ?? []);
         emit(
-          GetProductByCategorySuccessState(allProducts, currentPage >= totalPages),
+          GetProductByCategorySuccessState(
+              allProducts, currentPage >= totalPages),
         );
       },
       failure: (error) {
@@ -161,12 +168,58 @@ class ProductsCubit extends Cubit<ProductsState> {
     result.when(
       success: (data) {
         productDetailsModel = data;
+        productDetailsModel!.result!.subImages!
+            .insert(0, productDetailsModel!.result!.mainImageURL!);
         emit(GetProductByIdSuccessState(productDetailsModel!));
       },
       failure: (error) {
         emit(GetProductByIdErrorState(error.message));
       },
     );
+  }
+
+  Future<void> fetchVariantByAttributes(
+      Map<String?, String?> selectedVariants) async {
+    final allVariants = productDetailsModel?.result?.variants;
+
+    if (allVariants == null || allVariants.isEmpty) {
+      print('No variants available.');
+      return;
+    }
+
+    for (final variant in allVariants) {
+      final attributes = variant.attributes;
+
+      if (attributes == null) continue;
+
+      // Check if this variant matches all selected attributes
+      final isMatch = selectedVariants.entries.every((entry) {
+        return attributes.any((attr) =>
+            attr.name?.toLowerCase() == entry.key!.toLowerCase() &&
+            attr.value?.toLowerCase() == entry.value!.toLowerCase());
+      });
+
+      if (isMatch) {
+        productModel = ProductModel(
+          id: productDetailsModel?.result?.sId,
+          name: productDetailsModel?.result?.name,
+          price: productDetailsModel?.result?.price?.toDouble(),
+          stock: productDetailsModel?.result?.stock,
+          mainImageURL: productDetailsModel?.result?.mainImageURL,
+          discount: productDetailsModel?.result?.discount?.toDouble(),
+          finalPrice: productDetailsModel?.result?.finalPrice?.toDouble(),
+          sku: variant.sku,
+          createdAt: productDetailsModel?.result?.createdAt,
+        );
+
+        emit(ProductVariantSelectedState(variant));
+        print('✅ Matching Variant Found: ${variant.sku}');
+        return;
+      }
+    }
+
+    print('❌ No matching variant found for $selectedVariants');
+    emit(ProductVariantNotFoundState());
   }
 
   @override
