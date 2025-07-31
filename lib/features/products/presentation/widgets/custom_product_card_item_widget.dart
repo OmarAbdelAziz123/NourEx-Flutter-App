@@ -47,6 +47,14 @@ class CustomProductCardItemWidget extends StatelessWidget {
                 product.name ?? '',
                 style: Styles.highlightEmphasis,
               ),
+
+              Text(
+                product.id.toString() ?? '',
+                style: Styles.contentRegular.copyWith(
+                  color: AppColors.neutralColor400,
+                ),
+              ),
+
               Row(
                 spacing: 4.w,
                 children: [
@@ -76,10 +84,11 @@ class CustomProductCardItemWidget extends StatelessWidget {
                   )
                 ],
               ),
-              CustomPriceAfterAndBeforeWidget(
-                priceBefore: '${product.price} ${'currency'.tr()}',
-                priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
-              ),
+
+              // CustomPriceAfterAndBeforeWidget(
+              //   priceBefore: '${product.price} ${'currency'.tr()}',
+              //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
+              // ),
             ],
           ),
         ],

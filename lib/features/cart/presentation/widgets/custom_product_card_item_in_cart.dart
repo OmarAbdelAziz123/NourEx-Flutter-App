@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nourex/features/cart/data/models/cart_data_model.dart';
 import 'package:nourex/features/products/presentation/widgets/custom_price_after_and_before_widget.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -11,9 +12,18 @@ import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 
 class CustomProductCardItemInCartWidget extends StatelessWidget {
-  const CustomProductCardItemInCartWidget({super.key, required this.product});
+  const CustomProductCardItemInCartWidget({
+    super.key,
+    required this.cartProduct,
+    required this.onTapRemoveItem,
+    required this.onTapPlusItem,
+    required this.onTapMinusItem,
+  });
 
-  final ProductModel product;
+  final CartProduct cartProduct;
+  final VoidCallback onTapRemoveItem;
+  final VoidCallback onTapPlusItem;
+  final VoidCallback onTapMinusItem;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +38,22 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
       child: Row(
         children: [
           ClipRRect(
-            borderRadius: isArabic == false ? BorderRadius.only(
-              topLeft: Radius.circular(AppConstants.borderRadius + 4.r),
-              bottomLeft: Radius.circular(AppConstants.borderRadius + 4.r),
-            ) : BorderRadius.only(
-              topRight: Radius.circular(AppConstants.borderRadius + 4.r),
-              bottomRight: Radius.circular(AppConstants.borderRadius + 4.r),
-            ),
+            borderRadius: isArabic == false
+                ? BorderRadius.only(
+                    topLeft: Radius.circular(AppConstants.borderRadius + 4.r),
+                    bottomLeft:
+                        Radius.circular(AppConstants.borderRadius + 4.r),
+                  )
+                : BorderRadius.only(
+                    topRight: Radius.circular(AppConstants.borderRadius + 4.r),
+                    bottomRight:
+                        Radius.circular(AppConstants.borderRadius + 4.r),
+                  ),
             child: Stack(
               children: [
                 /// Product Image
                 CacheNetworkImagesWidget(
-                  image: product.mainImageURL ?? '',
+                  image: cartProduct.mainImageURL ?? '',
                   borderRadius: 12.r,
                   haveBorder: false,
                   boxFit: BoxFit.cover,
@@ -58,9 +72,11 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4.r),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                       child: Text(
-                        'ملابس رجالية',
+                        cartProduct.name ?? '',
+                        // 'ملابس رجالية',
                         style: Styles.footnoteEmphasis.copyWith(
                           color: AppColors.neutralColor100,
                         ),
@@ -76,17 +92,17 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(0.sp),
               child: Column(
-                spacing: 4.h,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                spacing: 5.h,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(product.name ?? '', style: Styles.highlightEmphasis),
+                  Text(cartProduct.name ?? '', style: Styles.highlightEmphasis),
                   Row(
                     children: [
-                      CustomPriceAfterAndBeforeWidget(
-                        priceBefore: '${product.price}${'currency'}',
-                        priceAfter: '${product.discount} ${'currency'}  ',
-                      ),
+                      Text(
+                        '${cartProduct.finalPrice}${'currency'.tr()}',
+                        style: Styles.highlightEmphasis,
+                      )
                     ],
                   ),
                   Row(
@@ -96,12 +112,15 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                         children: [
                           CustomContainerInCartItem(
                             borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(AppConstants.borderRadius),
-                              bottomRight: Radius.circular(AppConstants.borderRadius),
+                              topRight:
+                                  Radius.circular(AppConstants.borderRadius),
+                              bottomRight:
+                                  Radius.circular(AppConstants.borderRadius),
                             ),
                             child: InkWell(
-                              onTap: () {},
-                              child: Icon(Icons.add, color: AppColors.neutralColor1000),
+                              onTap: onTapPlusItem,
+                              child: Icon(Icons.add,
+                                  color: AppColors.neutralColor1000),
                             ),
                           ),
                           CustomContainerInCartItem(
@@ -112,28 +131,30 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                               bottomLeft: Radius.circular(0),
                             ),
                             child: Text(
-                              '1',
+                              cartProduct.quantity.toString(),
                               // product.countOfNumber,
                               style: Styles.contentRegular,
                             ),
                           ),
                           CustomContainerInCartItem(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(AppConstants.borderRadius),
-                              bottomLeft: Radius.circular(AppConstants.borderRadius),
+                              topLeft:
+                                  Radius.circular(AppConstants.borderRadius),
+                              bottomLeft:
+                                  Radius.circular(AppConstants.borderRadius),
                             ),
                             child: InkWell(
-                              onTap: () {},
-                              child: Icon(Icons.remove, color: AppColors.neutralColor1000),
+                              onTap: onTapMinusItem,
+                              child: Icon(Icons.remove,
+                                  color: AppColors.neutralColor1000),
                             ),
                           ),
                         ],
                       ),
-
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8.w),
                         child: InkWell(
-                          onTap: () {},
+                          onTap: onTapRemoveItem,
                           child: SvgPicture.asset(
                             'assets/svgs/remove.svg',
                             fit: BoxFit.scaleDown,

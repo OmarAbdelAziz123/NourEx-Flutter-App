@@ -72,18 +72,6 @@ class ProductModel {
   @JsonKey(name: 'name')
   String? name;
 
-  @JsonKey(name: 'price')
-  double? price;
-
-  @JsonKey(name: 'discount')
-  double? discount;
-
-  @JsonKey(name: 'finalPrice')
-  double? finalPrice;
-
-  @JsonKey(name: 'stock')
-  int? stock;
-
   @JsonKey(name: 'mainImageURL')
   String? mainImageURL;
 
@@ -94,10 +82,6 @@ class ProductModel {
     this.id,
     this.sku,
     this.name,
-    this.price,
-    this.discount,
-    this.finalPrice,
-    this.stock,
     this.mainImageURL,
     this.createdAt,
   });

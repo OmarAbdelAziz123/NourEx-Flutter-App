@@ -38,18 +38,6 @@ class Result {
   @JsonKey(name: 'description')
   String? description;
 
-  @JsonKey(name: 'price')
-  int? price;
-
-  @JsonKey(name: 'discount')
-  int? discount;
-
-  @JsonKey(name: 'finalPrice')
-  int? finalPrice;
-
-  @JsonKey(name: 'stock')
-  int? stock;
-
   @JsonKey(name: 'mainImageURL')
   String? mainImageURL;
 
@@ -84,10 +72,6 @@ class Result {
     this.name,
     this.slug,
     this.description,
-    this.price,
-    this.discount,
-    this.finalPrice,
-    this.stock,
     this.mainImageURL,
     this.subImages,
     this.categoryId,

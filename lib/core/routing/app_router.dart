@@ -222,14 +222,14 @@ class AppRouter {
       case Routes.cartScreen:
         return slideTransition(
           screen: const CartScreen(),
-          cubit: CartCubit(),
+          cubit: CartCubit(getIt())..getCart(),
           direction: SlideDirection.up,
         );
 
       case Routes.completePayScreen:
         return scaleTransition(
           screen: const CompletePayScreen(),
-          cubit: CartCubit(),
+          cubit: CartCubit(getIt())..getCart(),
           alignment: Alignment.center,
         );
 
@@ -472,7 +472,7 @@ class AppRouter {
 
   List<Widget> userScreens = [
     BlocProvider(create: (context) => HomeCubit(), child: HomeScreen()),
-    BlocProvider(create: (context) => CartCubit(), child: CartScreen()),
+    BlocProvider(create: (context) => CartCubit(getIt())..getCart(), child: CartScreen()),
     MyOrdersScreen(),
     BlocProvider(
       create: (context) => ProfileCubit(getIt())..getProfile(),

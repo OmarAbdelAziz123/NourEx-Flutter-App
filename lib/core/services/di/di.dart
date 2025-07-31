@@ -4,6 +4,8 @@ import 'package:nourex/features/addresses/data/api_services/api_services.dart';
 import 'package:nourex/features/addresses/data/repos/repos.dart';
 import 'package:nourex/features/auth/data/api_services/api_services.dart';
 import 'package:nourex/features/auth/data/repos/repos.dart';
+import 'package:nourex/features/cart/data/api_services/api_services.dart';
+import 'package:nourex/features/cart/data/repos/repos.dart';
 import 'package:nourex/features/categories/data/api_services/api_services.dart';
 import 'package:nourex/features/categories/data/repos/repos.dart';
 import 'package:nourex/features/products/data/api_services/api_services.dart';
@@ -25,6 +27,7 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<CategoriesApiServices>(() => CategoriesApiServices(getIt()));
   getIt.registerLazySingleton<AddressesApiServices>(() => AddressesApiServices(getIt()));
   getIt.registerLazySingleton<ProductsApiServices>(() => ProductsApiServices(getIt()));
+  getIt.registerLazySingleton<CartApiServices>(() => CartApiServices(getIt()));
 
 
   /// Repos
@@ -33,4 +36,5 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<CategoriesRepos>(() => CategoriesRepos(getIt()));
   getIt.registerLazySingleton<AddressesRepos>(() => AddressesRepos(getIt()));
   getIt.registerLazySingleton<ProductsRepos>(() => ProductsRepos(getIt()));
+  getIt.registerLazySingleton<CartRepos>(() => CartRepos(getIt()));
 }

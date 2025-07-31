@@ -1,7 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nourex/core/extensions/log_util.dart';
+import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/cart/presentation/widgets/custom_product_card_item_in_cart.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -66,112 +69,149 @@ class CartScreen extends StatelessWidget {
           onTapNotification: () {},
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(left: 18.w, right: 18.w),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              18.verticalSpace,
-              // ListView.separated(
-              //   shrinkWrap: true,
-              //   padding: EdgeInsets.zero,
-              //   itemCount: products.length,
-              //   physics: const NeverScrollableScrollPhysics(),
-              //   separatorBuilder: (context, index) => 20.verticalSpace,
-              //   itemBuilder:
-              //       (context, index) => CustomProductCardItemInCartWidget(
-              //         product: products[index],
-              //       ),
-              // ),
-              18.verticalSpace,
-              Row(children: [Text('details'.tr(), style: Styles.featureBold)]),
-              12.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'productValue'.tr(),
-                    style: Styles.contentEmphasis.copyWith(
-                      color: AppColors.neutralColor600,
-                    ),
-                  ),
-                  Text('565 ${'currency'.tr()}', style: Styles.contentEmphasis),
-                ],
-              ),
-              16.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'discount'.tr(),
-                    style: Styles.contentEmphasis.copyWith(
-                      color: AppColors.neutralColor600,
-                    ),
-                  ),
-                  Text(
-                    '-113 ${'currency'.tr()}',
-                    style: Styles.contentEmphasis.copyWith(
-                      color: AppColors.redColor100,
-                    ),
-                  ),
-                ],
-              ),
-              16.verticalSpace,
-              CustomDividerInBottomSheet(),
-              16.verticalSpace,
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'totalPrice'.tr(),
-                    style: Styles.highlightEmphasis.copyWith(
-                      color: AppColors.neutralColor600,
-                    ),
-                  ),
-                  Text('467 ${'currency'.tr()}', style: Styles.heading4),
-                ],
-              ),
-              18.verticalSpace,
-              Row(
-                spacing: 12.w,
-                children: [
-                  Expanded(
-                    flex: 5,
-                    child: CustomTextFormFieldWidget(
-                      controller: TextEditingController(),
-                      backgroundColor: AppColors.neutralColor100,
-                      textInputAction: TextInputAction.done,
-                      hintText: 'discountCode'.tr(),
-                      hintStyle: Styles.captionRegular.copyWith(
-                        color: AppColors.neutralColor600,
+      body: BlocConsumer<CartCubit, CartState>(
+        listener: (context, state) {
+          if (state is RemoveProductFromCartSuccessState) {
+            context.read<CartCubit>().getCart();
+          }
+          if (state is UpdatePlusCartSuccessState) {
+            context.read<CartCubit>().getCart();
+          }
+        },
+        builder: (context, state) {
+          final cartCubit = context.read<CartCubit>();
+
+          return Padding(
+            padding: EdgeInsets.only(left: 18.w, right: 18.w),
+            child: cartCubit.cartDataModel == null ||
+                    cartCubit.cartDataModel!.result == null ||
+                    cartCubit.cartDataModel!.result!.products == []
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : cartCubit.cartDataModel!.result!.products!.isEmpty
+                    ? Center(
+                        child: Text(
+                          'no_products_in_cart'.tr(),
+                          style: TextStyle(
+                            color: AppColors.primaryColor700,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                      )
+                    : SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            18.verticalSpace,
+                            ListView.separated(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.zero,
+                              itemCount: cartCubit
+                                  .cartDataModel!.result!.products!.length,
+                              physics: const NeverScrollableScrollPhysics(),
+                              separatorBuilder: (context, index) =>
+                                  20.verticalSpace,
+                              itemBuilder: (context, index) =>
+                                  CustomProductCardItemInCartWidget(
+                                cartProduct: cartCubit
+                                    .cartDataModel!.result!.products![index],
+                                onTapRemoveItem: () {
+                                  cartCubit.removeProductFromCart(
+                                    productId: cartCubit.cartDataModel!.result!
+                                        .products![index].productId!,
+                                    variantSku: cartCubit.cartDataModel!.result!
+                                        .products![index].variantSku!,
+                                  );
+                                  logSuccess(cartCubit.cartDataModel!.result!
+                                      .products![index].productId!);
+                                  logSuccess(cartCubit.cartDataModel!.result!
+                                      .products![index].variantSku!);
+                                },
+                                onTapPlusItem: () {
+                                  final product = cartCubit
+                                      .cartDataModel!.result!.products![index];
+                                  final currentAmount = product.quantity ?? 1;
+
+                                  cartCubit.updatePlusCart(
+                                    productId: product.productId!,
+                                    variantSku: product.variantSku!,
+                                    amount: 1,
+                                  );
+                                },
+                                onTapMinusItem: () {
+                                  final product = cartCubit
+                                      .cartDataModel!.result!.products![index];
+                                  // prevent decrementing below 1
+                                  cartCubit.updatePlusCart(
+                                    productId: product.productId!,
+                                    variantSku: product.variantSku!,
+                                    amount: -1,
+                                  );
+                                },
+                              ),
+                            ),
+                            18.verticalSpace,
+                            Row(children: [
+                              Text('details'.tr(), style: Styles.featureBold)
+                            ]),
+                            12.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'productValue'.tr(),
+                                  style: Styles.contentEmphasis.copyWith(
+                                    color: AppColors.neutralColor600,
+                                  ),
+                                ),
+                                Text(
+                                    '${cartCubit.cartDataModel?.result?.totalPrice ?? 0} ${'currency'.tr()}',
+                                    style: Styles.contentEmphasis),
+                              ],
+                            ),
+                            16.verticalSpace,
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Text(
+                            //       'discount'.tr(),
+                            //       style: Styles.contentEmphasis.copyWith(
+                            //         color: AppColors.neutralColor600,
+                            //       ),
+                            //     ),
+                            //     Text(
+                            //       '-113 ${'currency'.tr()}',
+                            //       style: Styles.contentEmphasis.copyWith(
+                            //         color: AppColors.redColor100,
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // 16.verticalSpace,
+                          ],
+                        ),
                       ),
-                      prefixIcon: SvgPicture.asset(
-                        'assets/svgs/discount.svg',
-                        fit: BoxFit.scaleDown,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: CustomButtonWidget(
-                      text: 'activate'.tr(),
-                      color: AppColors.primaryColor700,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'complete'.tr(),
-        onPressed: () {
-          context.pushNamedWithSwipe(
-            Routes.completePayScreen,
           );
         },
       ),
+      bottomNavigationBar:
+          context.read<CartCubit>().cartDataModel?.result?.products == null ||
+                  context
+                          .read<CartCubit>()
+                          .cartDataModel
+                          ?.result
+                          ?.products!
+                          .isEmpty ==
+                      true
+              ? null
+              : CustomBottomNavBarMakeButtonOnly(
+                  buttonTitle: 'complete'.tr(),
+                  onPressed: () {
+                    context.pushNamedWithSwipe(
+                      Routes.completePayScreen,
+                    );
+                  },
+                ),
     );
   }
 }

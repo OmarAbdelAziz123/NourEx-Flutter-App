@@ -74,7 +74,13 @@ class ProductsCubit extends Cubit<ProductsState> {
     }
 
     // Fallback to default
-    selectedPrice = product.finalPrice;
+    // Fallback: if no matching variant found, use the first variant's price
+    if (product.variants?.isNotEmpty == true) {
+      final firstVariant = product.variants!.first;
+      selectedPrice = firstVariant.priceAfterDiscount ?? firstVariant.price ?? 0;
+    } else {
+      selectedPrice = 0;
+    }
   }
 
   /// ✅ Reset Product Details State
@@ -212,13 +218,42 @@ class ProductsCubit extends Cubit<ProductsState> {
         productDetailsModel = data;
         productDetailsModel!.result!.subImages!
             .insert(0, productDetailsModel!.result!.mainImageURL!);
-        selectedPrice = productDetailsModel!.result!.finalPrice; // ✅ Set initial price
+
+        /// ✅ Set initial price
+        // selectedPrice = productDetailsModel!.result!.finalPrice; // ✅ Set initial price
+        selectedPrice = productDetailsModel!.result!.variants?.first.priceAfterDiscount;
+
+
+        /// ✅ Auto-select first variant of each type
+        _selectFirstVariants();
         emit(GetProductByIdSuccessState(productDetailsModel!));
       },
       failure: (error) {
         emit(GetProductByIdErrorState(error.message));
       },
     );
+  }
+
+  /// ✅ New method to automatically select first variant of each type
+  void _selectFirstVariants() {
+    final product = productDetailsModel?.result;
+    if (product?.variants == null || product!.variants!.isEmpty) return;
+
+    /// Build variant map to get all variant types and their values
+    final variantMap = product.addInvariantsMap();
+
+    /// Auto-select first value for each variant type
+    variantMap.forEach((variantType, values) {
+      if (values.isNotEmpty && values.first != null) {
+        selectedVariants[variantType] = values.first;
+      }
+    });
+
+    /// Update price based on selected variants
+    _updatePriceBasedOnVariant();
+
+    /// Emit state update
+    emit(VariantSelectionUpdated(Map.from(selectedVariants), selectedPrice));
   }
 
   Future<void> fetchVariantByAttributes(Map<String?, String?> selectedVariants) async {
@@ -244,11 +279,7 @@ class ProductsCubit extends Cubit<ProductsState> {
         productModel = ProductModel(
           id: productDetailsModel?.result?.sId,
           name: productDetailsModel?.result?.name,
-          price: productDetailsModel?.result?.price?.toDouble(),
-          stock: productDetailsModel?.result?.stock,
           mainImageURL: productDetailsModel?.result?.mainImageURL,
-          discount: productDetailsModel?.result?.discount?.toDouble(),
-          finalPrice: productDetailsModel?.result?.finalPrice?.toDouble(),
           sku: variant.sku,
           createdAt: productDetailsModel?.result?.createdAt,
         );

@@ -24,6 +24,13 @@ class EndPoints {
   /// Category
   static const String categories = 'category/getAllCategories';
 
+  /// Cart
+  static const String addProductToCart = 'Cart/addToCart';
+  static const String removeProductFromCart = 'Cart/clearCartItem';
+  static const String removeAllProductsFromCart = 'Cart/clearCart';
+  static const String getCart = 'Cart';
+  static const String updateCart = 'Cart/updateCartItemQuantity';
+
   /// Addresses
   static const String addAddress = 'user/addAddress';
   static const String updateAddress = 'user/updateAddress';

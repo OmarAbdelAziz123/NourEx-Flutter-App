@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
@@ -15,6 +16,7 @@ import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widg
 import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart';
 import 'package:nourex/core/widgets/drop_down/custom_drop_down_menu_widget.dart';
 import 'package:nourex/core/widgets/text/custom_text_rich_widget.dart';
+import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/data/models/variant_option.dart';
@@ -48,7 +50,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   Color? _getColorFromString(String colorName) {
     switch (colorName.toLowerCase()) {
-    // Arabic colors
+      // Arabic colors
       case 'أسود':
       case 'black':
         return Colors.black;
@@ -74,7 +76,7 @@ class ProductDetailsScreen extends StatelessWidget {
       case 'أخضر':
       case 'green':
         return Colors.green;
-    // Additional common colors
+      // Additional common colors
       case 'orange':
       case 'برتقالي':
         return Colors.orange;
@@ -112,6 +114,7 @@ class ProductDetailsScreen extends StatelessWidget {
         return Colors.grey;
     }
   }
+
   Map<String, List<String>> buildVariantMap(Result product) {
     final variantMap = <String, Set<String>>{};
 
@@ -125,12 +128,49 @@ class ProductDetailsScreen extends StatelessWidget {
         MapEntry(key, value.where((v) => v.isNotEmpty).toList()));
   }
 
-  // Helper method to get contrast color for check icon
-// Add this method to your ProductDetailsScreen class:
   Color _getContrastColor(Color backgroundColor) {
     // Calculate luminance to determine if we need white or black text
     final luminance = backgroundColor.computeLuminance();
     return luminance > 0.5 ? Colors.black : Colors.white;
+  }
+
+  /// ✅ Add this helper method to your ProductDetailsScreen class:
+  num _getDefaultPrice(Result? productDetails) {
+    if (productDetails?.variants?.isNotEmpty == true) {
+      final firstVariant = productDetails!.variants!.first;
+      return firstVariant.priceAfterDiscount ?? firstVariant.price ?? 0;
+    }
+    return 0;
+  }
+
+  /// ✅ Add this helper method for stock:
+  int _getStockAmount(
+      Result? productDetails, Map<String, String?> selectedVariants) {
+    if (productDetails?.variants == null) return 0;
+
+    /// Find matching variant based on selected variants
+    for (var variant in productDetails!.variants!) {
+      bool isMatch = true;
+
+      for (var attr in variant.attributes ?? []) {
+        final selectedValue = selectedVariants[attr.name];
+        if (selectedValue == null || selectedValue != attr.value) {
+          isMatch = false;
+          break;
+        }
+      }
+
+      if (isMatch) {
+        return variant.stockAmount ?? 0;
+      }
+    }
+
+    /// Fallback to first variant
+    if (productDetails.variants!.isNotEmpty) {
+      return productDetails.variants!.first.stockAmount ?? 0;
+    }
+
+    return 0;
   }
 
   @override
@@ -218,7 +258,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                       final image = subImages[index];
                                       return GestureDetector(
                                         onTap: () {
-                                          cubit.updateMainImage(image); // ✅ Use cubit method
+                                          cubit.updateMainImage(
+                                              image); // ✅ Use cubit method
                                           // setState(() {
                                           //   productDetails?.mainImageURL =
                                           //       image;
@@ -278,7 +319,8 @@ class ProductDetailsScreen extends StatelessWidget {
                                             AppConstants.borderRadius + 18.r),
                                       ),
                                       child: Text(
-                                        '${productDetails?.stock.toString()} متبقي',
+                                        '${_getStockAmount(productDetails, cubit.selectedVariants)} متبقي',
+                                        // '${productDetails?.stock.toString()} متبقي',
                                         style: Styles.captionEmphasis.copyWith(
                                           color: AppColors.neutralColor100,
                                         ),
@@ -337,7 +379,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                                     '');
                                         final productLink =
                                             "https://noorex-dashboard.vercel.app/products/1";
-                                            // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
+                                        // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
 
                                         final shareText = '''
 $productName
@@ -391,7 +433,9 @@ $productLink
                                   ],
                                 ),
                                 Text(
-                                  ' ${selectedPrice ?? productDetails?.finalPrice} ${'currency'.tr()}',
+                                  '${selectedPrice ?? _getDefaultPrice(productDetails)} ${'currency'.tr()}',
+
+                                  // ' ${selectedPrice ?? productDetails?.finalPrice} ${'currency'.tr()}',
                                   style: Styles.heading4,
                                 ),
                               ],
@@ -417,18 +461,23 @@ $productLink
                                   children: variantsMap.entries.map((entry) {
                                     final variantType = entry.key;
                                     final values = entry.value;
-                                    final options = _generateVariantOptions(values, variantType);
+                                    final options = _generateVariantOptions(
+                                        values, variantType);
                                     final isColorVariant = variantType
-                                        .toLowerCase()
-                                        .contains('color') ||
-                                        variantType.toLowerCase().contains('لون');
+                                            .toLowerCase()
+                                            .contains('color') ||
+                                        variantType
+                                            .toLowerCase()
+                                            .contains('لون');
 
                                     return Column(
                                       children: [
                                         /// Row containing variant options and title
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
                                           children: [
                                             /// Variant Options (Left side)
                                             Expanded(
@@ -437,33 +486,51 @@ $productLink
                                                 runSpacing: 8.h,
                                                 alignment: WrapAlignment.start,
                                                 children: options.map((option) {
-                                                  final isSelected = selectedVariants[variantType] == option.id;
+                                                  final isSelected =
+                                                      selectedVariants[
+                                                              variantType] ==
+                                                          option.id;
 
                                                   if (isColorVariant) {
                                                     /// Color Variant Design
                                                     return GestureDetector(
                                                       onTap: () {
-                                                        cubit.updateSelectedVariant(variantType, option.id);
+                                                        cubit
+                                                            .updateSelectedVariant(
+                                                                variantType,
+                                                                option.id);
                                                       },
                                                       child: Container(
                                                         width: 36.w,
                                                         height: 36.h,
-                                                        decoration: BoxDecoration(
-                                                          color: option.color ?? Colors.grey,
-                                                          borderRadius: BorderRadius.circular(6.r),
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: option.color ??
+                                                              Colors.grey,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      6.r),
                                                           border: Border.all(
                                                             color: isSelected
-                                                                ? AppColors.primaryColor700
-                                                                : Colors.grey.shade300,
-                                                            width: isSelected ? 2.5.w : 1.w,
+                                                                ? AppColors
+                                                                    .primaryColor700
+                                                                : Colors.grey
+                                                                    .shade300,
+                                                            width: isSelected
+                                                                ? 2.5.w
+                                                                : 1.w,
                                                           ),
                                                         ),
                                                         child: isSelected
                                                             ? Icon(
-                                                          Icons.check,
-                                                          color: _getContrastColor(option.color ?? Colors.grey),
-                                                          size: 18.sp,
-                                                        )
+                                                                Icons.check,
+                                                                color: _getContrastColor(
+                                                                    option.color ??
+                                                                        Colors
+                                                                            .grey),
+                                                                size: 18.sp,
+                                                              )
                                                             : null,
                                                       ),
                                                     );
@@ -471,22 +538,31 @@ $productLink
                                                     // Size/Text Variant Design
                                                     return GestureDetector(
                                                       onTap: () {
-                                                        cubit.updateSelectedVariant(variantType, option.id);
+                                                        cubit
+                                                            .updateSelectedVariant(
+                                                                variantType,
+                                                                option.id);
                                                       },
                                                       child: Container(
-                                                        padding: EdgeInsets.symmetric(
+                                                        padding: EdgeInsets
+                                                            .symmetric(
                                                           horizontal: 14.w,
                                                           vertical: 8.h,
                                                         ),
-                                                        decoration: BoxDecoration(
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: isSelected
                                                               ? Colors.black
                                                               : Colors.white,
-                                                          borderRadius: BorderRadius.circular(6.r),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      6.r),
                                                           border: Border.all(
                                                             color: isSelected
                                                                 ? Colors.black
-                                                                : Colors.grey.shade300,
+                                                                : Colors.grey
+                                                                    .shade300,
                                                             width: 1.w,
                                                           ),
                                                         ),
@@ -497,9 +573,12 @@ $productLink
                                                                 ? Colors.white
                                                                 : Colors.black,
                                                             fontSize: 14.sp,
-                                                            fontWeight: isSelected
-                                                                ? FontWeight.w600
-                                                                : FontWeight.w500,
+                                                            fontWeight:
+                                                                isSelected
+                                                                    ? FontWeight
+                                                                        .w600
+                                                                    : FontWeight
+                                                                        .w500,
                                                           ),
                                                         ),
                                                       ),
@@ -511,7 +590,8 @@ $productLink
 
                                             /// Variant Type Title (Right side)
                                             Container(
-                                              margin: EdgeInsets.only(right: 8.w),
+                                              margin:
+                                                  EdgeInsets.only(right: 8.w),
                                               child: Text(
                                                 variantType,
                                                 style: TextStyle(
@@ -525,10 +605,12 @@ $productLink
                                         ),
 
                                         /// Divider between variants
-                                        if (entry != variantsMap.entries.last) ...[
+                                        if (entry !=
+                                            variantsMap.entries.last) ...[
                                           20.verticalSpace,
                                           CustomDividerInBottomSheet(
-                                            dividerColor: AppColors.neutralColor300,
+                                            dividerColor:
+                                                AppColors.neutralColor300,
                                           ),
                                           20.verticalSpace,
                                         ],
@@ -640,65 +722,139 @@ $productLink
                 );
         },
       ),
-      bottomNavigationBar: BlocBuilder<ProductsCubit, ProductsState>(
+      bottomNavigationBar: BlocProvider(
+  create: (context) => CartCubit(getIt()),
+  child: BlocConsumer<CartCubit, CartState>(
+        listener: (context, state) {},
         builder: (context, state) {
-          final cubit = context.read<ProductsCubit>();
-          final selectedVariants = cubit.selectedVariants;
-          final selectedPrice = cubit.selectedPrice;
-          final productDetails = cubit.productDetailsModel?.result;
+          final cartCubit = context.read<CartCubit>();
 
-          return CustomBottomNavBarMakeButtonOnly(
-            buttonTitle: 'addToCart'.tr(),
-            onPressed: () {
-              print('=== ADD TO CART - SELECTED DATA ===');
-              print('Product ID: $productId');
-              print('Product Name: ${productDetails?.name ?? 'N/A'}');
-              print('Selected Price: ${selectedPrice ?? productDetails?.finalPrice}');
-              print('Stock Available: ${productDetails?.stock ?? 0}');
-              print('Selected Variants: $selectedVariants');
+          return BlocBuilder<ProductsCubit, ProductsState>(
+            builder: (context, state) {
+              final cubit = context.read<ProductsCubit>();
+              final selectedVariants = cubit.selectedVariants;
+              final selectedPrice = cubit.selectedPrice;
+              final productDetails = cubit.productDetailsModel?.result;
 
-              // Print each variant selection in detail
-              if (selectedVariants.isNotEmpty) {
-                print('\n--- Variant Details ---');
-                selectedVariants.forEach((variantType, selectedValue) {
-                  print('$variantType: $selectedValue');
-                });
-              } else {
-                print('No variants selected');
-              }
+              return CustomBottomNavBarMakeButtonOnly(
+                buttonTitle: 'addToCart'.tr(),
+                // onPressed: () {
+                //   print('=== ADD TO CART - SELECTED DATA ===');
+                //   print('Product ID: $productId');
+                //   print('Product Name: ${productDetails?.name ?? 'N/A'}');
+                //   print(
+                //       'Selected Price: ${selectedPrice ?? (productDetails?.variants?.isNotEmpty == true ? (productDetails!.variants!.first.priceAfterDiscount ?? productDetails.variants!.first.price ?? 0) : 0)}');
+                //   print('Selected Variants: $selectedVariants');
+                //
+                //   // ✅ Print stock from selected/matching variant
+                //   int stockAmount = 0;
+                //   if (productDetails?.variants != null) {
+                //     // Find matching variant
+                //     for (var variant in productDetails!.variants!) {
+                //       bool isMatch = true;
+                //       for (var attr in variant.attributes ?? []) {
+                //         final selectedValue = selectedVariants[attr.name];
+                //         if (selectedValue == null ||
+                //             selectedValue != attr.value) {
+                //           isMatch = false;
+                //           break;
+                //         }
+                //       }
+                //       if (isMatch) {
+                //         stockAmount = variant.stockAmount ?? 0;
+                //         break;
+                //       }
+                //     }
+                //     // If no match found, use first variant
+                //     if (stockAmount == 0 &&
+                //         productDetails.variants!.isNotEmpty) {
+                //       stockAmount =
+                //           productDetails.variants!.first.stockAmount ?? 0;
+                //     }
+                //   }
+                //   print('Stock Available: $stockAmount');
+                //
+                //   // Print each variant selection in detail
+                //   if (selectedVariants.isNotEmpty) {
+                //     print('\n--- Variant Details ---');
+                //     selectedVariants.forEach((variantType, selectedValue) {
+                //       print('$variantType: $selectedValue');
+                //     });
+                //   } else {
+                //     print('No variants selected');
+                //   }
+                //
+                //   // Find and print the matching variant details
+                //   if (productDetails?.variants != null &&
+                //       selectedVariants.isNotEmpty) {
+                //     print('\n--- Matching Variant Info ---');
+                //     for (var variant in productDetails!.variants!) {
+                //       bool isMatch = true;
+                //
+                //       for (var attr in variant.attributes ?? []) {
+                //         final selectedValue = selectedVariants[attr.name];
+                //         if (selectedValue == null ||
+                //             selectedValue != attr.value) {
+                //           isMatch = false;
+                //           break;
+                //         }
+                //       }
+                //
+                //       if (isMatch) {
+                //         print('Variant SKU: ${variant.sku ?? 'N/A'}');
+                //         print('Variant Price: ${variant.price ?? 'N/A'}');
+                //         // print('Variant Stock: ${variant.stock ?? 'N/A'}');
+                //         print('Variant Attributes:');
+                //         for (var attr in variant.attributes ?? []) {
+                //           print('  - ${attr.name}: ${attr.value}');
+                //         }
+                //         break;
+                //       }
+                //     }
+                //   }
+                //
+                //   print('================================\n');
+                // },
+                onPressed: () {
+                  if (productDetails?.variants != null &&
+                      selectedVariants.isNotEmpty) {
+                    print('\n--- Matching Variant Info ---');
+                    for (var variant in productDetails!.variants!) {
+                      bool isMatch = true;
 
-              // Find and print the matching variant details
-              if (productDetails?.variants != null && selectedVariants.isNotEmpty) {
-                print('\n--- Matching Variant Info ---');
-                for (var variant in productDetails!.variants!) {
-                  bool isMatch = true;
+                      for (var attr in variant.attributes ?? []) {
+                        final selectedValue = selectedVariants[attr.name];
+                        if (selectedValue == null ||
+                            selectedValue != attr.value) {
+                          isMatch = false;
+                          break;
+                        }
+                      }
 
-                  for (var attr in variant.attributes ?? []) {
-                    final selectedValue = selectedVariants[attr.name];
-                    if (selectedValue == null || selectedValue != attr.value) {
-                      isMatch = false;
-                      break;
+                      if (isMatch) {
+                        print('Variant SKU: ${variant.sku ?? 'N/A'}');
+                        print('Variant Price: ${variant.price ?? 'N/A'}');
+                        // print('Variant Stock: ${variant.stock ?? 'N/A'}');
+                        cartCubit.addProductToCart(
+                          productId: productId,
+                          quantity: 1,
+                          variantSku: variant.sku!,
+                        );
+                        print('Variant Attributes:');
+                        for (var attr in variant.attributes ?? []) {
+                          print('  - ${attr.name}: ${attr.value}');
+                        }
+                        break;
+                      }
                     }
                   }
-
-                  if (isMatch) {
-                    print('Variant SKU: ${variant.sku ?? 'N/A'}');
-                    print('Variant Price: ${variant.price ?? 'N/A'}');
-                    // print('Variant Stock: ${variant.stock ?? 'N/A'}');
-                    print('Variant Attributes:');
-                    for (var attr in variant.attributes ?? []) {
-                      print('  - ${attr.name}: ${attr.value}');
-                    }
-                    break;
-                  }
-                }
-              }
-
-              print('================================\n');
+                },
+              );
             },
           );
         },
       ),
+),
     );
   }
 }
