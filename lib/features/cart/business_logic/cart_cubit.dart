@@ -1,7 +1,12 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 import 'package:nourex/core/utils/easy_loading.dart';
+import 'package:nourex/features/addresses/data/models/addresses_data_model.dart';
+import 'package:nourex/features/cart/data/models/apply_coupon_data_model.dart';
 import 'package:nourex/features/cart/data/models/cart_data_model.dart';
+import 'package:nourex/features/cart/data/models/main_address_data_model.dart';
+import 'package:nourex/features/cart/data/models/make_order_response_model.dart';
 import 'package:nourex/features/cart/data/repos/repos.dart';
 
 part 'cart_state.dart';
@@ -11,9 +16,17 @@ class CartCubit extends Cubit<CartState> {
 
   final CartRepos cartRepos;
 
-  PaymentMethod selectedMethod = PaymentMethod.cashOnDelivery;
+  PaymentMethod selectedMethod = PaymentMethod.cod;
 
   CartDataModel? cartDataModel;
+  TextEditingController couponController = TextEditingController();
+  TextEditingController notesController = TextEditingController();
+
+  AppLyCouponDataModel? appLyCouponDataModel;
+  MainAddressDataModel? mainAddressDataModel;
+  MakeOrderResponseModel? makeOrderResponseModel;
+
+  String orderSeq = '';
 
   /// Toggle Payment Method
   void togglePaymentMethod(PaymentMethod method) {
@@ -107,6 +120,78 @@ class CartCubit extends Cubit<CartState> {
       failure: (error) {
         hideLoading();
         emit(UpdatePlusCartErrorState(error.message));
+      },
+    );
+  }
+
+  /// Apply Coupon
+  Future<void> applyCoupon({
+    required String cartTotal,
+  }) async {
+    emit(ApplyCouponLoadingState());
+    showLoading();
+    final result = await cartRepos.applyCoupon(
+      cartTotal: cartTotal,
+      couponName: couponController.text,
+    );
+    result.when(
+      success: (data) {
+        hideLoading();
+        appLyCouponDataModel = data;
+        emit(ApplyCouponSuccessState(
+          discountName: appLyCouponDataModel!.discount.toString(),
+          discountAmount: appLyCouponDataModel!.discountAmount.toString(),
+          newTotal: appLyCouponDataModel!.newTotal.toString(),
+        ));
+      },
+      failure: (error) {
+        hideLoading();
+        emit(ApplyCouponErrorState(error.message));
+      },
+    );
+  }
+
+  /// Get Main Address
+  Future<void> getMainAddress() async {
+    emit(GetMainAddressLoadingState());
+    final result = await cartRepos.getMainAddress();
+    result.when(
+      success: (data) {
+        mainAddressDataModel = data;
+        emit(GetMainAddressSuccessState());
+      },
+      failure: (error) {
+        emit(GetMainAddressErrorState(error.message));
+      },
+    );
+  }
+
+  /// Make Order
+  Future<void> makeOrder({
+    required String paymentMethod,
+    String? coupon,
+    required String address,
+    String? notes,
+  }) async {
+    showLoading();
+    emit(MakeOrderLoadingState());
+    final result = await cartRepos.makeOrder(
+      paymentMethod: paymentMethod,
+      coupon: coupon,
+      couponCode: couponController.text,
+      address: address,
+      notes: notesController.text,
+    );
+    result.when(
+      success: (data) {
+        makeOrderResponseModel = data;
+        orderSeq = makeOrderResponseModel!.order!.orderSeq.toString();
+        hideLoading();
+        emit(MakeOrderSuccessState(makeOrderResponseModel: makeOrderResponseModel!));
+      },
+      failure: (error) {
+        hideLoading();
+        emit(MakeOrderErrorState(error.message));
       },
     );
   }

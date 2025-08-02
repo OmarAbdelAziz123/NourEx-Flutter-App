@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
+import 'package:nourex/features/products/data/models/products_reviews_data_model.dart';
 import 'package:nourex/features/products/data/models/variant_option.dart';
 import 'package:nourex/features/products/data/repos/repos.dart';
 
@@ -20,8 +21,10 @@ class ProductsCubit extends Cubit<ProductsState> {
   int currentPage = 1;
   int totalPages = 1;
   final ScrollController scrollController = ScrollController();
+  final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
 
   List<ProductModel> allProducts = [];
+  List<ProductReview> allProductReviews = [];
   ProductModel? productModel;
   ProductDetailsModel? productDetailsModel;
   bool isFetching = false;
@@ -292,6 +295,58 @@ class ProductsCubit extends Cubit<ProductsState> {
 
     print('❌ No matching variant found for $selectedVariants');
     emit(ProductVariantNotFoundState());
+  }
+
+  /// Get Product Reviews
+  Future<void> getInitialProductReviews({required String productId}) async {
+    emit(GetProductReviewsLoadingState());
+    currentPage = 1;
+    allProductReviews.clear();
+    isFetching = false; // ✅ Reset fetching state
+
+    final result = await productsRepos.getProductReviews(
+      productId: productId,
+      page: currentPage,
+    );
+
+    result.when(
+      success: (data) {
+        allProductReviews = data.reviews ?? [];
+        totalPages = data.pagination?.pages ?? 1;
+        emit(GetProductReviewsSuccessState(allProductReviews, currentPage >= totalPages));
+      },
+      failure: (error) {
+        currentPage--; // ✅ Revert page increment on error
+        emit(GetProductReviewsErrorState(error.message));
+      },
+    );
+    isFetching = false;
+
+  }
+
+  Future<void> getMoreProductReviews() async {
+    if (isFetching || currentPage >= totalPages) return;
+
+    isFetching = true; // ✅ Set fetching state
+    emit(ProductReviewsPaginationLoading());
+    currentPage++;
+
+    final result = await productsRepos.getProductReviews(
+      productId: productDetailsModel?.result?.sId ?? '',
+      page: currentPage,
+    );
+
+    result.when(
+      success: (data) {
+        allProductReviews.addAll(data.reviews ?? []);
+        emit(GetProductReviewsSuccessState(allProductReviews, currentPage >= totalPages));
+      },
+      failure: (error) {
+        emit(GetProductReviewsErrorState(error.message));
+      },
+    );
+
+    isFetching = false; // ✅ Reset fetching state
   }
 
   @override

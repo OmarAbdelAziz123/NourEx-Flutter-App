@@ -11,6 +11,7 @@ class Routes {
   static const String searchScreen = 'search_screen';
   static const String filterScreen = 'filter_screen';
   static const String categoriesScreen = 'categories_screen';
+  static const String productReviewsScreen = 'product_reviews_screen';
   static const String allBannersScreen = 'all_banners_screen';
   static const String productsByCategoryScreen = 'products_by_category_screen';
   static const String bestSellerScreen = 'best_seller_screen';

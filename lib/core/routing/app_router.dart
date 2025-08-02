@@ -21,9 +21,11 @@ import 'package:nourex/features/categories/business_logic/categories_cubit.dart'
 import 'package:nourex/features/categories/presentation/presentation/screens/categories_screen.dart';
 import 'package:nourex/features/home/business_logic/home_cubit.dart';
 import 'package:nourex/features/my_orders/business_logic/my_orders_cubit.dart';
+import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
 import 'package:nourex/features/my_orders/presentation/screens/cancel_order_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/order_details_screen.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
+import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/presentation/screens/best_offers_screen.dart';
 import 'package:nourex/features/products/presentation/screens/best_seller_screen.dart';
 import 'package:nourex/features/home/presentation/screens/home_screen.dart';
@@ -31,6 +33,7 @@ import 'package:nourex/features/main_layout/bloc/main_layout_cubit.dart';
 import 'package:nourex/features/main_layout/presentation/main_layout.dart';
 import 'package:nourex/features/my_orders/presentation/screens/my_orders_screen.dart';
 import 'package:nourex/features/products/presentation/screens/product_details_screen.dart';
+import 'package:nourex/features/products/presentation/screens/product_reviews_screen.dart';
 import 'package:nourex/features/products/presentation/screens/products_by_category_screen.dart';
 import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
@@ -74,10 +77,9 @@ class AppRouter {
       Curve curve = Curves.easeInOut,
       bool isIos = false,
     }) {
-      final child =
-          cubit != null
-              ? BlocProvider<T>(create: (context) => cubit, child: screen)
-              : screen;
+      final child = cubit != null
+          ? BlocProvider<T>(create: (context) => cubit, child: screen)
+          : screen;
 
       return PageTransition(
         child: child,
@@ -97,10 +99,9 @@ class AppRouter {
       required SlideDirection direction,
       Duration duration = const Duration(milliseconds: 400),
     }) {
-      final child =
-          cubit != null
-              ? BlocProvider<T>(create: (context) => cubit, child: screen)
-              : screen;
+      final child = cubit != null
+          ? BlocProvider<T>(create: (context) => cubit, child: screen)
+          : screen;
 
       PageTransitionType type;
       switch (direction) {
@@ -134,10 +135,9 @@ class AppRouter {
       Duration duration = const Duration(milliseconds: 400),
       Alignment alignment = Alignment.center,
     }) {
-      final child =
-          cubit != null
-              ? BlocProvider<T>(create: (context) => cubit, child: screen)
-              : screen;
+      final child = cubit != null
+          ? BlocProvider<T>(create: (context) => cubit, child: screen)
+          : screen;
 
       return PageTransition(
         child: child,
@@ -155,10 +155,9 @@ class AppRouter {
       T? cubit,
       Duration duration = const Duration(milliseconds: 500),
     }) {
-      final child =
-          cubit != null
-              ? BlocProvider<T>(create: (context) => cubit, child: screen)
-              : screen;
+      final child = cubit != null
+          ? BlocProvider<T>(create: (context) => cubit, child: screen)
+          : screen;
 
       return PageTransition(
         child: child,
@@ -227,9 +226,13 @@ class AppRouter {
         );
 
       case Routes.completePayScreen:
+        final int totalPrice = settings.arguments as int;
+
         return scaleTransition(
-          screen: const CompletePayScreen(),
-          cubit: CartCubit(getIt())..getCart(),
+          screen: CompletePayScreen(totalPrice: totalPrice),
+          cubit: CartCubit(getIt())
+            ..getCart()
+            ..getMainAddress(),
           alignment: Alignment.center,
         );
 
@@ -256,6 +259,20 @@ class AppRouter {
           duration: const Duration(milliseconds: 350),
         );
 
+      case Routes.productReviewsScreen:
+        final productDetailsModel = settings.arguments as Result;
+
+        return transition(
+          screen:
+              ProductReviewsScreen(productDetailsModel: productDetailsModel),
+          cubit: ProductsCubit(getIt())
+            ..getInitialProductReviews(
+              productId: productDetailsModel.sId!,
+            ),
+          type: PageTransitionType.leftToRightWithFade,
+          duration: const Duration(milliseconds: 350),
+        );
+
       case Routes.allBannersScreen:
         return transition(
           screen: const AllBannersScreen(),
@@ -265,12 +282,13 @@ class AppRouter {
 
       case Routes.productsByCategoryScreen:
         // final categoryId = settings.arguments as String;
-      final Map<String, dynamic> data =
-          settings.arguments as Map<String, dynamic>;
+        final Map<String, dynamic> data =
+            settings.arguments as Map<String, dynamic>;
 
         return transition(
           screen: ProductsByCategoryScreen(data: data),
-          cubit: ProductsCubit(getIt())..getInitialProductsByCategory(categoryId: data['categoryId']),
+          cubit: ProductsCubit(getIt())
+            ..getInitialProductsByCategory(categoryId: data['categoryId']),
           type: PageTransitionType.leftToRightWithFade,
           duration: const Duration(milliseconds: 350),
         );
@@ -293,8 +311,12 @@ class AppRouter {
         final productId = settings.arguments as String;
 
         return slideTransition(
-          screen: ProductDetailsScreen(productId: productId,),
-          cubit: ProductsCubit(getIt())..getProductById(productId: productId),
+          screen: ProductDetailsScreen(
+            productId: productId,
+          ),
+          cubit: ProductsCubit(getIt())
+            ..getProductById(productId: productId)
+            ..getInitialProductReviews(productId: productId),
           direction: SlideDirection.up,
         );
 
@@ -344,7 +366,7 @@ class AppRouter {
       case Routes.myReviewsScreen:
         return slideTransition(
           screen: const MyReviewsScreen(),
-          cubit: ProfileCubit(getIt()),
+          cubit: ProfileCubit(getIt())..getInitialMyReviews(),
           direction: SlideDirection.up,
         );
 
@@ -400,14 +422,14 @@ class AppRouter {
       case Routes.walletScreen:
         return scaleTransition(
           screen: const WalletScreen(),
-          cubit: WalletCubit(),
+          cubit: WalletCubit(getIt())..getWalletHistory(type: 'balance'),
           alignment: Alignment.center,
         );
 
       case Routes.convertPointsToBalanceScreen:
         return slideTransition(
           screen: const ConvertPointsToBalanceScreen(),
-          cubit: WalletCubit(),
+          cubit: WalletCubit(getIt()),
           direction: SlideDirection.up,
         );
 
@@ -415,22 +437,29 @@ class AppRouter {
       case Routes.myOrdersScreen:
         return slideTransition(
           screen: const MyOrdersScreen(),
-          cubit: MyOrdersCubit(),
+          cubit: MyOrdersCubit(getIt()),
           direction: SlideDirection.right,
         );
 
       case Routes.orderDetailsScreen:
+        final MyOrder ordersList = settings.arguments as MyOrder;
+
         return transition(
-          screen: const OrderDetailsScreen(),
-          cubit: MyOrdersCubit(),
+          screen: OrderDetailsScreen(ordersList: ordersList),
+          cubit: MyOrdersCubit(getIt()),
           type: PageTransitionType.rightToLeftWithFade,
           duration: const Duration(milliseconds: 350),
         );
 
       case Routes.cancelOrderScreen:
+        final Map<String, dynamic> orderData =
+            settings.arguments as Map<String, dynamic>;
+
         return slideTransition(
-          screen: CancelOrderScreen(),
-          cubit: MyOrdersCubit(),
+          screen: CancelOrderScreen(
+            orderData: orderData,
+          ),
+          cubit: MyOrdersCubit(getIt()),
           direction: SlideDirection.up,
         );
 
@@ -472,8 +501,11 @@ class AppRouter {
 
   List<Widget> userScreens = [
     BlocProvider(create: (context) => HomeCubit(), child: HomeScreen()),
-    BlocProvider(create: (context) => CartCubit(getIt())..getCart(), child: CartScreen()),
-    MyOrdersScreen(),
+    BlocProvider(
+        create: (context) => CartCubit(getIt())..getCart(),
+        child: CartScreen()),
+    BlocProvider(
+        create: (context) => MyOrdersCubit(getIt()), child: MyOrdersScreen()),
     BlocProvider(
       create: (context) => ProfileCubit(getIt())..getProfile(),
       child: ProfileScreen(),
@@ -496,10 +528,10 @@ class CustomPageRoute<T> extends PageRouteBuilder<T> {
     this.duration = const Duration(milliseconds: 300),
     RouteSettings? settings,
   }) : super(
-         settings: settings,
-         transitionDuration: duration,
-         pageBuilder: (context, animation, secondaryAnimation) => child,
-       );
+          settings: settings,
+          transitionDuration: duration,
+          pageBuilder: (context, animation, secondaryAnimation) => child,
+        );
 
   @override
   Widget buildTransitions(

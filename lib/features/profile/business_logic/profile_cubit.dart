@@ -2,19 +2,31 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
+import 'package:nourex/features/profile/data/models/reviews/my_reviews_data_model.dart';
 import 'package:nourex/features/profile/data/repos/repos.dart';
 
 part 'profile_state.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
-  ProfileCubit(this.profileRepos) : super(ProfileInitial());
-
+  ProfileCubit(this.profileRepos) : super(ProfileInitial()) {
+    _initScrollListener();
+    /// ✅ Add scroll listener on cubit creation
+    getInitialMyReviews();
+    /// ✅ Load initial data when cubit is created
+  }
   final ProfileRepos profileRepos;
+
+  int currentPage = 1;
+  int totalPages = 1;
+  final ScrollController scrollController = ScrollController();
+  final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+  bool isFetching = false;
 
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
@@ -22,6 +34,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final TextEditingController ageController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController newPasswordController = TextEditingController();
+  final TextEditingController commentController = TextEditingController();
   final TextEditingController confirmNewPasswordController =
       TextEditingController();
 
@@ -35,6 +48,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   final formKey = GlobalKey<FormState>();
 
   ProfileDataModel? profileDataModel;
+  MyReviewsDataModel? myReviewsDataModel;
+  List<MyReview> allMyReviews = [];
 
   void setProfileControllers() {
     final data = profileDataModel?.data;
@@ -112,6 +127,99 @@ class ProfileCubit extends Cubit<ProfileState> {
       failure: (failure) {
         hideLoading();
         emit(UpdateProfileErrorState());
+      },
+    );
+  }
+
+  /// Init Scroll Listener
+  void _initScrollListener() {
+    scrollController.addListener(() {
+      final position = scrollController.position;
+
+      /// ✅ Only trigger when user scrolls down
+      if (position.userScrollDirection == ScrollDirection.reverse &&
+          position.pixels >= position.maxScrollExtent - 100 &&
+          !isFetching &&
+          currentPage < totalPages) {
+        getMoreMyReviews();
+      }
+    });
+  }
+
+  /// Get All My Reviews
+  Future<void> getInitialMyReviews() async {
+    emit(GetAllMyReviewsLoadingState());
+    currentPage = 1;
+    allMyReviews.clear();
+    isFetching = false; // ✅ Reset fetching state
+
+    final result = await profileRepos.getAllMyReviews(page: currentPage);
+
+    result.when(
+      success: (success) {
+        allMyReviews = success.reviews ?? [];
+        totalPages = success.pagination?.pages ?? 1;
+        emit(GetAllMyReviewsSuccessState(allMyReviews, currentPage >= totalPages));
+      },
+      failure: (failure) {
+        currentPage--; // ✅ Revert page increment on error
+        emit(GetAllMyReviewsErrorState(failure.toString()));
+      },
+    );
+
+    isFetching = false;
+  }
+
+  /// Get More My Reviews
+  Future<void> getMoreMyReviews() async {
+    if (isFetching || currentPage >= totalPages) return;
+
+    isFetching = true; // ✅ Set fetching state
+    emit(MyReviewsPaginationLoading());
+    currentPage++;
+
+    final result = await profileRepos.getAllMyReviews(page: currentPage);
+    result.when(
+      success: (success) {
+        allMyReviews.addAll(success.reviews ?? []);
+        emit(GetAllMyReviewsSuccessState(allMyReviews, currentPage >= totalPages));
+      },
+      failure: (failure) {
+        emit(GetAllMyReviewsErrorState(failure.toString()));
+      },
+    );
+  }
+
+  /// Update Review
+  Future<void> updateMyReview({required String productId, required String reviewId, required double rating}) async {
+    showLoading();
+    emit(UpdateReviewLoadingState());
+    final result = await profileRepos.updateMyReview(productId, reviewId, commentController.text, rating);
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(UpdateReviewSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(UpdateReviewErrorState(failure.toString()));
+      },
+    );
+  }
+
+  /// Delete Review
+  Future<void> deleteMyReview({required String productId, required String reviewId}) async {
+    showLoading();
+    emit(DeleteReviewLoadingState());
+    final result = await profileRepos.deleteMyReview(productId, reviewId);
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(DeleteReviewSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(DeleteReviewErrorState(failure.toString()));
       },
     );
   }

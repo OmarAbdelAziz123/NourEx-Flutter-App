@@ -98,3 +98,20 @@ class MainImageUpdated extends ProductsState {
   @override
   List<Object?> get props => [imageUrl];
 }
+
+/// Get Product Reviews
+final class GetProductReviewsLoadingState extends ProductsState {}
+
+class GetProductReviewsSuccessState extends ProductsState {
+  final List<ProductReview> reviews;
+  final bool isLastPage;
+
+  GetProductReviewsSuccessState( this.reviews, this.isLastPage);
+}
+
+class GetProductReviewsErrorState extends ProductsState {
+  final String message;
+  GetProductReviewsErrorState(this.message);
+}
+
+final class ProductReviewsPaginationLoading extends ProductsState {}

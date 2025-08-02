@@ -23,6 +23,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int totalPrice = 0;
     // final products = [
     //   ProductDataModel(
     //     productName: 'تيشرت بولو',
@@ -58,160 +59,136 @@ class CartScreen extends StatelessWidget {
     //   ),
     // ];
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(74.h),
-        child: MainAppBar2Widget(
-          title: 'cart'.tr(),
-          isSubScreen: true,
-          onTapSearch: () {},
-          onTapNotification: () {},
-        ),
-      ),
-      body: BlocConsumer<CartCubit, CartState>(
-        listener: (context, state) {
-          if (state is RemoveProductFromCartSuccessState) {
-            context.read<CartCubit>().getCart();
-          }
-          if (state is UpdatePlusCartSuccessState) {
-            context.read<CartCubit>().getCart();
-          }
-        },
-        builder: (context, state) {
-          final cartCubit = context.read<CartCubit>();
+    return BlocConsumer<CartCubit, CartState>(
+      listener: (context, state) {
+        if (state is RemoveProductFromCartSuccessState) {
+          context.read<CartCubit>().getCart();
+        }
+        if (state is UpdatePlusCartSuccessState) {
+          context.read<CartCubit>().getCart();
+        }
+      },
+      builder: (context, state) {
+        final cartCubit = context.read<CartCubit>();
 
-          return Padding(
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: PreferredSize(
+            preferredSize: Size.fromHeight(74.h),
+            child: MainAppBar2Widget(
+              title: 'cart'.tr(),
+              isSubScreen: true,
+              onTapSearch: () {},
+              onTapNotification: () {},
+            ),
+          ),
+          body: Padding(
             padding: EdgeInsets.only(left: 18.w, right: 18.w),
             child: cartCubit.cartDataModel == null ||
-                    cartCubit.cartDataModel!.result == null ||
-                    cartCubit.cartDataModel!.result!.products == []
+                cartCubit.cartDataModel!.result == null ||
+                cartCubit.cartDataModel!.result!.products == []
                 ? Center(
-                    child: CircularProgressIndicator(),
-                  )
+              child: CircularProgressIndicator(),
+            )
                 : cartCubit.cartDataModel!.result!.products!.isEmpty
-                    ? Center(
-                        child: Text(
-                          'no_products_in_cart'.tr(),
-                          style: TextStyle(
-                            color: AppColors.primaryColor700,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                      )
-                    : SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            18.verticalSpace,
-                            ListView.separated(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              itemCount: cartCubit
-                                  .cartDataModel!.result!.products!.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              separatorBuilder: (context, index) =>
-                                  20.verticalSpace,
-                              itemBuilder: (context, index) =>
-                                  CustomProductCardItemInCartWidget(
-                                cartProduct: cartCubit
-                                    .cartDataModel!.result!.products![index],
-                                onTapRemoveItem: () {
-                                  cartCubit.removeProductFromCart(
-                                    productId: cartCubit.cartDataModel!.result!
-                                        .products![index].productId!,
-                                    variantSku: cartCubit.cartDataModel!.result!
-                                        .products![index].variantSku!,
-                                  );
-                                  logSuccess(cartCubit.cartDataModel!.result!
-                                      .products![index].productId!);
-                                  logSuccess(cartCubit.cartDataModel!.result!
-                                      .products![index].variantSku!);
-                                },
-                                onTapPlusItem: () {
-                                  final product = cartCubit
-                                      .cartDataModel!.result!.products![index];
-                                  final currentAmount = product.quantity ?? 1;
+                ? Center(
+              child: Text(
+                'no_products_in_cart'.tr(),
+                style: TextStyle(
+                  color: AppColors.primaryColor700,
+                  fontSize: 16.sp,
+                ),
+              ),
+            )
+                : SingleChildScrollView(
+              child: Column(
+                children: [
+                  18.verticalSpace,
+                  ListView.separated(
+                    shrinkWrap: true,
+                    padding: EdgeInsets.zero,
+                    itemCount: cartCubit
+                        .cartDataModel!.result!.products!.length,
+                    physics: const NeverScrollableScrollPhysics(),
+                    separatorBuilder: (context, index) =>
+                    20.verticalSpace,
+                    itemBuilder: (context, index) {
+                      totalPrice = cartCubit.cartDataModel!.result!.totalPrice!;
 
-                                  cartCubit.updatePlusCart(
-                                    productId: product.productId!,
-                                    variantSku: product.variantSku!,
-                                    amount: 1,
-                                  );
-                                },
-                                onTapMinusItem: () {
-                                  final product = cartCubit
-                                      .cartDataModel!.result!.products![index];
-                                  // prevent decrementing below 1
-                                  cartCubit.updatePlusCart(
-                                    productId: product.productId!,
-                                    variantSku: product.variantSku!,
-                                    amount: -1,
-                                  );
-                                },
-                              ),
-                            ),
-                            18.verticalSpace,
-                            Row(children: [
-                              Text('details'.tr(), style: Styles.featureBold)
-                            ]),
-                            12.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'productValue'.tr(),
-                                  style: Styles.contentEmphasis.copyWith(
-                                    color: AppColors.neutralColor600,
-                                  ),
-                                ),
-                                Text(
-                                    '${cartCubit.cartDataModel?.result?.totalPrice ?? 0} ${'currency'.tr()}',
-                                    style: Styles.contentEmphasis),
-                              ],
-                            ),
-                            16.verticalSpace,
-                            // Row(
-                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            //   children: [
-                            //     Text(
-                            //       'discount'.tr(),
-                            //       style: Styles.contentEmphasis.copyWith(
-                            //         color: AppColors.neutralColor600,
-                            //       ),
-                            //     ),
-                            //     Text(
-                            //       '-113 ${'currency'.tr()}',
-                            //       style: Styles.contentEmphasis.copyWith(
-                            //         color: AppColors.redColor100,
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // 16.verticalSpace,
-                          ],
+                      return CustomProductCardItemInCartWidget(
+                        cartProduct: cartCubit
+                            .cartDataModel!.result!.products![index],
+                        onTapRemoveItem: () {
+                          cartCubit.removeProductFromCart(
+                            productId: cartCubit.cartDataModel!.result!
+                                .products![index].productId!,
+                            variantSku: cartCubit.cartDataModel!.result!
+                                .products![index].variantSku!,
+                          );
+                          logSuccess(cartCubit.cartDataModel!.result!
+                              .products![index].productId!);
+                          logSuccess(cartCubit.cartDataModel!.result!
+                              .products![index].variantSku!);
+                        },
+                        onTapPlusItem: () {
+                          final product = cartCubit
+                              .cartDataModel!.result!.products![index];
+                          final currentAmount = product.quantity ?? 1;
+
+                          cartCubit.updatePlusCart(
+                            productId: product.productId!,
+                            variantSku: product.variantSku!,
+                            amount: 1,
+                          );
+                        },
+                        onTapMinusItem: () {
+                          final product = cartCubit
+                              .cartDataModel!.result!.products![index];
+                          // prevent decrementing below 1
+                          cartCubit.updatePlusCart(
+                            productId: product.productId!,
+                            variantSku: product.variantSku!,
+                            amount: -1,
+                          );
+                        },
+                      );
+                    }),
+                  18.verticalSpace,
+                  Row(children: [
+                    Text('details'.tr(), style: Styles.featureBold)
+                  ]),
+                  12.verticalSpace,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'productValue'.tr(),
+                        style: Styles.contentEmphasis.copyWith(
+                          color: AppColors.neutralColor600,
                         ),
                       ),
-          );
-        },
-      ),
-      bottomNavigationBar:
-          context.read<CartCubit>().cartDataModel?.result?.products == null ||
-                  context
-                          .read<CartCubit>()
-                          .cartDataModel
-                          ?.result
-                          ?.products!
-                          .isEmpty ==
-                      true
-              ? null
-              : CustomBottomNavBarMakeButtonOnly(
-                  buttonTitle: 'complete'.tr(),
-                  onPressed: () {
-                    context.pushNamedWithSwipe(
-                      Routes.completePayScreen,
-                    );
-                  },
-                ),
+                      Text(
+                          '${cartCubit.cartDataModel?.result?.totalPrice ??
+                              0} ${'currency'.tr()}',
+                          style: Styles.contentEmphasis),
+                    ],
+                  ),
+                  16.verticalSpace,
+                ],
+              ),
+            ),
+          ),
+          bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
+            buttonTitle: 'complete'.tr(),
+            onPressed: () {
+              context.pushNamed(
+                Routes.completePayScreen,
+                arguments: totalPrice,
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }

@@ -10,6 +10,7 @@ class TimelineStageWidget extends StatelessWidget {
   final String description;
   final String buttonText;
   final bool isCompleted;
+  final bool inProgressColor;
 
   const TimelineStageWidget({
     super.key,
@@ -18,6 +19,7 @@ class TimelineStageWidget extends StatelessWidget {
     required this.description,
     required this.buttonText,
     required this.isCompleted,
+    required this.inProgressColor,
   });
 
   @override
@@ -46,19 +48,21 @@ class TimelineStageWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               AppConstants.borderRadius - 4.r,
             ),
-            color:
-            isCompleted
+            color: isCompleted
                 ? AppColors.greenColor10
-                : AppColors.neutralColor100,
+                : inProgressColor
+                    ? AppColors.yellowColor10
+                    : AppColors.neutralColor100,
           ),
           child: Center(
             child: Text(
               buttonText,
               style: Styles.footnoteRegular.copyWith(
-                color:
-                isCompleted
+                color: isCompleted
                     ? AppColors.greenColor200
-                    : AppColors.neutralColor600,
+                    : inProgressColor
+                        ? AppColors.yellowColor100
+                        : AppColors.neutralColor600,
               ),
             ),
           ),

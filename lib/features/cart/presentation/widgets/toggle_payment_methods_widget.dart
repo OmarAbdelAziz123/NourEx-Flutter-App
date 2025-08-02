@@ -66,7 +66,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     cartCubit.togglePaymentMethod(
-                      PaymentMethod.cashOnDelivery,
+                      PaymentMethod.cod,
                     );
                   },
                   child: AnimatedContainer(
@@ -80,7 +80,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
                       border: Border.all(
                         width: 1.w,
                         color:
-                        selected == PaymentMethod.cashOnDelivery
+                        selected == PaymentMethod.cod
                             ? AppColors.primaryColor700
                             : AppColors.neutralColor200,
                       ),
@@ -89,7 +89,7 @@ class TogglePaymentMethodsWidget extends StatelessWidget {
                       spacing: 10.w,
                       children: [
                         SvgPicture.asset(
-                          selected == PaymentMethod.cashOnDelivery
+                          selected == PaymentMethod.cod
                               ? 'assets/svgs/enable_checkbox.svg'
                               : 'assets/svgs/disable_checkbox.svg',
                           fit: BoxFit.scaleDown,
