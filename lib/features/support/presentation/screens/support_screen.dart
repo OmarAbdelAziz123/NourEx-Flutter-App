@@ -52,18 +52,20 @@ class SupportScreen extends StatelessWidget {
           },
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.only(
-          left: 18.w,
-          right: 18.w,
-          bottom: 18.h,
-        ),
-        child: CustomBottomNavBarHaveButtonsWidget(
-          haveText: false,
-          buttonTitle: 'contactSupport'.tr(),
-          onPressed: () {
-            context.pushNamed(Routes.contactSupportScreenRoute);
-          },
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 18.w,
+            right: 18.w,
+            bottom: 18.h,
+          ),
+          child: CustomBottomNavBarHaveButtonsWidget(
+            haveText: false,
+            buttonTitle: 'contactSupport'.tr(),
+            onPressed: () {
+              context.pushNamed(Routes.contactSupportScreenRoute);
+            },
+          ),
         ),
       ),
     );

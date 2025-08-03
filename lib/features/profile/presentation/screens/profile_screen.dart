@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
@@ -24,22 +25,58 @@ class ProfileScreen extends StatelessWidget {
       SettingsDataModel(
         iconPath: 'assets/svgs/change_password.svg',
         title: 'changePassword'.tr(),
-        onTap: () => context.pushNamed(Routes.changePassword),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.changePassword),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/wallet.svg',
         title: 'wallet'.tr(),
-        onTap: () => context.pushNamed(Routes.walletScreen),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.walletScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/my_rates.svg',
         title: 'myReviews'.tr(),
-        onTap: () => context.pushNamed(Routes.myReviewsScreen),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.myReviewsScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/address.svg',
         title: 'addresses'.tr(),
-        onTap: () => context.pushNamed(Routes.addressesScreen),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.addressesScreen),
       ),
       SettingsDataModel(
         iconPath: 'assets/svgs/about_us.svg',
@@ -66,7 +103,16 @@ class ProfileScreen extends StatelessWidget {
       SettingsDataModel(
         iconPath: 'assets/svgs/support.svg',
         title: 'support'.tr(),
-        onTap: () => context.pushNamed(Routes.supportScreen),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.supportScreen),
       ),
     ];
 
@@ -84,7 +130,10 @@ class ProfileScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(right: 18.w, left: 18.w,),
+              padding: EdgeInsets.only(
+                right: 18.w,
+                left: 18.w,
+              ),
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -113,10 +162,12 @@ class ProfileScreen extends StatelessWidget {
                       },
                     ),
 
-                    BlocConsumer<ProfileCubit, ProfileState>(
+                    if(AppConstants.userToken != null)
+                      BlocConsumer<ProfileCubit, ProfileState>(
                       listener: (context, state) {
                         if (state is LogoutSuccessState) {
-                          context.pushNamedAndRemoveUntil(Routes.chooseLoginOrRegisterScreen);
+                          context.pushNamedAndRemoveUntil(
+                              Routes.chooseLoginOrRegisterScreen);
                         }
                       },
                       builder: (context, state) {
@@ -128,50 +179,47 @@ class ProfileScreen extends StatelessWidget {
                             children: [
                               CustomDividerInBottomSheet(),
                               16.verticalSpace,
-
                               CustomRowInSettingsWidget(
                                 isLang: false,
                                 settingsDataModel: SettingsDataModel(
                                   iconPath: 'assets/svgs/logout.svg',
                                   title: 'logout'.tr(),
-                                  onTap: AppConstants.userToken == null ? () {
-
-                                  } : () {
-                                    showModalBottomSheet(
-                                      context: context,
-                                      isScrollControlled: true,
-                                      builder: (context) {
-                                        return CustomSharedShowBottomSheet(
-                                          headingName: 'logout2'.tr(),
-                                          imagePath:
-                                              'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
-                                          text1:
-                                              'AreYouSure'.tr(),
-                                          text2: 'exit'.tr(),
-                                          description:
-                                              'exitDescription'.tr(),
-                                          haveOneButton: false,
-                                          haveTextSpan: true,
-                                          buttonText1: 'cancel'.tr(),
-                                          buttonText2: 'goOut'.tr(),
-                                          text2Color: AppColors.yellowColor100,
-                                          onTap1: () {
-                                            Navigator.pop(context);
-                                          },
-                                          onTap2: () {
-                                            profileCubit.userLogout();
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
+                                  onTap: AppConstants.userToken == null
+                                      ? () {}
+                                      : () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            isScrollControlled: true,
+                                            builder: (context) {
+                                              return CustomSharedShowBottomSheet(
+                                                headingName: 'logout2'.tr(),
+                                                imagePath:
+                                                    'assets/svgs/yellow2_icon_in_bottom_sheet_icon.svg',
+                                                text1: 'AreYouSure'.tr(),
+                                                text2: 'exit'.tr(),
+                                                description:
+                                                    'exitDescription'.tr(),
+                                                haveOneButton: false,
+                                                haveTextSpan: true,
+                                                buttonText1: 'cancel'.tr(),
+                                                buttonText2: 'goOut'.tr(),
+                                                text2Color:
+                                                    AppColors.yellowColor100,
+                                                onTap1: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                onTap2: () {
+                                                  profileCubit.userLogout();
+                                                },
+                                              );
+                                            },
+                                          );
+                                        },
                                 ),
                               ),
                               16.verticalSpace,
-
                               CustomDividerInBottomSheet(),
                               16.verticalSpace,
-
                               CustomRowInSettingsWidget(
                                 isLang: false,
                                 settingsDataModel: SettingsDataModel(
@@ -184,11 +232,13 @@ class ProfileScreen extends StatelessWidget {
                                       builder: (context) {
                                         return CustomSharedShowBottomSheet(
                                           headingName: 'removeAccount'.tr(),
-                                          imagePath: 'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
-                                          text1: 'removeAccountDescription'.tr(),
+                                          imagePath:
+                                              'assets/svgs/red_icon_in_bottom_sheet_icon.svg',
+                                          text1:
+                                              'removeAccountDescription'.tr(),
                                           text2: 'حسابك؟',
                                           description:
-                                          'removeAccountDescription2'.tr(),
+                                              'removeAccountDescription2'.tr(),
                                           haveOneButton: false,
                                           haveTextSpan: true,
                                           buttonText1: 'cancel'.tr(),

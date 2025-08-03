@@ -8,6 +8,7 @@ import 'package:nourex/core/networks_helper/api_results/api_result.dart';
 import 'package:nourex/core/networks_helper/errors/error_model.dart';
 import 'package:nourex/core/networks_helper/errors/failure.dart';
 import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 
 class ToastManager {
@@ -65,11 +66,7 @@ class ToastManager {
                   Expanded(
                     child: Text(
                       message,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w500,
-                      ),
+                      style: Styles.contentRegular.copyWith(color: Colors.white),
                       maxLines: 5,
                       overflow: TextOverflow.ellipsis,
                     ),

@@ -34,33 +34,35 @@ class FillPasswordScreen extends StatelessWidget {
           child: FillPasswordFormWidget(data: data),
         ),
       ),
-      bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if(state is SetPasswordSuccessState) {
-            if(data['screenName'] == 'forgetPassword') {
-              handleForgetPasswordFlow(context, authCubit);
-            } else {
-              handleSignUpFlow(context, authCubit);
-            }
-          }
-        },
-        builder: (context, state) {
-          final authCubit = context.read<AuthCubit>();
-
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: false,
-            buttonTitle:
-                data['screenName'] == 'forgetPassword'
-                    ? 'confirm'.tr()
-                    : 'register2'.tr(),
-            onPressed: () {
-              if(authCubit.formKey.currentState!.validate()) {
-                authCubit.setPassword(email: data['emailAddress']);
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if(state is SetPasswordSuccessState) {
+              if(data['screenName'] == 'forgetPassword') {
+                handleForgetPasswordFlow(context, authCubit);
+              } else {
+                handleSignUpFlow(context, authCubit);
               }
             }
-          );
-        },
+          },
+          builder: (context, state) {
+            final authCubit = context.read<AuthCubit>();
+
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: false,
+              buttonTitle:
+                  data['screenName'] == 'forgetPassword'
+                      ? 'confirm'.tr()
+                      : 'register2'.tr(),
+              onPressed: () {
+                if(authCubit.formKey.currentState!.validate()) {
+                  authCubit.setPassword(email: data['emailAddress']);
+                }
+              }
+            );
+          },
+        ),
       ),
     );
   }

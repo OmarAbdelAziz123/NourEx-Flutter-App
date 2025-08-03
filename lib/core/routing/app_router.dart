@@ -27,6 +27,7 @@ import 'package:nourex/features/my_orders/business_logic/my_orders_cubit.dart';
 import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
 import 'package:nourex/features/my_orders/presentation/screens/cancel_order_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/order_details_screen.dart';
+import 'package:nourex/features/my_orders/presentation/screens/product_status_screen.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/presentation/screens/best_offers_screen.dart';
@@ -449,6 +450,16 @@ class AppRouter {
 
         return transition(
           screen: OrderDetailsScreen(ordersList: ordersList),
+          cubit: MyOrdersCubit(getIt()),
+          type: PageTransitionType.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 350),
+        );
+
+      case Routes.productStatusScreen:
+        final MyOrderProduct myOrderProduct = settings.arguments as MyOrderProduct;
+
+        return transition(
+          screen: ProductStatusScreen(myOrderProduct: myOrderProduct),
           cubit: MyOrdersCubit(getIt()),
           type: PageTransitionType.rightToLeftWithFade,
           duration: const Duration(milliseconds: 350),

@@ -75,7 +75,9 @@ class CartScreen extends StatelessWidget {
       builder: (context, state) {
         final cartCubit = context.read<CartCubit>();
 
-        return Scaffold(
+        return AppConstants.userToken == null
+            ? UnAuthorizedScreen()
+            :  Scaffold(
           backgroundColor: Colors.white,
           appBar: PreferredSize(
             preferredSize: Size.fromHeight(74.h),

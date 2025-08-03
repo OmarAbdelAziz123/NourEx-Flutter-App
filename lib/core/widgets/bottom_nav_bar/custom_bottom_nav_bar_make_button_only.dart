@@ -10,10 +10,12 @@ class CustomBottomNavBarMakeButtonOnly extends StatelessWidget {
     this.isHaveSvg = false,
     required this.buttonTitle,
     required this.onPressed,
+    this.buttonColor,
   });
 
   final bool isHaveSvg;
   final String buttonTitle;
+  final Color? buttonColor;
   final VoidCallback onPressed;
 
   @override
@@ -33,7 +35,7 @@ class CustomBottomNavBarMakeButtonOnly extends StatelessWidget {
       ),
       child: CustomButtonWidget(
         text: buttonTitle,
-        color: AppColors.primaryColor700,
+        color: buttonColor ?? AppColors.primaryColor700,
         onPressed: onPressed,
         svgPic: isHaveSvg == false ? null : SvgPicture.asset(
           'assets/svgs/add_to_cart_icon.svg',

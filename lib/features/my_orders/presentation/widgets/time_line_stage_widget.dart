@@ -9,6 +9,7 @@ class TimelineStageWidget extends StatelessWidget {
   final String status;
   final String description;
   final String buttonText;
+  final bool? isCancelled;
   final bool isCompleted;
   final bool inProgressColor;
 
@@ -18,6 +19,7 @@ class TimelineStageWidget extends StatelessWidget {
     required this.status,
     required this.description,
     required this.buttonText,
+    this.isCancelled = false,
     required this.isCompleted,
     required this.inProgressColor,
   });
@@ -48,7 +50,9 @@ class TimelineStageWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(
               AppConstants.borderRadius - 4.r,
             ),
-            color: isCompleted
+            color: isCancelled == true
+            ? AppColors.redColor10
+            : isCompleted
                 ? AppColors.greenColor10
                 : inProgressColor
                     ? AppColors.yellowColor10
@@ -58,8 +62,10 @@ class TimelineStageWidget extends StatelessWidget {
             child: Text(
               buttonText,
               style: Styles.footnoteRegular.copyWith(
-                color: isCompleted
-                    ? AppColors.greenColor200
+                color: isCancelled == true
+                    ? AppColors.redColor200
+                    : isCompleted
+                    ? AppColors.greenColor100
                     : inProgressColor
                         ? AppColors.yellowColor100
                         : AppColors.neutralColor600,

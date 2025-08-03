@@ -36,25 +36,27 @@ class ChangePasswordScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: BlocConsumer<ProfileCubit, ProfileState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          final profileCubit = context.read<ProfileCubit>();
-
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: false,
-            buttonTitle: 'save'.tr(),
-            onPressed: () {
-              if(profileCubit.formKey.currentState!.validate()){
-                print(profileCubit.passwordController.text);
-                print(profileCubit.newPasswordController.text);
-                print(profileCubit.confirmNewPasswordController.text);
-              }
-            },
-          );
-        },
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<ProfileCubit, ProfileState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            final profileCubit = context.read<ProfileCubit>();
+        
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: false,
+              buttonTitle: 'save'.tr(),
+              onPressed: () {
+                if(profileCubit.formKey.currentState!.validate()){
+                  print(profileCubit.passwordController.text);
+                  print(profileCubit.newPasswordController.text);
+                  print(profileCubit.confirmNewPasswordController.text);
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }

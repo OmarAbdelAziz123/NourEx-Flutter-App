@@ -34,36 +34,38 @@ class VerifyCodeScreen extends StatelessWidget {
           child: VerifyCodeFormWidget(data: data),
         ),
       ),
-      bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if (state is ConfirmPhoneEmailOTPSuccessState) {
-            context.pushNamed(Routes.fillPasswordScreen, arguments: {
-              'screenName': data['screenName'],
-              'emailAddress': data['emailAddress'],
-            });
-          }
-        },
-        builder: (context, state) {
-          final authCubit = context.read<AuthCubit>();
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is ConfirmPhoneEmailOTPSuccessState) {
+              context.pushNamed(Routes.fillPasswordScreen, arguments: {
+                'screenName': data['screenName'],
+                'emailAddress': data['emailAddress'],
+              });
+            }
+          },
+          builder: (context, state) {
+            final authCubit = context.read<AuthCubit>();
 
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: false,
-            buttonTitle: 'confirm'.tr(),
-            onPressed: () {
-              if (authCubit.formKey.currentState!.validate()) {
-                debugPrint('OTP: ${authCubit.otpController.text}');
-                authCubit.confirmForgetPassword(email: data['emailAddress']);
-                // context.pushNamed(Routes.fillPasswordScreen, arguments: {
-                //   'screenName': data['screenName'],
-                //   'emailAddress': data['emailAddress'],
-                // });
-              } else {
-                // Show validation errors
-              }
-            },
-          );
-        },
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: false,
+              buttonTitle: 'confirm'.tr(),
+              onPressed: () {
+                if (authCubit.formKey.currentState!.validate()) {
+                  debugPrint('OTP: ${authCubit.otpController.text}');
+                  authCubit.confirmForgetPassword(email: data['emailAddress']);
+                  // context.pushNamed(Routes.fillPasswordScreen, arguments: {
+                  //   'screenName': data['screenName'],
+                  //   'emailAddress': data['emailAddress'],
+                  // });
+                } else {
+                  // Show validation errors
+                }
+              },
+            );
+          },
+        ),
       ),
     );
   }

@@ -32,55 +32,57 @@ class ForgetPasswordScreen extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 18.w),
         child: ForgetPasswordFormWidget(),
       ),
-      bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if(state is ForgetPasswordSuccessState) {
-            context.pushNamed(
-              Routes.verificationScreen,
-              arguments: {
-                'screenName': 'forgetPassword',
-                'emailAddress': authCubit.emailController.text,
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if(state is ForgetPasswordSuccessState) {
+              context.pushNamed(
+                Routes.verificationScreen,
+                arguments: {
+                  'screenName': 'forgetPassword',
+                  'emailAddress': authCubit.emailController.text,
+                },
+              );
+            }
+          },
+          builder: (context, state) {
+            final authCubit = context.read<AuthCubit>();
+
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: true,
+              buttonTitle: 'confirm'.tr(),
+              widgetUpOfButton: CustomRichText(
+                text1: 'accountCreatedDescription2'.tr(),
+                text2: 'login'.tr(),
+                textStyle1: Styles.contentRegular.copyWith(
+                  color: AppColors.neutralColor300,
+                ),
+                textStyle2: Styles.contentEmphasis.copyWith(
+                  color: AppColors.secondaryColor500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.secondaryColor500,
+                  decorationThickness: 1.w,
+                ),
+              ),
+              onPressed: () {
+                if (authCubit.formKey.currentState!.validate()) {
+                  debugPrint('Email: ${authCubit.emailController.text}');
+                  authCubit.forgetPassword();
+                  // context.pushNamed(
+                  //   Routes.verificationScreen,
+                  //   arguments: {
+                  //     'screenName': 'forgetPassword',
+                  //     'emailAddress': authCubit.emailController.text,
+                  //   },
+                  // );
+                } else {
+                  // Show validation errors
+                }
               },
             );
-          }
-        },
-        builder: (context, state) {
-          final authCubit = context.read<AuthCubit>();
-
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: true,
-            buttonTitle: 'confirm'.tr(),
-            widgetUpOfButton: CustomRichText(
-              text1: 'accountCreatedDescription2'.tr(),
-              text2: 'login'.tr(),
-              textStyle1: Styles.contentRegular.copyWith(
-                color: AppColors.neutralColor300,
-              ),
-              textStyle2: Styles.contentEmphasis.copyWith(
-                color: AppColors.secondaryColor500,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.secondaryColor500,
-                decorationThickness: 1.w,
-              ),
-            ),
-            onPressed: () {
-              if (authCubit.formKey.currentState!.validate()) {
-                debugPrint('Email: ${authCubit.emailController.text}');
-                authCubit.forgetPassword();
-                // context.pushNamed(
-                //   Routes.verificationScreen,
-                //   arguments: {
-                //     'screenName': 'forgetPassword',
-                //     'emailAddress': authCubit.emailController.text,
-                //   },
-                // );
-              } else {
-                // Show validation errors
-              }
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

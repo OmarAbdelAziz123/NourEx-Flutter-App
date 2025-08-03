@@ -35,51 +35,53 @@ class LoginScreen extends StatelessWidget {
           child: LoginFormWidget(),
         ),
       ),
-      bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is LoginSuccessState) {
-            context.pushNamedAndRemoveUntil(Routes.mainLayoutScreen);
-          }
-        },
-        builder: (context, state) {
-          final authCubit = context.read<AuthCubit>();
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is LoginSuccessState) {
+              context.pushNamedAndRemoveUntil(Routes.mainLayoutScreen);
+            }
+          },
+          builder: (context, state) {
+            final authCubit = context.read<AuthCubit>();
 
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: true,
-            buttonTitle: 'login2'.tr(),
-            widgetUpOfButton: CustomRichText(
-              text1: 'doNotHaveAccount'.tr(),
-              text2: 'register'.tr(),
-              textStyle1: Styles.contentRegular.copyWith(
-                color: AppColors.neutralColor300,
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: true,
+              buttonTitle: 'login2'.tr(),
+              widgetUpOfButton: CustomRichText(
+                text1: 'doNotHaveAccount'.tr(),
+                text2: 'register'.tr(),
+                textStyle1: Styles.contentRegular.copyWith(
+                  color: AppColors.neutralColor300,
+                ),
+                textStyle2: Styles.contentEmphasis.copyWith(
+                  color: AppColors.secondaryColor500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.secondaryColor500,
+                  decorationThickness: 1.w,
+                ),
               ),
-              textStyle2: Styles.contentEmphasis.copyWith(
-                color: AppColors.secondaryColor500,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.secondaryColor500,
-                decorationThickness: 1.w,
-              ),
-            ),
-            onPressed: () {
-              if (authCubit.formKey.currentState!.validate()) {
-                if(authCubit.showCheckIcon == false) {
-                  ToastManager.showCustomToast(
-                    message: 'acceptTerms'.tr(),
-                    backgroundColor: AppColors.redColor200,
-                  );
+              onPressed: () {
+                if (authCubit.formKey.currentState!.validate()) {
+                  if(authCubit.showCheckIcon == false) {
+                    ToastManager.showCustomToast(
+                      message: 'acceptTerms'.tr(),
+                      backgroundColor: AppColors.redColor200,
+                    );
+                  } else {
+                    debugPrint('Email: ${authCubit.emailController.text}');
+                    debugPrint(
+                        'Password: ${authCubit.passwordController.text}');
+                    authCubit.login();
+                  }
+
                 } else {
-                  debugPrint('Email: ${authCubit.emailController.text}');
-                  debugPrint(
-                      'Password: ${authCubit.passwordController.text}');
-                  authCubit.login();
+                  // Show validation errors
                 }
-
-              } else {
-                // Show validation errors
-              }
-            },
-          );
-        },
+              },
+            );
+          },
+        ),
       ),
     );
   }

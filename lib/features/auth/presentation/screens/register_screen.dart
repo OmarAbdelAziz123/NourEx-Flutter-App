@@ -34,58 +34,60 @@ class RegisterScreen extends StatelessWidget {
           child: RegisterFormWidget(),
         ),
       ),
-      bottomNavigationBar: BlocConsumer<AuthCubit, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
-          if (state is RegisterSuccessState) {
-            context.pushNamed(
-              Routes.verificationScreen,
-              arguments: {
-                'screenName': Routes.registerScreen,
-                'emailAddress': authCubit.emailController.text,
+      bottomNavigationBar: SafeArea(
+        child: BlocConsumer<AuthCubit, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
+            if (state is RegisterSuccessState) {
+              context.pushNamed(
+                Routes.verificationScreen,
+                arguments: {
+                  'screenName': Routes.registerScreen,
+                  'emailAddress': authCubit.emailController.text,
+                },
+              );
+            }
+          },
+          builder: (context, state) {
+            final authCubit = context.read<AuthCubit>();
+
+            return CustomBottomNavBarHaveButtonsWidget(
+              haveText: true,
+              buttonTitle: 'next'.tr(),
+              widgetUpOfButton: CustomRichText(
+                text1: 'haveAccount'.tr(),
+                text2: 'login'.tr(),
+                textStyle1: Styles.contentRegular.copyWith(
+                  color: AppColors.neutralColor300,
+                ),
+                textStyle2: Styles.contentEmphasis.copyWith(
+                  color: AppColors.secondaryColor500,
+                  decoration: TextDecoration.underline,
+                  decorationColor: AppColors.secondaryColor500,
+                  decorationThickness: 1.w,
+                ),
+              ),
+              onPressed: () {
+                if (authCubit.formKey.currentState!.validate()) {
+                  debugPrint('Name: ${authCubit.userNameController.text}');
+                  debugPrint('Email: ${authCubit.emailController.text}');
+                  debugPrint('Phone: ${authCubit.phoneController.text}');
+                  authCubit.register();
+                  /// TODO: navigate to verification screen Success
+                  // context.pushNamed(
+                  //   Routes.verificationScreen,
+                  //   arguments: {
+                  //     'screenName': Routes.registerScreen,
+                  //     'emailAddress': authCubit.emailController.text,
+                  //   },
+                  // );
+                } else {
+                  // Show validation errors
+                }
               },
             );
-          }
-        },
-        builder: (context, state) {
-          final authCubit = context.read<AuthCubit>();
-
-          return CustomBottomNavBarHaveButtonsWidget(
-            haveText: true,
-            buttonTitle: 'next'.tr(),
-            widgetUpOfButton: CustomRichText(
-              text1: 'haveAccount'.tr(),
-              text2: 'login'.tr(),
-              textStyle1: Styles.contentRegular.copyWith(
-                color: AppColors.neutralColor300,
-              ),
-              textStyle2: Styles.contentEmphasis.copyWith(
-                color: AppColors.secondaryColor500,
-                decoration: TextDecoration.underline,
-                decorationColor: AppColors.secondaryColor500,
-                decorationThickness: 1.w,
-              ),
-            ),
-            onPressed: () {
-              if (authCubit.formKey.currentState!.validate()) {
-                debugPrint('Name: ${authCubit.userNameController.text}');
-                debugPrint('Email: ${authCubit.emailController.text}');
-                debugPrint('Phone: ${authCubit.phoneController.text}');
-                authCubit.register();
-                /// TODO: navigate to verification screen Success
-                // context.pushNamed(
-                //   Routes.verificationScreen,
-                //   arguments: {
-                //     'screenName': Routes.registerScreen,
-                //     'emailAddress': authCubit.emailController.text,
-                //   },
-                // );
-              } else {
-                // Show validation errors
-              }
-            },
-          );
-        },
+          },
+        ),
       ),
     );
   }

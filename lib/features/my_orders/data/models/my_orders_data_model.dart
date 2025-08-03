@@ -75,6 +75,7 @@ class MyOrderProduct {
   final String? status;
   final String? mainImageURL;
   final String? name;
+  final String? itemSeq;
   final List<MyOrderVariant>? variants;
 
   MyOrderProduct({
@@ -82,6 +83,7 @@ class MyOrderProduct {
     this.status,
     this.mainImageURL,
     this.name,
+    this.itemSeq,
     this.variants,
   });
 

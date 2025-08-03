@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
 import 'package:nourex/core/cache_helper/cache_helper.dart';
+import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
 import 'package:nourex/features/profile/data/models/reviews/my_reviews_data_model.dart';
@@ -235,6 +236,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       success: (success) async {
         hideLoading();
         await CacheHelper.clearAllSecuredData();
+        AppConstants.userToken = '';
         emit(LogoutSuccessState());
       },
       failure: (failure) {

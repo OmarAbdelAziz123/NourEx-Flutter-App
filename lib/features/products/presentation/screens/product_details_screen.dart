@@ -312,22 +312,32 @@ class ProductDetailsScreen extends StatelessWidget {
                                       ),
                                     ),
                                     8.horizontalSpace,
-                                    Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 8.w, vertical: 6.h),
-                                      decoration: BoxDecoration(
-                                        color: AppColors.secondaryColor500,
-                                        borderRadius: BorderRadius.circular(
-                                            AppConstants.borderRadius + 18.r),
-                                      ),
-                                      child: Text(
-                                        '${_getStockAmount(productDetails, cubit.selectedVariants)} متبقي',
-                                        // '${productDetails?.stock.toString()} متبقي',
-                                        style: Styles.captionEmphasis.copyWith(
-                                          color: AppColors.neutralColor100,
-                                        ),
-                                      ),
-                                    ),
+                                    _getStockAmount(productDetails,
+                                                cubit.selectedVariants) <
+                                            10
+                                        ? Container(
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 8.w, vertical: 6.h),
+                                            decoration: BoxDecoration(
+                                              color:
+                                                  AppColors.secondaryColor500,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                      AppConstants
+                                                              .borderRadius +
+                                                          18.r),
+                                            ),
+                                            child: Text(
+                                              '${_getStockAmount(productDetails, cubit.selectedVariants)} متبقي',
+                                              // '${productDetails?.stock.toString()} متبقي',
+                                              style: Styles.captionEmphasis
+                                                  .copyWith(
+                                                color:
+                                                    AppColors.neutralColor100,
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox.shrink(),
                                   ],
                                 ),
                                 Row(

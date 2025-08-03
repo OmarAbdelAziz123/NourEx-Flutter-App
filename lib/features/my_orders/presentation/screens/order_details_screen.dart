@@ -50,124 +50,194 @@ class OrderDetailsScreen extends StatelessWidget {
               12.verticalSpace,
 
               /// Status Timeline with IntrinsicHeight for better alignment
-              Column(
-                children: [
-                  /// First Stage
-                  IntrinsicHeight(
-                    child: Row(
-                      spacing: 16.w,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+              ordersList.status == 'Cancelled'
+                  ? Column(
                       children: [
-                        Column(
+                        /// First Stage
+                        IntrinsicHeight(
+                          child: Row(
+                            spacing: 16.w,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    ordersList.status != 'Pending'
+                                        ? 'assets/svgs/pending_icon1.svg'
+                                        : 'assets/svgs/pending_icon2.svg',
+                                  ),
+                                  CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
+                                    color: ordersList.status == 'Pending'
+                                        ? AppColors.neutralColor300
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                              TimelineStageWidget(
+                                stage: 'firstStep'.tr(),
+                                status: ordersList.status == 'Pending'
+                                    ? 'pending'.tr()
+                                    : 'completed'.tr(),
+                                description: 'firstStepDescription'.tr(),
+                                buttonText: ordersList.status == 'Pending'
+                                    ? " جاري العمل عليه"
+                                    : 'completed'.tr(),
+                                isCompleted: ordersList.status != 'Pending',
+                                inProgressColor: ordersList.status == 'Pending',
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// Second Stage
+                        IntrinsicHeight(
+                          child: Row(
+                            spacing: 16.w,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    ordersList.status == 'Pending'
+                                        ? 'assets/svgs/delevering_icon3.svg'
+                                        : 'assets/svgs/cancelled)icon.svg',
+                                  ),
+                                ],
+                              ),
+                              TimelineStageWidget(
+                                stage: 'rejectedd'.tr(),
+                                // status: 'secondStepDescription'.tr(),
+                                status: 'rejectedd'.tr(),
+                                description: 'thirdStep'.tr(),
+                                // buttonText: 'fourthStep'.tr(),
+                                buttonText: 'rejectedd'.tr(),
+                                isCancelled: true,
+                                isCompleted: ordersList.status == 'Cancelled',
+                                inProgressColor:
+                                    ordersList.status == 'Cancelled',
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        /// First Stage
+                        IntrinsicHeight(
+                          child: Row(
+                            spacing: 16.w,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    ordersList.status == 'Delivered'
+                                        ? 'assets/svgs/pending_icon3.svg'
+                                        : ordersList.status != 'Pending'
+                                            ? 'assets/svgs/pending_icon1.svg'
+                                            : 'assets/svgs/pending_icon2.svg',
+                                  ),
+                                  CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
+                                    color: ordersList.status == 'Pending'
+                                        ? AppColors.neutralColor300
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                              TimelineStageWidget(
+                                stage: 'firstStep'.tr(),
+                                status: ordersList.status == 'Pending'
+                                    ? 'pending'.tr()
+                                    : 'completed'.tr(),
+                                description: 'firstStepDescription'.tr(),
+                                buttonText: ordersList.status == 'Pending'
+                                    ? " جاري العمل عليه"
+                                    : 'completed'.tr(),
+                                isCompleted: ordersList.status != 'Pending',
+                                inProgressColor: ordersList.status == 'Pending',
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// Second Stage
+                        IntrinsicHeight(
+                          child: Row(
+                            spacing: 16.w,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  SvgPicture.asset(
+                                    ordersList.status == 'Shipped'
+                                        ? 'assets/svgs/delevering_icon3.svg'
+                                        : ordersList.status == 'Delivered'
+                                            ? 'assets/svgs/delevering_icon1.svg'
+                                            : 'assets/svgs/delevering_icon2.svg',
+                                  ),
+                                  CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
+                                    color: ordersList.status == 'Shipped'
+                                        ? AppColors.neutralColor300
+                                        : null,
+                                  ),
+                                ],
+                              ),
+                              TimelineStageWidget(
+                                stage: 'secondStep'.tr(),
+                                // status: 'secondStepDescription'.tr(),
+                                status: ordersList.status == 'Shipped'
+                                    ? 'shipped'.tr()
+                                    : ordersList.status == 'Delivered'
+                                        ? 'completed'.tr()
+                                        : ordersList.status == 'Pending'
+                                            ? 'pending'.tr()
+                                            : 'cancelled'.tr(),
+                                description: 'thirdStep'.tr(),
+                                // buttonText: 'fourthStep'.tr(),
+                                buttonText: ordersList.status == 'Shipped'
+                                    ? " جاري العمل عليه"
+                                    : 'completed'.tr(),
+                                isCompleted: ordersList.status == 'Delivered',
+                                inProgressColor: ordersList.status == 'Shipped',
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        /// Third Stage
+                        Row(
+                          spacing: 16.w,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SvgPicture.asset(
                               ordersList.status == 'Delivered'
-                                  ? 'assets/svgs/pending_icon3.svg'
-                                : ordersList.status != 'Pending'
-                                  ? 'assets/svgs/pending_icon1.svg'
-
-                                      : 'assets/svgs/pending_icon2.svg',
+                                  ? 'assets/svgs/delevered_icon1.svg'
+                                  : 'assets/svgs/delevered_icon2.svg',
                             ),
-                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
-                              color: ordersList.status == 'Pending'
-                                  ? AppColors.neutralColor300
-                                  : null,
-                            ),
-                          ],
-                        ),
-                        TimelineStageWidget(
-                          stage: 'firstStep'.tr(),
-                          status: ordersList.status == 'Pending'
-                              ? 'pending'.tr()
-                              : 'completed'.tr(),
-                          description: 'firstStepDescription'.tr(),
-                          buttonText: ordersList.status == 'Pending'
-                              ? " جاري العمل عليه"
-                              : 'completed'.tr(),
-                          isCompleted: ordersList.status != 'Pending',
-                          inProgressColor: ordersList.status == 'Pending',
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  /// Second Stage
-                  IntrinsicHeight(
-                    child: Row(
-                      spacing: 16.w,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Column(
-                          children: [
-                            SvgPicture.asset(
-                              ordersList.status == 'Shipped'
-                                  ? 'assets/svgs/delevering_icon3.svg'
+                            TimelineStageWidget(
+                              stage: 'thirdStepDescription'.tr(),
+                              status: ordersList.status == 'Delivered'
+                                  ? 'delivered'.tr()
                                   : ordersList.status == 'Delivered'
-                                      ? 'assets/svgs/delevering_icon1.svg'
-                                      : 'assets/svgs/delevering_icon2.svg',
-                            ),
-                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
-                              color: ordersList.status == 'Shipped'
-                                  ? AppColors.neutralColor300
-                                  : null,
+                                      ? 'completed'.tr()
+                                      : ordersList.status == 'Pending' ||
+                                              ordersList.status == 'Shipped'
+                                          ? 'pending'.tr()
+                                          : 'cancelled'.tr(),
+                              description: 'fourthStepDescription'.tr(),
+                              // buttonText: 'fourthStep'.tr(),
+                              buttonText: ordersList.status == 'Delivered'
+                                  ? 'completed'.tr()
+                                  : 'pending'.tr(),
+                              isCompleted: ordersList.status == 'Delivered',
+                              // Last step is never "completed"
+                              inProgressColor: ordersList.status == 'Delivered',
                             ),
                           ],
                         ),
-                        TimelineStageWidget(
-                          stage: 'secondStep'.tr(),
-                          // status: 'secondStepDescription'.tr(),
-                          status: ordersList.status == 'Shipped'
-                              ? 'shipped'.tr()
-                              : ordersList.status == 'Delivered'
-                                  ? 'completed'.tr()
-                                  : ordersList.status == 'Pending'
-                                      ? 'pending'.tr()
-                                      : 'cancelled'.tr(),
-                          description: 'thirdStep'.tr(),
-                          // buttonText: 'fourthStep'.tr(),
-                          buttonText: ordersList.status == 'Shipped'
-                              ? " جاري العمل عليه"
-                              : 'completed'.tr(),
-                          isCompleted: ordersList.status == 'Delivered',
-                          inProgressColor: ordersList.status == 'Shipped',
-                        ),
                       ],
                     ),
-                  ),
-
-                  /// Third Stage
-                  Row(
-                    spacing: 16.w,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SvgPicture.asset(
-                        ordersList.status == 'Delivered'
-                            ? 'assets/svgs/delevered_icon1.svg'
-                            : 'assets/svgs/delevered_icon2.svg',
-                      ),
-                      TimelineStageWidget(
-                        stage: 'thirdStepDescription'.tr(),
-                        status: ordersList.status == 'Delivered'
-                            ? 'delivered'.tr()
-                            : ordersList.status == 'Delivered'
-                                ? 'completed'.tr()
-                                : ordersList.status == 'Pending' ||
-                                        ordersList.status == 'Shipped'
-                                    ? 'pending'.tr()
-                                    : 'cancelled'.tr(),
-                        description: 'fourthStepDescription'.tr(),
-                        // buttonText: 'fourthStep'.tr(),
-                        buttonText: ordersList.status == 'Delivered'
-                            ? 'completed'.tr()
-                            : 'pending'.tr(),
-                        isCompleted: ordersList.status == 'Delivered',
-                        // Last step is never "completed"
-                        inProgressColor: ordersList.status == 'Delivered',
-                      ),
-                    ],
-                  ),
-                ],
-              ),
 
               /// Order Details
               24.verticalSpace,
@@ -265,9 +335,19 @@ class OrderDetailsScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: ordersList.products!.length,
                   itemBuilder: (context, index) {
-                    return CustomProductCardItemWidget(
-                      product: ProductModel.convertMyOrderProductToProductModel(
-                          ordersList.products![index]),
+                    return GestureDetector(
+                      onTap: () {
+                        context.pushNamed(
+                          Routes.productStatusScreen,
+                          arguments: ordersList.products![index],
+                        );
+                      },
+                      child: CustomProductCardItemWidget(
+                        product:
+                            ProductModel.convertMyOrderProductToProductModel(
+                          ordersList.products![index],
+                        ),
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) => 12.verticalSpace,
@@ -279,17 +359,42 @@ class OrderDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: ordersList.status == 'Delivered'
-          ? CustomBottomNavBarMakeButtonOnly(
-              buttonTitle: 'returnOrder'.tr(),
-              onPressed: () {
-                context.pushNamed(Routes.cancelOrderScreen, arguments: {
-                  'orderId': ordersList.id,
-                  'orderProducts': ordersList,
-                });
-              },
+      bottomNavigationBar: ordersList.status == 'Shipped'
+          ? SafeArea(
+              child: CustomBottomNavBarMakeButtonOnly(
+                buttonTitle: 'delivered'.tr(),
+                onPressed: () {},
+              ),
             )
-          : null,
+          : ordersList.status == 'Pending'
+              ? SafeArea(
+                  child: CustomBottomNavBarMakeButtonOnly(
+                    buttonTitle: 'cancelOrder'.tr(),
+                    buttonColor: AppColors.redColor100,
+                    onPressed: () {},
+                  ),
+                )
+              : ordersList.status == 'Cancelled'
+                  ? SafeArea(
+                      child: CustomBottomNavBarMakeButtonOnly(
+                        buttonTitle: 'contactSupport'.tr(),
+                        onPressed: () {},
+                      ),
+                    )
+                  : ordersList.status == 'Delivered'
+                      ? SafeArea(
+                          child: CustomBottomNavBarMakeButtonOnly(
+                            buttonTitle: 'returnOrder'.tr(),
+                            onPressed: () {
+                              context.pushNamed(Routes.cancelOrderScreen,
+                                  arguments: {
+                                    'orderId': ordersList.id,
+                                    'orderProducts': ordersList,
+                                  });
+                            },
+                          ),
+                        )
+                      : null,
     );
   }
 }

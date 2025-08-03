@@ -41,6 +41,16 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   await CacheHelper.init();
 
+  // SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // أو أي لون تريده للأعلى
+      statusBarIconBrightness: Brightness.dark, // للون أيقونات الشريط العلوي
+      systemNavigationBarColor: Colors.white, // ✅ هنا تغيير شريط التنقل السفلي
+      systemNavigationBarIconBrightness: Brightness.dark, // لون الأيقونات (أسود مثلاً)
+    ),
+  );
+
   // await CacheHelper.clearAllSecuredData();
   // await CacheHelper.clearAllData();
 

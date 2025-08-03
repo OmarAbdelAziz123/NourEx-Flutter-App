@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:nourex/core/cache_helper/cache_keys.dart';
+import 'package:nourex/core/utils/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CacheHelper {
@@ -83,5 +84,7 @@ class CacheHelper {
     debugPrint('FlutterSecureStorage : all data has been cleared');
     const flutterSecureStorage = FlutterSecureStorage();
     await flutterSecureStorage.deleteAll();
+    AppConstants.userToken = '';
+    return true;
   }
 }
