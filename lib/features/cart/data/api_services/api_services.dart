@@ -61,4 +61,37 @@ class CartApiServices {
       "amount": amount,
     });
   }
+
+  /// Apply Coupon
+  Future<Response?> applyCoupon({
+    required String cartTotal,
+    required String couponName,
+  }) async {
+    return await _dioFactory.post(endPoint: EndPoints.applyCoupon, data: {
+      "cartTotal": cartTotal,
+      "couponCode": couponName,
+    });
+  }
+
+  /// Get Main Address
+  Future<Response?> getMainAddress() async {
+    return await _dioFactory.get(endPoint: EndPoints.getMainAddress);
+  }
+
+  /// Make Order
+  Future<Response?> makeOrder({
+    required String paymentMethod,
+    String? coupon,
+    String? couponCode,
+    required String address,
+    String? notes,
+}) async {
+    return await _dioFactory.post(endPoint: EndPoints.makeOrder, data: {
+      "paymentMethod": paymentMethod,
+      if(coupon != null) "coupon": coupon,
+      if(couponCode != null) "couponCode": couponCode,
+      "address": address,
+      if(notes != null) "notes": notes,
+    });
+  }
 }

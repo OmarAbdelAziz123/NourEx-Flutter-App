@@ -38,7 +38,6 @@ class ProfileApiServices {
       final mimeType = lookupMimeType(profileImage.path) ?? 'image/jpeg';
       final mediaType = MediaType.parse(mimeType);
 
-
       formData.files.add(
         MapEntry(
           'profilePic',
@@ -54,6 +53,34 @@ class ProfileApiServices {
     return await _dioFactory.patch(
       endPoint: EndPoints.updateProfile,
       data: formData,
+    );
+  }
+
+  /// Get All My Reviews
+  Future<Response?> getAllMyReviews({required int page}) async {
+    return await _dioFactory.get(
+        endPoint: '${EndPoints.allMyReviews}?page=$page');
+  }
+
+  /// Delete My Review
+  Future<Response?> deleteMyReview(String productId, String reviewId) async {
+    return await _dioFactory.delete(
+        endPoint: EndPoints.deleteMyReview(productId, reviewId));
+  }
+
+  /// Update My Review
+  Future<Response?> updateMyReview(
+    String productId,
+    String reviewId,
+    String comment,
+    double rating,
+  ) async {
+    return await _dioFactory.patch(
+      endPoint: EndPoints.updateMyReview(productId, reviewId),
+      data: {
+        "comment": comment,
+        "rating": rating,
+      },
     );
   }
 

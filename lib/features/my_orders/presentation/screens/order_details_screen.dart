@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nourex/core/helper_functions/date_formate.dart';
+import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
@@ -17,83 +19,18 @@ import 'package:nourex/features/my_orders/presentation/widgets/time_line_stage_w
 import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_widget.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+  const OrderDetailsScreen({super.key, required this.ordersList});
+
+  final MyOrder ordersList;
 
   @override
   Widget build(BuildContext context) {
-    // final products = [
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    // ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: '${'orderNumber'.tr()} : 21343434341',
+          title: '${'orderNumber'.tr()} : ${ordersList.orderSeq}',
           isSubScreen: true,
           haveOnlyNotification: true,
           onTapBack: () {
@@ -123,16 +60,32 @@ class OrderDetailsScreen extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            SvgPicture.asset('assets/svgs/pending_icon1.svg'),
-                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(),
+                            SvgPicture.asset(
+                              ordersList.status == 'Delivered'
+                                  ? 'assets/svgs/pending_icon3.svg'
+                                : ordersList.status != 'Pending'
+                                  ? 'assets/svgs/pending_icon1.svg'
+
+                                      : 'assets/svgs/pending_icon2.svg',
+                            ),
+                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
+                              color: ordersList.status == 'Pending'
+                                  ? AppColors.neutralColor300
+                                  : null,
+                            ),
                           ],
                         ),
                         TimelineStageWidget(
                           stage: 'firstStep'.tr(),
-                          status: 'completed'.tr(),
+                          status: ordersList.status == 'Pending'
+                              ? 'pending'.tr()
+                              : 'completed'.tr(),
                           description: 'firstStepDescription'.tr(),
-                          buttonText: 'completed'.tr(),
-                          isCompleted: true,
+                          buttonText: ordersList.status == 'Pending'
+                              ? " جاري العمل عليه"
+                              : 'completed'.tr(),
+                          isCompleted: ordersList.status != 'Pending',
+                          inProgressColor: ordersList.status == 'Pending',
                         ),
                       ],
                     ),
@@ -147,17 +100,36 @@ class OrderDetailsScreen extends StatelessWidget {
                         Column(
                           children: [
                             SvgPicture.asset(
-                              'assets/svgs/delevering_icon1.svg',
+                              ordersList.status == 'Shipped'
+                                  ? 'assets/svgs/delevering_icon3.svg'
+                                  : ordersList.status == 'Delivered'
+                                      ? 'assets/svgs/delevering_icon1.svg'
+                                      : 'assets/svgs/delevering_icon2.svg',
                             ),
-                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(),
+                            CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
+                              color: ordersList.status == 'Shipped'
+                                  ? AppColors.neutralColor300
+                                  : null,
+                            ),
                           ],
                         ),
                         TimelineStageWidget(
                           stage: 'secondStep'.tr(),
-                          status: 'secondStepDescription'.tr(),
+                          // status: 'secondStepDescription'.tr(),
+                          status: ordersList.status == 'Shipped'
+                              ? 'shipped'.tr()
+                              : ordersList.status == 'Delivered'
+                                  ? 'completed'.tr()
+                                  : ordersList.status == 'Pending'
+                                      ? 'pending'.tr()
+                                      : 'cancelled'.tr(),
                           description: 'thirdStep'.tr(),
-                          buttonText: 'fourthStep'.tr(),
-                          isCompleted: true,
+                          // buttonText: 'fourthStep'.tr(),
+                          buttonText: ordersList.status == 'Shipped'
+                              ? " جاري العمل عليه"
+                              : 'completed'.tr(),
+                          isCompleted: ordersList.status == 'Delivered',
+                          inProgressColor: ordersList.status == 'Shipped',
                         ),
                       ],
                     ),
@@ -168,14 +140,29 @@ class OrderDetailsScreen extends StatelessWidget {
                     spacing: 16.w,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SvgPicture.asset('assets/svgs/delevered_icon1.svg'),
+                      SvgPicture.asset(
+                        ordersList.status == 'Delivered'
+                            ? 'assets/svgs/delevered_icon1.svg'
+                            : 'assets/svgs/delevered_icon2.svg',
+                      ),
                       TimelineStageWidget(
                         stage: 'thirdStepDescription'.tr(),
-                        status: 'delivered'.tr(),
-                        description:
-                            'fourthStepDescription'.tr(),
-                        buttonText: 'fourthStep'.tr(),
-                        isCompleted: true,
+                        status: ordersList.status == 'Delivered'
+                            ? 'delivered'.tr()
+                            : ordersList.status == 'Delivered'
+                                ? 'completed'.tr()
+                                : ordersList.status == 'Pending' ||
+                                        ordersList.status == 'Shipped'
+                                    ? 'pending'.tr()
+                                    : 'cancelled'.tr(),
+                        description: 'fourthStepDescription'.tr(),
+                        // buttonText: 'fourthStep'.tr(),
+                        buttonText: ordersList.status == 'Delivered'
+                            ? 'completed'.tr()
+                            : 'pending'.tr(),
+                        isCompleted: ordersList.status == 'Delivered',
+                        // Last step is never "completed"
+                        inProgressColor: ordersList.status == 'Delivered',
                       ),
                     ],
                   ),
@@ -208,10 +195,11 @@ class OrderDetailsScreen extends StatelessWidget {
                   spacing: 12.h,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 12.w, right: 12.w, top: 8.h),
+                      padding:
+                          EdgeInsets.only(left: 12.w, right: 12.w, top: 8.h),
                       child: CustomRowInContainerOrderDetailsWidget(
                         title: 'name'.tr(),
-                        value: 'عمر عبدالعزيز',
+                        value: ordersList.user!.name!,
                       ),
                     ),
                     CustomDividerInBottomSheet(),
@@ -219,7 +207,7 @@ class OrderDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
                         title: 'phone'.tr(),
-                        value: '01023359621',
+                        value: ordersList.user!.phone!,
                       ),
                     ),
                     CustomDividerInBottomSheet(),
@@ -227,7 +215,8 @@ class OrderDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
                         title: 'date'.tr(),
-                        value: '19 ديسمبر 2024',
+                        value: formatDate(ordersList.createdAt!),
+                        // value: '19 ديسمبر 2024',
                       ),
                     ),
                     CustomDividerInBottomSheet(),
@@ -235,23 +224,30 @@ class OrderDetailsScreen extends StatelessWidget {
                       padding: EdgeInsets.only(left: 12.w, right: 12.w),
                       child: CustomRowInContainerOrderDetailsWidget(
                         title: 'address2'.tr(),
-                        value: 'العنوان : العنوان : ',
+                        value:
+                            '${ordersList.address!.city!} - ${ordersList.address!.zone!} - ${ordersList.address!.street!}',
                       ),
                     ),
-                    CustomDividerInBottomSheet(),
-                    Padding(
-                      padding: EdgeInsets.only(left: 12.w, right: 12.w),
-                      child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'notes2'.tr(),
-                        value: 'نص نص نص',
+                    if (ordersList.address!.notes != null)
+                      Column(
+                        children: [
+                          CustomDividerInBottomSheet(),
+                          Padding(
+                            padding: EdgeInsets.only(left: 12.w, right: 12.w),
+                            child: CustomRowInContainerOrderDetailsWidget(
+                              title: 'notes2'.tr(),
+                              value: ordersList.address!.notes ?? '',
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
                     CustomDividerInBottomSheet(),
                     Padding(
-                      padding: EdgeInsets.only(left: 12.w, right: 12.w, bottom: 8.h),
+                      padding:
+                          EdgeInsets.only(left: 12.w, right: 12.w, bottom: 8.h),
                       child: CustomRowInContainerOrderDetailsWidget(
-                        title: 'orderNumber2'.tr(),
-                        value: '21343434341',
+                        title: '${'orderNumber2'.tr()}: ',
+                        value: ordersList.orderSeq.toString(),
                       ),
                     ),
                   ],
@@ -262,32 +258,38 @@ class OrderDetailsScreen extends StatelessWidget {
               /// Order Products
               Text('products'.tr(), style: Styles.featureBold),
               12.verticalSpace,
-              // Container(
-              //   child: ListView.separated(
-              //     shrinkWrap: true,
-              //     padding: EdgeInsets.zero,
-              //     physics: const NeverScrollableScrollPhysics(),
-              //     itemCount: products.length,
-              //     itemBuilder: (context, index) {
-              //       return CustomProductCardItemWidget(
-              //         product: products[index],
-              //       );
-              //     },
-              //     separatorBuilder: (context, index) => 12.verticalSpace,
-              //   ),
-              // ),
+              Container(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: ordersList.products!.length,
+                  itemBuilder: (context, index) {
+                    return CustomProductCardItemWidget(
+                      product: ProductModel.convertMyOrderProductToProductModel(
+                          ordersList.products![index]),
+                    );
+                  },
+                  separatorBuilder: (context, index) => 12.verticalSpace,
+                ),
+              ),
 
               24.verticalSpace,
             ],
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
-        buttonTitle: 'returnOrder'.tr(),
-        onPressed: () {
-          context.pushNamed(Routes.cancelOrderScreen);
-        },
-      ),
+      bottomNavigationBar: ordersList.status == 'Delivered'
+          ? CustomBottomNavBarMakeButtonOnly(
+              buttonTitle: 'returnOrder'.tr(),
+              onPressed: () {
+                context.pushNamed(Routes.cancelOrderScreen, arguments: {
+                  'orderId': ordersList.id,
+                  'orderProducts': ordersList,
+                });
+              },
+            )
+          : null,
     );
   }
 }

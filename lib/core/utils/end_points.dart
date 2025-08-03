@@ -13,12 +13,16 @@ class EndPoints {
   /// Settings
   static const String getProfile = 'user/userProfile';
   static const String updateProfile = 'user/updateProfile';
+  static const String allMyReviews = 'review/myReviews';
+  static String deleteMyReview(String productId, String deleteMyReview) => 'review/deleteReview/$productId/$deleteMyReview';
+  static String updateMyReview(String productId, String reviewId) => 'review/updateReview/$productId/$reviewId';
   static const String logout = 'auth/logOut';
 
   /// Home
   /// Products
   static const String products = 'product/getAllProducts';
   static const String productById = 'product/getProductById';
+  static const String productReviews = 'review/getReviews/';
   static const String productsByCategory = 'product/getProductsByCategoryId';
 
   /// Category
@@ -30,6 +34,9 @@ class EndPoints {
   static const String removeAllProductsFromCart = 'Cart/clearCart';
   static const String getCart = 'Cart';
   static const String updateCart = 'Cart/updateCartItemQuantity';
+  static const String applyCoupon = 'coupon/applyCoupon';
+  static const String getMainAddress = 'user/mainAddress';
+  static const String makeOrder = 'order/createOrder';
 
   /// Addresses
   static const String addAddress = 'user/addAddress';
@@ -37,9 +44,12 @@ class EndPoints {
   static const String deleteAddress = 'user/deleteAddress';
   static const String getAllAddresses = 'user/getAllAddress';
 
+  /// Wallet
+  static const String getWalletHistory = 'wallet/walletHistory';
+  static const String makePreviewRedeemPoints = 'wallet/preview';
+  static const String redeemPoints = 'wallet/redeem';
 
-
-
-
+  /// My Orders
+  static const String getAllMyOrders = 'order/getMyOrders';
 
 }

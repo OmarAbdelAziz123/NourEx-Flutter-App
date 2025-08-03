@@ -13,12 +13,25 @@ class ProductsApiServices {
   }
 
   /// Get Products By Category
-  Future<Response?> getProductsByCategory({required int page, required String categoryId}) async {
-    return await _dioFactory.get(endPoint: '${EndPoints.productsByCategory}/$categoryId?page=$page');
+  Future<Response?> getProductsByCategory(
+      {required int page, required String categoryId}) async {
+    return await _dioFactory.get(
+        endPoint: '${EndPoints.productsByCategory}/$categoryId?page=$page');
   }
 
   /// Get Product By Id
   Future<Response?> getProductById({required String productId}) async {
-    return await _dioFactory.get(endPoint: '${EndPoints.productById}/$productId');
+    return await _dioFactory.get(
+        endPoint: '${EndPoints.productById}/$productId');
+  }
+
+  /// Get Product Reviews
+  Future<Response?> getProductReviews({required String productId, required int page}) async {
+    return await _dioFactory.get(
+      endPoint: '${EndPoints.productReviews}/$productId',
+      data: {
+        'page': page
+      }
+    );
   }
 }

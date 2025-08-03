@@ -17,6 +17,7 @@
 // }
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
 
 part 'product_data_model.g.dart';
 
@@ -90,4 +91,14 @@ class ProductModel {
       _$ProductModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
+
+  static ProductModel convertMyOrderProductToProductModel(MyOrderProduct orderProduct) {
+    return ProductModel(
+      id: orderProduct.variants?.first.id,
+      sku: orderProduct.variants?.first.sku,
+      name: orderProduct.name,
+      mainImageURL: orderProduct.mainImageURL,
+      createdAt: null, // أو ضع التاريخ إن كان متاحًا في مكان آخر
+    );
+  }
 }

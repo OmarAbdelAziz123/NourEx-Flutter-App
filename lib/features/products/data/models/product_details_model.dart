@@ -26,6 +26,9 @@ class Result {
   @JsonKey(name: 'customId')
   String? customId;
 
+  @JsonKey(name: 'isRated')
+  bool? isRated;
+
   @JsonKey(name: 'sku')
   String? sku;
 

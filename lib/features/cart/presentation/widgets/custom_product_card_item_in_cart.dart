@@ -67,6 +67,7 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                   right: isArabic == false ? null : 8.w,
                   left: isArabic == true ? null : 8.w,
                   child: Container(
+                    width: 100.w,
                     decoration: BoxDecoration(
                       color: AppColors.secondaryColor500,
                       borderRadius: BorderRadius.circular(4.r),
@@ -76,10 +77,12 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                           EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                       child: Text(
                         cartProduct.name ?? '',
-                        // 'ملابس رجالية',
                         style: Styles.footnoteEmphasis.copyWith(
                           color: AppColors.neutralColor100,
                         ),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
