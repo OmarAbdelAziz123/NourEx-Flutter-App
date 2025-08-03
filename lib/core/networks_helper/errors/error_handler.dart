@@ -7,6 +7,8 @@ import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/networks_helper/errors/failure.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
+import 'package:nourex/features/error/server_error_screen.dart';
+import 'package:nourex/features/error/un_authorized_screen.dart';
 
 class ErrorHandler {
   final String message;
@@ -18,53 +20,73 @@ class ErrorHandler {
   }
 
   /// Handles API errors from the server
-  // static FailureException handleApiError(Response? response) {
-  //   String message = "error.unknown".tr();
+
+  // static FailureException handleApiError(dynamic response) {
+  //   try {
+  //     if (response?.data != null &&
+  //         response.data['message'] == 'Validation Error' &&
+  //         response.data['errors'] != null) {
+  //       final errors = response.data['errors'] as Map<String, dynamic>;
+  //       final errorMessages = errors.values.map((e) {
+  //         if (e is List) {
+  //           return e.join('\n');
+  //         }
+  //         return e.toString();
+  //       }).join('\n');
   //
-  //   if (response == null) {
-  //     message = "error.noResponse".tr();
-  //   } else if (response.statusCode == 401) {
-  //     _navigateToUnAuthScreen();
-  //     message = "error.sessionExpired".tr();
-  //   } else if (response.statusCode! >= 500) {
-  //     _navigateToServerErrorScreen();
-  //     message = "error.serverError".tr();
-  //   } else if (response.data != null && response.data is Map<String, dynamic>) {
-  //     if (response.data['message'] == "error.wrongVerification" && response.data['errors'] is Map<String, dynamic>) {
-  //       message = _mapValidationErrors(response.data['errors']);
-  //     } else {
-  //       message = response.data['message'] ?? "error.unexpected".tr();
+  //       return FailureException(errMessage: errorMessages);
   //     }
-  //   } else {
-  //     message = "error.unexpectedResponse".tr();
-  //   }
   //
-  //   _showToast(message, isError: true);
-  //   return FailureException(errMessage: message);
+  //     // fallback for other errors
+  //     return FailureException(errMessage: response?.data['message'] ?? 'حدث خطأ ما');
+  //   } catch (e) {
+  //     return FailureException(errMessage: 'حدث خطأ غير متوقع');
+  //   }
   // }
 
   static FailureException handleApiError(dynamic response) {
     try {
-      if (response?.data != null &&
-          response.data['message'] == 'Validation Error' &&
-          response.data['errors'] != null) {
-        final errors = response.data['errors'] as Map<String, dynamic>;
-        final errorMessages = errors.values.map((e) {
-          if (e is List) {
-            return e.join('\n');
-          }
-          return e.toString();
-        }).join('\n');
+      final statusCode = response?.statusCode;
+      final data = response?.data;
 
-        return FailureException(errMessage: errorMessages);
+      // Check for server error
+      if (statusCode == 500) {
+        _navigateToServerErrorScreen();
+        return FailureException(errMessage: 'خطأ في الخادم');
       }
 
-      // fallback for other errors
-      return FailureException(errMessage: response?.data['message'] ?? 'حدث خطأ ما');
+      // Check for unauthorized error
+      if (data?['errors'] != null && data['errors'] is Map<String, dynamic>) {
+        final errors = data['errors'] as Map<String, dynamic>;
+        final authorizationError = errors['authorization'];
+      //
+      //   if (authorizationError != null &&
+      //       (authorizationError == 'التوثيق مطلوب' ||
+      //           (authorizationError is List && authorizationError.contains('التوثيق مطلوب')))) {
+      //     _navigateToUnAuthScreen();
+      //     return FailureException(errMessage: 'مطلوب تسجيل الدخول');
+      //   }
+
+        // Handle validation error
+        if (data['message'] == 'Validation Error') {
+          final errorMessages = errors.values.map((e) {
+            if (e is List) {
+              return e.join('\n');
+            }
+            return e.toString();
+          }).join('\n');
+
+          return FailureException(errMessage: errorMessages);
+        }
+      }
+
+      // Generic fallback
+      return FailureException(errMessage: data?['message'] ?? 'حدث خطأ ما');
     } catch (e) {
       return FailureException(errMessage: 'حدث خطأ غير متوقع');
     }
   }
+
 
   // static FailureException handleApiError(Response? response) {
   //   String message = "error.unknown".tr();
@@ -170,28 +192,28 @@ class ErrorHandler {
   }
 
   /// Navigate to Unauthorized Screen when status is 401
-  // static void _navigateToUnAuthScreen() {
-  //   final context = AppConstants.navigatorKey.currentState?.context;
-  //   if (context != null) {
-  //     Navigator.pushAndRemoveUntil(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => UnauthorizedScreen()),
-  //           (route) => false,
-  //     );
-  //   }
-  // }
+  static void _navigateToUnAuthScreen() {
+    final context = AppConstants.navigatorKey.currentState?.context;
+    if (context != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => UnAuthorizedScreen()),
+            (route) => false,
+      );
+    }
+  }
 
   /// Navigate to Server Error Screen when status is 500
-  // static void _navigateToServerErrorScreen() {
-  //   final context = AppConstants.navigatorKey.currentState?.context;
-  //   if (context != null) {
-  //     Navigator.pushAndRemoveUntil(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => ServerErrorScreen()), // Navigate to Server Error Screen
-  //           (route) => false,
-  //     );
-  //   }
-  // }
+  static void _navigateToServerErrorScreen() {
+    final context = AppConstants.navigatorKey.currentState?.context;
+    if (context != null) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => ServerErrorScreen()), // Navigate to Server Error Screen
+            (route) => false,
+      );
+    }
+  }
 }
 
 

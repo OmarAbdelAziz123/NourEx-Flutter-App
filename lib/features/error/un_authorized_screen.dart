@@ -1,0 +1,201 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/routes_name.dart';
+import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/text_colors.dart';
+import 'package:nourex/core/widgets/button/custom_button_widget.dart';
+
+class UnAuthorizedScreen extends StatelessWidget {
+  const UnAuthorizedScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          child: Column(
+            children: [
+              // Top section with back button and title
+              SizedBox(height: 60.h),
+
+              // Main content area
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    // Icon or illustration
+                    Container(
+                      width: 120.w,
+                      height: 120.h,
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor700?.withOpacity(0.1) ?? Colors.green.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.lock_outline,
+                        size: 60.sp,
+                        color: AppColors.primaryColor700 ?? Colors.green,
+                      ),
+                    ),
+
+                    SizedBox(height: 32.h),
+
+                    // Main title
+                    Text(
+                      'وصول غير مخول',
+                      style: Styles.heading1,
+                      textAlign: TextAlign.center,
+                    ),
+
+                    SizedBox(height: 16.h),
+
+                    // Description
+                    Text(
+                      'عذراً، لا تملك الصلاحية للوصول إلى هذه الصفحة.\nيرجى التواصل مع الإدارة للحصول على الصلاحيات المطلوبة.',
+                      style: Styles.contentRegular.copyWith(
+                        color: AppColors.neutralColor600 ?? Colors.grey[600],
+                        height: 1.5,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+
+                    SizedBox(height: 48.h),
+
+                    Column(
+                      spacing: 16.h,
+                      children: [
+                        CustomButtonWidget(
+                          onPressed: () {
+                            context.pushNamedAndRemoveUntil(Routes.loginScreen);
+                          },
+                          color: AppColors.primaryColor700 ?? Colors.green,
+                          text: 'العودة لتسجيل الدخول',
+                          textStyle:  Styles.highlightBold.copyWith(color: Colors.white),
+                        ),
+
+                        CustomButtonWidget(
+                          onPressed: () {
+                            _showContactDialog(context);
+                          },
+                          color: Colors.white,
+                          borderSide: BorderSide(
+                            color: AppColors.primaryColor700,
+                            width: 1.w,
+                          ),
+                          text: 'التواصل مع الدعم',
+                          textStyle:  Styles.highlightBold.copyWith(
+                            color: AppColors.primaryColor700 ?? Colors.green,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 32.h),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showContactDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        title: Text(
+          'التواصل مع الدعم',
+          style: Styles.heading4,
+          textAlign: TextAlign.center,
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'يمكنك التواصل معنا عبر:',
+              style: Styles.contentRegular,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 16.h),
+            _buildContactOption(
+              icon: Icons.email_outlined,
+              title: 'البريد الإلكتروني',
+              subtitle: 'support@nourex.com',
+              onTap: () {
+                // Handle email contact
+              },
+            ),
+            SizedBox(height: 12.h),
+            _buildContactOption(
+              icon: Icons.phone_outlined,
+              title: 'الهاتف',
+              subtitle: '+20 123 456 789',
+              onTap: () {
+                // Handle phone contact
+              },
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'إغلاق',
+              style: Styles.highlightSemiBold.copyWith(
+                color: AppColors.primaryColor700 ?? Colors.green,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildContactOption({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8.r),
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+        child: Row(
+          children: [
+            Icon(
+              icon,
+              color: AppColors.primaryColor700 ?? Colors.green,
+              size: 24.sp,
+            ),
+            SizedBox(width: 12.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: Styles.contentSemiBold,
+                ),
+                Text(
+                  subtitle,
+                  style: Styles.captionRegular.copyWith(
+                    color: AppColors.neutralColor600 ?? Colors.grey[600],
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
