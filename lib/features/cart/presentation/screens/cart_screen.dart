@@ -180,6 +180,7 @@ class CartScreen extends StatelessWidget {
           ),
           bottomNavigationBar: CustomBottomNavBarMakeButtonOnly(
             buttonTitle: 'complete'.tr(),
+
             onPressed: () {
               context.pushNamed(
                 Routes.completePayScreen,
