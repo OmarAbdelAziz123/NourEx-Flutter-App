@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/bottom_sheet/custom_shared_show_bottom_sheet.dart';
 import 'package:nourex/core/widgets/divider/custom_divider_in_bottom_sheet.dart';
@@ -133,7 +134,9 @@ class ProfileScreen extends StatelessWidget {
                                 settingsDataModel: SettingsDataModel(
                                   iconPath: 'assets/svgs/logout.svg',
                                   title: 'logout'.tr(),
-                                  onTap: () {
+                                  onTap: AppConstants.userToken == null ? () {
+
+                                  } : () {
                                     showModalBottomSheet(
                                       context: context,
                                       isScrollControlled: true,
