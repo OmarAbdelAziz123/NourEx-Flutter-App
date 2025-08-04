@@ -396,10 +396,12 @@ class AppRouter {
 
       // Info screens with consistent animations
       case Routes.returnedOrderDetailsScreen:
-        final ReturnedOrder returnedOrder = settings.arguments as ReturnedOrder;
+        final Map<String, dynamic> returnedData = settings.arguments as Map<String, dynamic>;
+        // final ReturnedOrder returnedOrder = settings.arguments as ReturnedOrder;
 
         return transition(
-          screen: ReturnedOrderDetailsScreen(returnedOrder: returnedOrder),
+          screen: ReturnedOrderDetailsScreen(returnedData: returnedData),
+          // screen: ReturnedOrderDetailsScreen(returnedOrder: returnedOrder),
           cubit: ProfileCubit(getIt()),
           type: PageTransitionType.rightToLeftWithFade,
           duration: const Duration(milliseconds: 350),

@@ -332,6 +332,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   /// Helper to get status string
+
   String _statusFromTabIndex(int index) {
     switch (index) {
       case 0:
@@ -339,6 +340,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       case 1:
         return 'Return accepted';
       case 2:
+        return 'Returned';
+      case 3:
         return 'Return rejected';
       default:
         return 'Return pending';
