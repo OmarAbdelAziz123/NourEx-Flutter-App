@@ -11,9 +11,10 @@ import 'package:nourex/features/my_orders/presentation/widgets/custom_container_
 import 'package:nourex/features/my_orders/presentation/widgets/time_line_stage_widget.dart';
 
 class ProductStatusScreen extends StatelessWidget {
-  const ProductStatusScreen({super.key, required this.myOrderProduct});
+  const ProductStatusScreen({super.key, required this.data});
 
-  final MyOrderProduct myOrderProduct;
+  // final MyOrderProduct myOrderProduct;
+  final Map<String, dynamic > data;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,8 @@ class ProductStatusScreen extends StatelessWidget {
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: '${'productNumber'.tr()} : ${myOrderProduct.itemSeq}',
+          title: '${'productNumber'.tr()} : ${data['itemSeq']}',
+              // '${'productNumber'.tr()} : ${myOrderProduct.variants![0].itemSeq}',
           isSubScreen: true,
           haveOnlyNotification: true,
           onTapBack: () {
@@ -53,14 +55,14 @@ class ProductStatusScreen extends StatelessWidget {
                         Column(
                           children: [
                             SvgPicture.asset(
-                              myOrderProduct.status == 'Delivered'
+                              data['product'].status == 'Delivered'
                                   ? 'assets/svgs/pending_icon3.svg'
-                                  : myOrderProduct.status != 'Pending'
+                                  : data['product'].status != 'Pending'
                                       ? 'assets/svgs/pending_icon1.svg'
                                       : 'assets/svgs/pending_icon2.svg',
                             ),
                             CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
-                              color: myOrderProduct.status == 'Pending'
+                              color: data['product'].status == 'Pending'
                                   ? AppColors.neutralColor300
                                   : null,
                             ),
@@ -68,15 +70,15 @@ class ProductStatusScreen extends StatelessWidget {
                         ),
                         TimelineStageWidget(
                           stage: 'firstStep'.tr(),
-                          status: myOrderProduct.status == 'Pending'
+                          status: data['product'].status == 'Pending'
                               ? 'pending'.tr()
                               : 'completed'.tr(),
                           description: 'firstStepDescription'.tr(),
-                          buttonText: myOrderProduct.status == 'Pending'
+                          buttonText: data['product'].status == 'Pending'
                               ? " جاري العمل عليه"
                               : 'completed'.tr(),
-                          isCompleted: myOrderProduct.status != 'Pending',
-                          inProgressColor: myOrderProduct.status == 'Pending',
+                          isCompleted: data['product'].status != 'Pending',
+                          inProgressColor: data['product'].status == 'Pending',
                         ),
                       ],
                     ),
@@ -91,14 +93,14 @@ class ProductStatusScreen extends StatelessWidget {
                         Column(
                           children: [
                             SvgPicture.asset(
-                              myOrderProduct.status == 'Shipped'
+                              data['product'].status == 'Shipped'
                                   ? 'assets/svgs/delevering_icon3.svg'
-                                  : myOrderProduct.status == 'Delivered'
+                                  : data['product'].status == 'Delivered'
                                       ? 'assets/svgs/delevering_icon1.svg'
                                       : 'assets/svgs/delevering_icon2.svg',
                             ),
                             CustomContainerInOrderDetailsToConnectTheThreeStatusWidget(
-                              color: myOrderProduct.status == 'Shipped'
+                              color: data['product'].status == 'Shipped'
                                   ? AppColors.neutralColor300
                                   : null,
                             ),
@@ -107,20 +109,20 @@ class ProductStatusScreen extends StatelessWidget {
                         TimelineStageWidget(
                           stage: 'secondStep'.tr(),
                           // status: 'secondStepDescription'.tr(),
-                          status: myOrderProduct.status == 'Shipped'
+                          status: data['product'].status == 'Shipped'
                               ? 'shipped'.tr()
-                              : myOrderProduct.status == 'Delivered'
+                              : data['product'].status == 'Delivered'
                                   ? 'completed'.tr()
-                                  : myOrderProduct.status == 'Pending'
+                                  : data['product'].status == 'Pending'
                                       ? 'pending'.tr()
                                       : 'cancelled'.tr(),
                           description: 'thirdStep'.tr(),
                           // buttonText: 'fourthStep'.tr(),
-                          buttonText: myOrderProduct.status == 'Shipped'
+                          buttonText: data['product'].status == 'Shipped'
                               ? " جاري العمل عليه"
                               : 'completed'.tr(),
-                          isCompleted: myOrderProduct.status == 'Delivered',
-                          inProgressColor: myOrderProduct.status == 'Shipped',
+                          isCompleted: data['product'].status == 'Delivered',
+                          inProgressColor: data['product'].status == 'Shipped',
                         ),
                       ],
                     ),
@@ -132,35 +134,35 @@ class ProductStatusScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SvgPicture.asset(
-                        myOrderProduct.status == 'Returned'
+                        data['product'].status == 'Returned'
                             ? 'assets/svgs/returened_icon1.svg'
-                            : myOrderProduct.status == 'Pending' ||
-                                    myOrderProduct.status == 'Shipped'
+                            : data['product'].status == 'Pending' ||
+                                    data['product'].status == 'Shipped'
                                 ? 'assets/svgs/returened_icon2.svg'
-                                : myOrderProduct.status == 'Delivered'
+                                : data['product'].status == 'Delivered'
                                     ? 'assets/svgs/delevered_icon1.svg'
                                     : 'assets/svgs/delevered_icon2.svg',
                       ),
                       TimelineStageWidget(
                         stage: 'thirdStepDescription'.tr(),
-                        status: myOrderProduct.status == 'Delivered'
+                        status: data['product'].status == 'Delivered'
                             ? 'delivered'.tr()
-                            : myOrderProduct.status == 'Pending' ||
-                                    myOrderProduct.status == 'Shipped'
+                            : data['product'].status == 'Pending' ||
+                                    data['product'].status == 'Shipped'
                                 ? 'pending'.tr()
                                 : 'returned'.tr(),
-                        description: myOrderProduct.status == 'Returned'
+                        description: data['product'].status == 'Returned'
                             ? 'doneReturned'.tr()
                             : 'fourthStepDescription'.tr(),
                         // buttonText: 'fourthStep'.tr(),
-                        buttonText: myOrderProduct.status == 'Returned'
+                        buttonText: data['product'].status == 'Returned'
                             ? 'returned'.tr()
-                            : myOrderProduct.status == 'Delivered'
+                            : data['product'].status == 'Delivered'
                                 ? 'completed'.tr()
                                 : 'pending'.tr(),
-                        isCompleted: myOrderProduct.status == 'Delivered',
+                        isCompleted: data['product'].status == 'Delivered',
                         // Last step is never "completed"
-                        inProgressColor: myOrderProduct.status == 'Delivered',
+                        inProgressColor: data['product'].status == 'Delivered',
                       ),
                     ],
                   ),

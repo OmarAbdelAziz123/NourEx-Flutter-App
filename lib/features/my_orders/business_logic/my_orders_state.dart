@@ -25,3 +25,14 @@ final class GetAllMyOrdersErrorState extends MyOrdersState {
 }
 
 final class GetAllMyOrdersPaginationLoadingState extends MyOrdersState {}
+
+/// Make Return Order State
+final class MakeReturnOrderLoadingState extends MyOrdersState {}
+
+final class MakeReturnOrderSuccessState extends MyOrdersState {}
+
+final class MakeReturnOrderErrorState extends MyOrdersState {
+  final String message;
+
+  MakeReturnOrderErrorState(this.message);
+}

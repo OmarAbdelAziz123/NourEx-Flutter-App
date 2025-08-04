@@ -7,6 +7,7 @@ import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/features/profile/data/api_services/api_services.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
+import 'package:nourex/features/profile/data/models/returned_orders/returned_orders_data_model.dart';
 import 'package:nourex/features/profile/data/models/reviews/my_reviews_data_model.dart';
 
 import '../../../../core/networks_helper/errors/error_handler.dart';
@@ -29,7 +30,8 @@ class ProfileRepos {
         return ApiResult.success(ProfileDataModel.fromJson(response.data));
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<ProfileDataModel>(response);
+          return await ErrorHandler.handleValidationErrorResponse<
+              ProfileDataModel>(response);
         } else {
           return ApiResult.failure(ErrorHandler.handleApiError(response));
         }
@@ -73,7 +75,8 @@ class ProfileRepos {
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
         } else {
           return ApiResult.failure(ErrorHandler.handleApiError(response));
         }
@@ -86,7 +89,8 @@ class ProfileRepos {
   }
 
   /// Get All My Reviews
-  Future<ApiResult<MyReviewsDataModel>> getAllMyReviews({required int page}) async {
+  Future<ApiResult<MyReviewsDataModel>> getAllMyReviews(
+      {required int page}) async {
     try {
       final response = await profileApiServices.getAllMyReviews(page: page);
 
@@ -95,11 +99,13 @@ class ProfileRepos {
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        MyReviewsDataModel myReviewsDataModel = MyReviewsDataModel.fromJson(response.data);
+        MyReviewsDataModel myReviewsDataModel =
+            MyReviewsDataModel.fromJson(response.data);
         return ApiResult.success(myReviewsDataModel);
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<MyReviewsDataModel>(response);
+          return await ErrorHandler.handleValidationErrorResponse<
+              MyReviewsDataModel>(response);
         } else {
           ToastManager.showCustomToast(
             message: response.data['message'],
@@ -118,9 +124,11 @@ class ProfileRepos {
   }
 
   /// Delete My Review
-  Future<ApiResult<String>> deleteMyReview(String productId, String reviewId) async {
+  Future<ApiResult<String>> deleteMyReview(
+      String productId, String reviewId) async {
     try {
-      final response = await profileApiServices.deleteMyReview(productId, reviewId);
+      final response =
+          await profileApiServices.deleteMyReview(productId, reviewId);
 
       if (response == null) {
         return ApiResult.failure(ErrorHandler.handleApiError(null));
@@ -137,7 +145,8 @@ class ProfileRepos {
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
         } else {
           ToastManager.showCustomToast(
             message: response.data['message'],
@@ -156,9 +165,11 @@ class ProfileRepos {
   }
 
   /// Update My Review
-  Future<ApiResult<String>> updateMyReview(String productId, String reviewId, String comment, double rating) async {
+  Future<ApiResult<String>> updateMyReview(
+      String productId, String reviewId, String comment, double rating) async {
     try {
-      final response = await profileApiServices.updateMyReview(productId, reviewId, comment, rating);
+      final response = await profileApiServices.updateMyReview(
+          productId, reviewId, comment, rating);
 
       if (response == null) {
         return ApiResult.failure(ErrorHandler.handleApiError(null));
@@ -175,7 +186,8 @@ class ProfileRepos {
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
         } else {
           ToastManager.showCustomToast(
             message: response.data['message'],
@@ -213,8 +225,53 @@ class ProfileRepos {
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
-          return await ErrorHandler.handleValidationErrorResponse<String>(response);
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
         } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
+      }
+    } on DioException catch (e) {
+      return ApiResult.failure(ErrorHandler.handleDioError(e));
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
+    }
+  }
+
+  /// Get All My Returned Orders
+  Future<ApiResult<ReturnedOrdersDataModel>> getAllMyReturnedOrders(
+      {required int page, required String status}) async {
+    try {
+      final response = await profileApiServices.getAllMyReturnedOrders(
+        page: page,
+        status: status,
+      );
+
+      if (response == null) {
+        return ApiResult.failure(ErrorHandler.handleApiError(null));
+      }
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ReturnedOrdersDataModel returnedOrdersDataModel =
+            ReturnedOrdersDataModel.fromJson(response.data);
+        return ApiResult.success(returnedOrdersDataModel);
+      } else {
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<
+              ReturnedOrdersDataModel>(response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
           return ApiResult.failure(ErrorHandler.handleApiError(response));
         }
       }

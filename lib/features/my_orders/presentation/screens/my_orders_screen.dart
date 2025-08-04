@@ -51,22 +51,41 @@ class MyOrdersScreen extends StatelessWidget {
     );
   }
 
+  // Widget _buildTabContent(currentTabIndex) {
+  //   switch (currentTabIndex) {
+  //     case 0:
+  //       return StatusOrdersWidget(
+  //         status: 'Pending',
+  //       );
+  //     case 1:
+  //       return StatusOrdersWidget(
+  //         status: 'Delivered',
+  //       );
+  //     case 2:
+  //       return StatusOrdersWidget(
+  //         status: 'Cancelled',
+  //       );
+  //     default:
+  //       return Container();
+  //   }
+  // }
   Widget _buildTabContent(currentTabIndex) {
     switch (currentTabIndex) {
       case 0:
         return StatusOrdersWidget(
-          status: 'Pending',
+          status: 'pending'.tr(),
         );
       case 1:
         return StatusOrdersWidget(
-          status: 'Delivered',
+          status: 'delivered'.tr(),
         );
       case 2:
         return StatusOrdersWidget(
-          status: 'Cancelled',
+          status: 'cancelled'.tr(),
         );
       default:
         return Container();
     }
   }
+
 }

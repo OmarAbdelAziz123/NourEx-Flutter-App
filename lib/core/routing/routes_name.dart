@@ -23,6 +23,8 @@ class Routes {
   static const String profileScreen = 'profile_screen';
   static const String changePassword = 'change_password';
   static const String aboutUsScreen = 'about_us_screen';
+  static const String returnedOrdersScreen = 'returned_orders_screen';
+  static const String returnedOrderDetailsScreen = 'returned_order_details_screen';
   static const String privacyPolicyScreen = 'privacy_policy_screen';
   static const String supportScreen = 'support_screen';
   static const String walletScreen = 'wallet_screen';

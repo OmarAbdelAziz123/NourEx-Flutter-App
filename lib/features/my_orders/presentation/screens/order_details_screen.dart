@@ -335,11 +335,24 @@ class OrderDetailsScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: ordersList.products!.length,
                   itemBuilder: (context, index) {
+                    // استخراج itemSeq الخاص بالـ product في الـ index المحدد
+                    String? itemSeq;
+                    if (ordersList.products![index].variants != null &&
+                        ordersList.products![index].variants!.isNotEmpty) {
+                      // أخذ itemSeq من الـ variant الخاص بهذا الـ product تحديداً
+                      itemSeq = ordersList.products![index].variants![0].itemSeq;
+                    }
+
                     return GestureDetector(
                       onTap: () {
                         context.pushNamed(
                           Routes.productStatusScreen,
-                          arguments: ordersList.products![index],
+                          arguments: {
+                            'orderId': ordersList.id,
+                            'product': ordersList.products![index],
+                            'itemSeq': itemSeq,
+                          }
+                          // arguments: ordersList.products![index],
                         );
                       },
                       child: CustomProductCardItemWidget(

@@ -25,7 +25,7 @@ import 'package:nourex/features/error/un_authorized_screen.dart';
 import 'package:nourex/features/home/business_logic/home_cubit.dart';
 import 'package:nourex/features/my_orders/business_logic/my_orders_cubit.dart';
 import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
-import 'package:nourex/features/my_orders/presentation/screens/cancel_order_screen.dart';
+import 'package:nourex/features/my_orders/presentation/screens/returned_order_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/order_details_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/product_status_screen.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
@@ -41,12 +41,14 @@ import 'package:nourex/features/products/presentation/screens/product_reviews_sc
 import 'package:nourex/features/products/presentation/screens/products_by_category_screen.dart';
 import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
+import 'package:nourex/features/profile/data/models/returned_orders/returned_orders_data_model.dart';
 import 'package:nourex/features/profile/presentation/screens/about_us_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/change_password_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/edit_profile_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/my_reviews_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/privacy_policy_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/profile_screen.dart';
+import 'package:nourex/features/profile/presentation/screens/returned_orders_screen.dart';
 import 'package:nourex/features/profile/presentation/screens/terms_and_conditions_screen.dart';
 import 'package:nourex/features/search/business_logic/search_cubit.dart';
 import 'package:nourex/features/search/presentation/filter_screen.dart';
@@ -383,6 +385,26 @@ class AppRouter {
           duration: const Duration(milliseconds: 350),
         );
 
+      // Info screens with consistent animations
+      case Routes.returnedOrdersScreen:
+        return transition(
+          screen: const ReturnedOrdersScreen(),
+          cubit: ProfileCubit(getIt())..getInitialMyReturnedOrders(status: 'Return pending'),
+          type: PageTransitionType.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 350),
+        );
+
+      // Info screens with consistent animations
+      case Routes.returnedOrderDetailsScreen:
+        final ReturnedOrder returnedOrder = settings.arguments as ReturnedOrder;
+
+        return transition(
+          screen: ReturnedOrderDetailsScreen(returnedOrder: returnedOrder),
+          cubit: ProfileCubit(getIt()),
+          type: PageTransitionType.rightToLeftWithFade,
+          duration: const Duration(milliseconds: 350),
+        );
+
       case Routes.privacyPolicyScreen:
         return transition(
           screen: const PrivacyPolicyScreen(),
@@ -456,10 +478,11 @@ class AppRouter {
         );
 
       case Routes.productStatusScreen:
-        final MyOrderProduct myOrderProduct = settings.arguments as MyOrderProduct;
+        final Map<String, dynamic > data = settings.arguments as Map<String, dynamic>;
+        // final MyOrderProduct myOrderProduct = settings.arguments as MyOrderProduct;
 
         return transition(
-          screen: ProductStatusScreen(myOrderProduct: myOrderProduct),
+          screen: ProductStatusScreen(data: data),
           cubit: MyOrdersCubit(getIt()),
           type: PageTransitionType.rightToLeftWithFade,
           duration: const Duration(milliseconds: 350),
@@ -470,7 +493,7 @@ class AppRouter {
             settings.arguments as Map<String, dynamic>;
 
         return slideTransition(
-          screen: CancelOrderScreen(
+          screen: ReturnedOrderScreen(
             orderData: orderData,
           ),
           cubit: MyOrdersCubit(getIt()),

@@ -88,4 +88,13 @@ class ProfileApiServices {
   Future<Response?> userLogout() async {
     return await _dioFactory.patch(endPoint: EndPoints.logout);
   }
+
+  /// Get All My Returned Orders
+  Future<Response?> getAllMyReturnedOrders({
+    required int page,
+    required String status,
+  }) async {
+    return await _dioFactory.get(
+        endPoint: '${EndPoints.getAllMyReturnedOrders}?page=$page&status=$status');
+  }
 }

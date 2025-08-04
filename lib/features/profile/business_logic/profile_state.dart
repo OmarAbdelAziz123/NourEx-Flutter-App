@@ -12,6 +12,10 @@ final class UserToggle2PasswordState extends ProfileState {}
 
 final class UserToggle3PasswordState extends ProfileState {}
 
+/// Change Tab State
+final class ChangeTabState extends ProfileState {}
+
+
 /// Get Profile States
 final class GetProfileLoadingState extends ProfileState {}
 
@@ -77,3 +81,20 @@ final class LogoutLoadingState extends ProfileState {}
 final class LogoutSuccessState extends ProfileState {}
 
 final class LogoutErrorState extends ProfileState {}
+
+/// Get All My Returned Orders States
+final class GetAllMyReturnedOrdersLoadingState extends ProfileState {}
+
+final class GetAllMyReturnedOrdersSuccessState extends ProfileState {
+  final List<ReturnedOrder> myReturnedOrders;
+  final bool isLastPage;
+
+  GetAllMyReturnedOrdersSuccessState( this.myReturnedOrders, this.isLastPage);
+}
+
+final class GetAllMyReturnedOrdersErrorState extends ProfileState {
+  final String error;
+  GetAllMyReturnedOrdersErrorState(this.error);
+}
+
+final class GetAllMyReturnedOrdersPaginationLoadingState extends ProfileState {}

@@ -65,6 +65,20 @@ class ProfileScreen extends StatelessWidget {
             : () => context.pushNamed(Routes.myReviewsScreen),
       ),
       SettingsDataModel(
+        iconPath: 'assets/svgs/returned_order.svg',
+        title: 'returnOrders'.tr(),
+        onTap: AppConstants.userToken == null
+            ? () {
+                ToastManager.showCustomToast(
+                  message: 'pleaseLoginFirst'.tr(),
+                  backgroundColor: AppColors.redColor200,
+                  icon: Icons.error_outline,
+                  duration: const Duration(seconds: 3),
+                );
+              }
+            : () => context.pushNamed(Routes.returnedOrdersScreen),
+      ),
+      SettingsDataModel(
         iconPath: 'assets/svgs/address.svg',
         title: 'addresses'.tr(),
         onTap: AppConstants.userToken == null

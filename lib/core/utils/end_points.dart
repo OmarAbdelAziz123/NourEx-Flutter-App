@@ -16,6 +16,7 @@ class EndPoints {
   static const String allMyReviews = 'review/myReviews';
   static String deleteMyReview(String productId, String deleteMyReview) => 'review/deleteReview/$productId/$deleteMyReview';
   static String updateMyReview(String productId, String reviewId) => 'review/updateReview/$productId/$reviewId';
+  static const String getAllMyReturnedOrders = 'order/getMyReturnRequests';
   static const String logout = 'auth/logOut';
 
   /// Home
@@ -51,5 +52,6 @@ class EndPoints {
 
   /// My Orders
   static const String getAllMyOrders = 'order/getMyOrders';
+  static String makeReturnOrder(String orderId) => 'order/returnProduct/$orderId';
 
 }

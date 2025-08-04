@@ -9,6 +9,7 @@ import 'package:nourex/core/cache_helper/cache_helper.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/profile/data/models/profile/profile_data_model.dart';
+import 'package:nourex/features/profile/data/models/returned_orders/returned_orders_data_model.dart';
 import 'package:nourex/features/profile/data/models/reviews/my_reviews_data_model.dart';
 import 'package:nourex/features/profile/data/repos/repos.dart';
 
@@ -19,6 +20,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     _initScrollListener();
     /// ✅ Add scroll listener on cubit creation
     getInitialMyReviews();
+    getInitialMyReturnedOrders(status: 'Return pending');
     /// ✅ Load initial data when cubit is created
   }
   final ProfileRepos profileRepos;
@@ -48,9 +50,15 @@ class ProfileCubit extends Cubit<ProfileState> {
   bool showCheckIcon = false;
   final formKey = GlobalKey<FormState>();
 
+  ReturnedOrdersDataModel? returnedOrdersDataModel;
+  List<ReturnedOrder> allMyReturnedOrders = [];
+
   ProfileDataModel? profileDataModel;
   MyReviewsDataModel? myReviewsDataModel;
   List<MyReview> allMyReviews = [];
+
+  int selectedTabIndex = 0;
+
 
   void setProfileControllers() {
     final data = profileDataModel?.data;
@@ -246,6 +254,56 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  /// Get All My Returned Orders
+  Future<void> getInitialMyReturnedOrders({required String status}) async {
+    emit(GetAllMyReturnedOrdersLoadingState());
+    currentPage = 1;
+    allMyReturnedOrders.clear();
+    isFetching = false; // ✅ Reset fetching state
+
+    final result = await profileRepos.getAllMyReturnedOrders(page: currentPage, status: status);
+
+    result.when(
+      success: (success) {
+        returnedOrdersDataModel = success;
+        allMyReturnedOrders = success.result ?? [];
+        totalPages = success.pagination?.pages ?? 1;
+        emit(GetAllMyReturnedOrdersSuccessState(allMyReturnedOrders, currentPage >= totalPages));
+      },
+      failure: (failure) {
+        currentPage--; // ✅ Revert page increment on error
+        emit(GetAllMyReturnedOrdersErrorState(failure.toString()));
+      },
+    );
+
+    isFetching = false;
+  }
+
+  /// Fetch More for Pagination
+  Future<void> getMoreMyReturnedOrders({required String status}) async {
+    if (isFetching || currentPage >= totalPages) return;
+
+    isFetching = true;
+    emit(GetAllMyReturnedOrdersPaginationLoadingState());
+    currentPage++;
+
+    final result = await profileRepos.getAllMyReturnedOrders(page: currentPage, status: status);
+
+    result.when(
+      success: (success) {
+        returnedOrdersDataModel = success;
+        allMyReturnedOrders.addAll(success.result ?? []);
+        emit(GetAllMyReturnedOrdersSuccessState(allMyReturnedOrders, currentPage >= totalPages));
+      },
+      failure: (failure) {
+        currentPage--; // ✅ Revert page increment on error
+        emit(GetAllMyReturnedOrdersErrorState(failure.toString()));
+      },
+    );
+
+    isFetching = false;
+  }
+
   /// Toggle Password
   void userToggleObscure() {
     isObscure = !isObscure;
@@ -262,6 +320,29 @@ class ProfileCubit extends Cubit<ProfileState> {
   void userToggle3Obscure() {
     isObscure3 = !isObscure3;
     emit(UserToggle3PasswordState());
+  }
+
+  /// Change Tab
+  void changeTab(int index) {
+    if (index == selectedTabIndex) return; // Prevent re-fetch if same tab
+
+    selectedTabIndex = index;
+    emit(ChangeTabState());
+    getInitialMyReturnedOrders(status: _statusFromTabIndex(index)); // Fetch new data
+  }
+
+  /// Helper to get status string
+  String _statusFromTabIndex(int index) {
+    switch (index) {
+      case 0:
+        return 'Return pending';
+      case 1:
+        return 'Return accepted';
+      case 2:
+        return 'Return rejected';
+      default:
+        return 'Return pending';
+    }
   }
 
   @override

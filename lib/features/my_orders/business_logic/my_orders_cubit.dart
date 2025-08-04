@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart';
 import 'package:nourex/features/my_orders/data/repos/repos.dart';
 
@@ -24,6 +26,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
   final ScrollController scrollController = ScrollController();
   final refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
   bool isFetching = false;
+  TextEditingController reasonController = TextEditingController();
 
   int selectedTabIndex = 0;
 
@@ -119,5 +122,31 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     );
 
     isFetching = false;
+  }
+
+  /// Make Return Order Order
+  Future<void> makeReturnOrder({
+    required String orderId,
+    required List<Map<String, String>> products,
+    required List<XFile> returnImages,
+  }) async {
+    showLoading();
+    emit(MakeReturnOrderLoadingState());
+    final result = await myOrdersRepos.makeReturnOrder(
+      orderId: orderId,
+      products: products,
+      returnImages: returnImages,
+      reason: reasonController.text,
+    );
+    result.when(
+      success: (data) {
+        hideLoading();
+        emit(MakeReturnOrderSuccessState());
+      },
+      failure: (error) {
+        hideLoading();
+        emit(MakeReturnOrderErrorState(error.message.toString()));
+      },
+    );
   }
 }

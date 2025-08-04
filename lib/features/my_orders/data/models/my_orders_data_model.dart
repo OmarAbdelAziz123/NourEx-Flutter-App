@@ -71,19 +71,19 @@ class MyOrder {
 
 @JsonSerializable()
 class MyOrderProduct {
+  final String? productId;
   final double? finalProductTotal;
   final String? status;
   final String? mainImageURL;
   final String? name;
-  final String? itemSeq;
   final List<MyOrderVariant>? variants;
 
   MyOrderProduct({
+    this.productId,
     this.finalProductTotal,
     this.status,
     this.mainImageURL,
     this.name,
-    this.itemSeq,
     this.variants,
   });
 
@@ -96,6 +96,7 @@ class MyOrderProduct {
 @JsonSerializable()
 class MyOrderVariant {
   final int? skuId;
+  final String? itemSeq;
   final String? sku;
   final int? stockAmount;
   final int? price;
@@ -107,6 +108,7 @@ class MyOrderVariant {
 
   MyOrderVariant({
     this.skuId,
+    this.itemSeq,
     this.sku,
     this.stockAmount,
     this.price,
