@@ -44,16 +44,16 @@ class ReturnedOrdersScreen extends StatelessWidget {
 
           return Column(
             children: [
-              CustomTabBarWidget2(
-                tabs: ['pending'.tr(), 'returned1'.tr(), 'returned2'.tr(), 'rejectedd'.tr()],
-                selectedIndex: cubit.selectedTabIndex,
-                onTabChanged: (index) {
-                  cubit.changeTab(index);
-                  print('-----------');
-                  print(index);
-                  print('-----------');
-                },
-              ),
+              // CustomTabBarWidget2(
+              //   tabs: ['pending'.tr(), 'returned1'.tr(), 'returned2'.tr(), 'rejectedd'.tr()],
+              //   selectedIndex: cubit.selectedTabIndex,
+              //   onTabChanged: (index) {
+              //     cubit.changeTab(index);
+              //     print('-----------');
+              //     print(index);
+              //     print('-----------');
+              //   },
+              // ),
               Expanded(
                 child: _buildTabContent(cubit.selectedTabIndex),
               ),

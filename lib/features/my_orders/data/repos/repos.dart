@@ -28,7 +28,7 @@ class MyOrdersRepos {
         MyOrdersDataModel.fromJson(response.data);
         return ApiResult.success(myOrdersDataModel);
       } else {
-        if (response.data['message'] == 'Validation Error') {
+        if (response.data['message'].toString() == 'Validation Error') {
           return await ErrorHandler.handleValidationErrorResponse<
               MyOrdersDataModel>(response);
         } else {
@@ -63,6 +63,86 @@ class MyOrdersRepos {
         products: products,
         returnImages: returnImages,
         reason: reason,
+      );
+      if (response == null) {
+        return ApiResult.failure(ErrorHandler.handleApiError(null));
+      }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check_circle_outline,
+          duration: const Duration(seconds: 3),
+        );
+        return ApiResult.success(response.data['message'].toString());
+      } else {
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
+      }
+    } on DioException catch (e) {
+      return ApiResult.failure(ErrorHandler.handleApiError(e));
+    } catch (e, stackTrace) {
+      print('❌ Unexpected error: $e');
+      print('📌 Stack trace: $stackTrace');
+      return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
+    }
+  }
+
+  /// Make Cancel Order
+  Future<ApiResult<String>> makeCancelOrder({required String orderId}) async {
+    try {
+      final response = await myOrdersApiServices.makeCancelOrder(
+        orderId: orderId,
+      );
+      if (response == null) {
+        return ApiResult.failure(ErrorHandler.handleApiError(null));
+      }
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check_circle_outline,
+          duration: const Duration(seconds: 3),
+        );
+        return ApiResult.success(response.data['message'].toString());
+      } else {
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
+      }
+    } on DioException catch (e) {
+      return ApiResult.failure(ErrorHandler.handleApiError(e));
+    } catch (e, stackTrace) {
+      print('❌ Unexpected error: $e');
+      print('📌 Stack trace: $stackTrace');
+      return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
+    }
+  }
+
+  /// Make Delivery Order
+  Future<ApiResult<String>> makeDeliveryOrder({required String orderId}) async {
+    try {
+      final response = await myOrdersApiServices.makeDeliveryOrder(
+        orderId: orderId,
       );
       if (response == null) {
         return ApiResult.failure(ErrorHandler.handleApiError(null));

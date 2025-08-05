@@ -95,6 +95,6 @@ class ProfileApiServices {
     required String status,
   }) async {
     return await _dioFactory.get(
-        endPoint: '${EndPoints.getAllMyReturnedOrders}?page=$page&status=$status');
+        endPoint: '${EndPoints.getAllMyReturnedOrders}?page=$page');
   }
 }

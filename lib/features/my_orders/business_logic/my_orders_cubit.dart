@@ -149,4 +149,38 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       },
     );
   }
+
+  /// Make Cancel Order
+  Future<void> makeCancelOrder({required String orderId}) async {
+    showLoading();
+    emit(MakeCancelOrderLoadingState());
+    final result = await myOrdersRepos.makeCancelOrder(orderId: orderId);
+    result.when(
+      success: (data) {
+        hideLoading();
+        emit(MakeCancelOrderSuccessState());
+      },
+      failure: (error) {
+        hideLoading();
+        emit(MakeCancelOrderErrorState(error.message.toString()));
+      },
+    );
+  }
+
+  /// Make Delivery Order
+  Future<void> makeDeliveryOrder({required String orderId}) async {
+    showLoading();
+    emit(MakeDeliveryOrderLoadingState());
+    final result = await myOrdersRepos.makeDeliveryOrder(orderId: orderId);
+    result.when(
+      success: (data) {
+        hideLoading();
+        emit(MakeDeliveryOrderSuccessState());
+      },
+      failure: (error) {
+        hideLoading();
+        emit(MakeDeliveryOrderErrorState(error.message.toString()));
+      },
+    );
+  }
 }

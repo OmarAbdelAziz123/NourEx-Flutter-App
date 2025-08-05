@@ -61,4 +61,18 @@ class MyOrdersApiServices {
       data: formData,
     );
   }
+
+  /// Make Cancel Order
+  Future<Response?> makeCancelOrder({required String orderId}) async {
+    return await _dioFactory.patch(
+      endPoint: EndPoints.makeCancelOrder(orderId),
+    );
+  }
+
+  /// Make Delivery Order
+  Future<Response?> makeDeliveryOrder({required String orderId}) async {
+    return await _dioFactory.patch(
+      endPoint: EndPoints.makeDeliveryOrder(orderId),
+    );
+  }
 }

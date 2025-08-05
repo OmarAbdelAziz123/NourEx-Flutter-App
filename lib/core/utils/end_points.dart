@@ -53,5 +53,7 @@ class EndPoints {
   /// My Orders
   static const String getAllMyOrders = 'order/getMyOrders';
   static String makeReturnOrder(String orderId) => 'order/returnProduct/$orderId';
+  static String makeCancelOrder(String orderId) => 'order/cancelOrder/$orderId';
+  static String makeDeliveryOrder(String orderId) => 'order/deliveredOrder/$orderId';
 
 }
