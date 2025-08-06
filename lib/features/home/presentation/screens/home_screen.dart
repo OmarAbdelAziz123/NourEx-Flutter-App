@@ -38,13 +38,10 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   /// Banner Images
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: BlocProvider(
-                      create: (context) =>
-                          BannersCubit(getIt())..getInitialBanners(),
-                      child: BannerWidget(),
-                    ),
+                  BlocProvider(
+                    create: (context) =>
+                        BannersCubit(getIt())..getInitialBanners(),
+                    child: BannerWidget(),
                   ),
                   18.verticalSpace,
 

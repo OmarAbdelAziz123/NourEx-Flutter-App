@@ -7,7 +7,8 @@ import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/features/wallet/data/models/wallet_data_model.dart';
 
-class CustomTransactionsHistoryInBalanceFromWalletWidget extends StatelessWidget {
+class CustomTransactionsHistoryInBalanceFromWalletWidget
+    extends StatelessWidget {
   const CustomTransactionsHistoryInBalanceFromWalletWidget({
     super.key,
     required this.transactionsHistoryDataModel,
@@ -28,7 +29,8 @@ class CustomTransactionsHistoryInBalanceFromWalletWidget extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     final isDeposit =
-        transactionsHistoryDataModel.type?.toLowerCase() == 'redeem';
+        transactionsHistoryDataModel.type?.toLowerCase() == 'redeem' ||
+            transactionsHistoryDataModel.type?.toLowerCase() == 'refund';
 
     return Container(
       width: double.infinity,
@@ -73,11 +75,11 @@ class CustomTransactionsHistoryInBalanceFromWalletWidget extends StatelessWidget
             ),
           ),
           Text(
-            '${isDeposit ? '+' : '-'}${transactionsHistoryDataModel.amount?.toStringAsFixed(2) ?? '0.00'} EGP',
+            // '${isDeposit ? '+' : '-'}'
+                '${transactionsHistoryDataModel.amount?.toStringAsFixed(2) ?? '0.00'} EGP',
             style: Styles.highlightBold.copyWith(
-              color: isDeposit
-                  ? AppColors.greenColor200
-                  : AppColors.redColor100,
+              color:
+                  isDeposit ? AppColors.greenColor200 : AppColors.redColor100,
             ),
           )
         ],
@@ -85,4 +87,3 @@ class CustomTransactionsHistoryInBalanceFromWalletWidget extends StatelessWidget
     );
   }
 }
-

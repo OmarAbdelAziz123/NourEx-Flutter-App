@@ -2,12 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:nourex/core/extensions/log_util.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/features/wallet/data/models/wallet_data_model.dart';
 
-class CustomTransactionsHistoryInPointsFromWalletWidget extends StatelessWidget {
+class CustomTransactionsHistoryInPointsFromWalletWidget
+    extends StatelessWidget {
   const CustomTransactionsHistoryInPointsFromWalletWidget({
     super.key,
     required this.transactionsHistoryDataModel,
@@ -28,7 +30,9 @@ class CustomTransactionsHistoryInPointsFromWalletWidget extends StatelessWidget 
   @override
   Widget build(BuildContext context) {
     final isDeposit =
-        transactionsHistoryDataModel.type?.toLowerCase() != 'redeem';
+        transactionsHistoryDataModel.type?.toLowerCase() == 'reward' ;
+    // ||
+    //         transactionsHistoryDataModel.type?.toLowerCase() != 'redeem';
 
     return Container(
       width: double.infinity,
@@ -73,11 +77,11 @@ class CustomTransactionsHistoryInPointsFromWalletWidget extends StatelessWidget 
             ),
           ),
           Text(
-            '${isDeposit ? '+' : '-'}${transactionsHistoryDataModel.points?.toStringAsFixed(2) ?? '0.00'} Points',
+            // '${isDeposit ? '+' : '-'}'
+                '${transactionsHistoryDataModel.points?.toStringAsFixed(2) ?? '0.00'} Points',
             style: Styles.highlightBold.copyWith(
-              color: isDeposit
-                  ? AppColors.greenColor200
-                  : AppColors.redColor100,
+              color:
+                  isDeposit ? AppColors.greenColor200 : AppColors.redColor100,
             ),
           )
         ],

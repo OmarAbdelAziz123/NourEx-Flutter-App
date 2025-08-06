@@ -33,53 +33,12 @@ class CustomBannerListWidget extends StatelessWidget {
           currentIndex = state.index;
         }
 
-        return bannersCubit.bannersDataModel == null ||
-                bannersCubit.bannersDataModel?.banners?.isEmpty == true
+        return bannersCubit.bannersDataModel == null
             ? Skeletonizer(
                 enabled: true,
-                child: Column(
-                  children: [
-                    ShowMoreRowWidget(
-                      title: 'specialOffers'.tr(),
-                      onTapShowMore: () {
-                        context.pushNamed(Routes.allBannersScreen);
-                      },
-                    ),
-                    12.verticalSpace,
-
-                    CustomSpecificBannerWidget(
-                      isFetched: false,
-                      banners2: banners,
-                    ),
-                    12.verticalSpace,
-
-                    /// Dots
-                    /// Dots based on HomeCubit state
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: List.generate(banners.length, (index) {
-                        final isActive = index == currentIndex;
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 300),
-                          margin: EdgeInsets.symmetric(horizontal: 4.w),
-                          height: 5.h,
-                          width: isActive ? 16.w : 6.w,
-                          decoration: BoxDecoration(
-                            color: isActive
-                                ? AppColors.primaryColor700
-                                : AppColors.primaryColor200,
-                            borderRadius: BorderRadius.circular(200.r),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              )
-            : bannersCubit.bannersDataModel?.banners == [] ||
-                    bannersCubit.allBanners == []
-                ? Center(child: Text('noBanners'.tr()))
-                : Column(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Column(
                     children: [
                       ShowMoreRowWidget(
                         title: 'specialOffers'.tr(),
@@ -90,19 +49,16 @@ class CustomBannerListWidget extends StatelessWidget {
                       12.verticalSpace,
 
                       CustomSpecificBannerWidget(
-                          isFetched: true,
-                          banners:
-                              bannersCubit.bannersDataModel?.banners ?? []),
+                        isFetched: false,
+                        banners2: banners,
+                      ),
                       12.verticalSpace,
 
                       /// Dots
                       /// Dots based on HomeCubit state
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                            bannersCubit.allBanners.length < 3
-                                ? bannersCubit.allBanners.length
-                                : 3, (index) {
+                        children: List.generate(banners.length, (index) {
                           final isActive = index == currentIndex;
                           return AnimatedContainer(
                             duration: const Duration(milliseconds: 300),
@@ -119,7 +75,57 @@ class CustomBannerListWidget extends StatelessWidget {
                         }),
                       ),
                     ],
-                  );
+                  ),
+                ),
+              )
+            : bannersCubit.bannersDataModel?.banners == [] ||
+                    bannersCubit.bannersDataModel?.banners?.isEmpty == true ||
+                    bannersCubit.allBanners == []
+                ? SizedBox.shrink()
+                : Padding(
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+                  child: Column(
+                      children: [
+                        ShowMoreRowWidget(
+                          title: 'specialOffers'.tr(),
+                          onTapShowMore: () {
+                            context.pushNamed(Routes.allBannersScreen);
+                          },
+                        ),
+                        12.verticalSpace,
+
+                        CustomSpecificBannerWidget(
+                            isFetched: true,
+                            banners:
+                                bannersCubit.bannersDataModel?.banners ?? []),
+                        12.verticalSpace,
+
+                        /// Dots
+                        /// Dots based on HomeCubit state
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                              bannersCubit.allBanners.length < 3
+                                  ? bannersCubit.allBanners.length
+                                  : 3, (index) {
+                            final isActive = index == currentIndex;
+                            return AnimatedContainer(
+                              duration: const Duration(milliseconds: 300),
+                              margin: EdgeInsets.symmetric(horizontal: 4.w),
+                              height: 5.h,
+                              width: isActive ? 16.w : 6.w,
+                              decoration: BoxDecoration(
+                                color: isActive
+                                    ? AppColors.primaryColor700
+                                    : AppColors.primaryColor200,
+                                borderRadius: BorderRadius.circular(200.r),
+                              ),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                );
       },
     );
   }
