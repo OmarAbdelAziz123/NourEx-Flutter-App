@@ -171,7 +171,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(GetAllMyReviewsSuccessState(allMyReviews, currentPage >= totalPages));
       },
       failure: (failure) {
-        currentPage--; // ✅ Revert page increment on error
+        // currentPage--; // ✅ Revert page increment on error
         emit(GetAllMyReviewsErrorState(failure.toString()));
       },
     );
@@ -194,6 +194,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(GetAllMyReviewsSuccessState(allMyReviews, currentPage >= totalPages));
       },
       failure: (failure) {
+        currentPage--; // ✅ Revert page increment on error
         emit(GetAllMyReviewsErrorState(failure.toString()));
       },
     );

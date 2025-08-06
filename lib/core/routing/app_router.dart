@@ -15,6 +15,7 @@ import 'package:nourex/features/auth/presentation/screens/forget_password_screen
 import 'package:nourex/features/auth/presentation/screens/login_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/register_screen.dart';
 import 'package:nourex/features/auth/presentation/screens/verify_code_screen.dart';
+import 'package:nourex/features/banners/business_logic/banners_cubit.dart';
 import 'package:nourex/features/banners/presentation/screens/all_banners_screen.dart';
 import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/cart/presentation/screens/cart_screen.dart';
@@ -282,6 +283,7 @@ class AppRouter {
       case Routes.allBannersScreen:
         return transition(
           screen: const AllBannersScreen(),
+          cubit: BannersCubit(getIt())..getInitialBanners(),
           type: PageTransitionType.leftToRightWithFade,
           duration: const Duration(milliseconds: 350),
         );

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/services/di/di.dart';
+import 'package:nourex/features/banners/business_logic/banners_cubit.dart';
 import 'package:nourex/features/categories/business_logic/categories_cubit.dart';
 import 'package:nourex/features/categories/data/model/category_model_data.dart';
 import 'package:nourex/features/categories/presentation/presentation/widgets/custom_category_in_all_categories_widget.dart';
@@ -26,51 +27,6 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<CategoryModelData> categories = [
-      CategoryModelData(
-        categoryName: 'ملابس رجالية',
-        categoryImage: 'assets/pngs/clothes_man.png',
-      ),
-      CategoryModelData(
-        categoryName: 'إكسسوارات',
-        categoryImage: 'assets/pngs/accessories.png',
-      ),
-      CategoryModelData(
-        categoryName: 'العطور',
-        categoryImage: 'assets/pngs/uttor.png',
-      ),
-      CategoryModelData(
-        categoryName: 'حقائب',
-        categoryImage: 'assets/pngs/hijab.png',
-      ),
-      CategoryModelData(
-        categoryName: 'منتجات العناية بالبشرة',
-        categoryImage: 'assets/pngs/face.png',
-      ),
-      CategoryModelData(
-        categoryName: 'أحذية',
-        categoryImage: 'assets/pngs/shoes.png',
-      ),
-    ];
-    // final products = [
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    // ];
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -84,7 +40,11 @@ class HomeScreen extends StatelessWidget {
                   /// Banner Images
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 18.w),
-                    child: BannerWidget(),
+                    child: BlocProvider(
+                      create: (context) =>
+                          BannersCubit(getIt())..getInitialBanners(),
+                      child: BannerWidget(),
+                    ),
                   ),
                   18.verticalSpace,
 
@@ -108,9 +68,8 @@ class HomeScreen extends StatelessWidget {
                     height: 110.h,
                     padding: EdgeInsets.only(right: 0.w),
                     child: BlocProvider(
-                      create:
-                          (context) =>
-                              CategoriesCubit(getIt())..getInitialCategories(),
+                      create: (context) =>
+                          CategoriesCubit(getIt())..getInitialCategories(),
                       child: BlocBuilder<CategoriesCubit, CategoriesState>(
                         builder: (context, state) {
                           final categoryCubit = context.read<CategoriesCubit>();
@@ -119,69 +78,73 @@ class HomeScreen extends StatelessWidget {
                           /// Empty
                           return categories == []
                               ? Text(
-                                'noInvoices'.tr(),
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
+                                  'noInvoices'.tr(),
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                )
                               : categories.isEmpty ||
-                                  state is GetAllCategoriesLoadingState
-                              /// Loading
-                              ? ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 6,
-                                itemBuilder: (context, index) {
-                                  return Padding(
-                                    padding: EdgeInsets.only(
-                                      right: index == 0 ? 18.w : 0,
-                                      left:
-                                          index == categories.length - 1
-                                              ? 18.w
-                                              : 12.w,
-                                    ),
-                                    child:
-                                        CustomCategorySkeletonizerInHomeWidget(),
-                                    // child: CustomCategoryInHomeSkeletonizerWidget(),
-                                  );
-                                },
-                              )
-                              /// Loaded
-                              : ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 6,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      context.pushNamed(
-                                        Routes.productsByCategoryScreen,
-                                        arguments: {
-                                          'categoryName': categories[index].name,
-                                          'categoryId': categories[index].id
-                                        },
-                                      );
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        right: index == 0 ? 18.w : 0,
-                                        left:
-                                            index == categories.length - 1
+                                      state is GetAllCategoriesLoadingState
+
+                                  /// Loading
+                                  ? ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 6,
+                                      itemBuilder: (context, index) {
+                                        return Padding(
+                                          padding: EdgeInsets.only(
+                                            right: index == 0 ? 18.w : 0,
+                                            left: index == categories.length - 1
                                                 ? 18.w
                                                 : 12.w,
-                                      ),
-                                      child: CustomCategoryInHomeWidget(
-                                        imageUrl: categories[index].image ?? '',
-                                        categoryName:
-                                            categories[index].name ?? '',
-                                      ),
-                                      // child: CustomCategoryInHomeSkeletonizerWidget(),
-                                    ),
-                                  );
-                                },
-                              );
+                                          ),
+                                          child:
+                                              CustomCategorySkeletonizerInHomeWidget(),
+                                          // child: CustomCategoryInHomeSkeletonizerWidget(),
+                                        );
+                                      },
+                                    )
+
+                                  /// Loaded
+                                  : ListView.builder(
+                                      shrinkWrap: true,
+                                      scrollDirection: Axis.horizontal,
+                                      itemCount: 6,
+                                      itemBuilder: (context, index) {
+                                        return GestureDetector(
+                                          onTap: () {
+                                            context.pushNamed(
+                                              Routes.productsByCategoryScreen,
+                                              arguments: {
+                                                'categoryName':
+                                                    categories[index].name,
+                                                'categoryId':
+                                                    categories[index].id
+                                              },
+                                            );
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                              right: index == 0 ? 18.w : 0,
+                                              left:
+                                                  index == categories.length - 1
+                                                      ? 18.w
+                                                      : 12.w,
+                                            ),
+                                            child: CustomCategoryInHomeWidget(
+                                              imageUrl:
+                                                  categories[index].image ?? '',
+                                              categoryName:
+                                                  categories[index].name ?? '',
+                                            ),
+                                            // child: CustomCategoryInHomeSkeletonizerWidget(),
+                                          ),
+                                        );
+                                      },
+                                    );
                         },
                       ),
                     ),
@@ -202,15 +165,13 @@ class HomeScreen extends StatelessWidget {
                   ),
                   12.verticalSpace,
                   BlocProvider(
-                    create:
-                        (context) =>
-                            ProductsCubit(getIt())..getInitialProducts(),
+                    create: (context) =>
+                        ProductsCubit(getIt())..getInitialProducts(),
                     child: BlocBuilder<ProductsCubit, ProductsState>(
-                      buildWhen:
-                          (previous, current) =>
-                              current is GetAllProductsLoadingState ||
-                              current is GetAllProductsSuccessState ||
-                              current is GetAllProductsErrorState,
+                      buildWhen: (previous, current) =>
+                          current is GetAllProductsLoadingState ||
+                          current is GetAllProductsSuccessState ||
+                          current is GetAllProductsErrorState,
                       builder: (context, state) {
                         final products =
                             context.read<ProductsCubit>().allProducts;
@@ -256,10 +217,9 @@ class HomeScreen extends StatelessWidget {
                               return Container(
                                 margin: EdgeInsets.only(
                                   right: index == 0 ? 18.w : 0,
-                                  left:
-                                      index == products.length - 1
-                                          ? 18.w
-                                          : 12.w,
+                                  left: index == products.length - 1
+                                      ? 18.w
+                                      : 12.w,
                                 ),
                                 child: GestureDetector(
                                   onTap: () {
@@ -296,15 +256,13 @@ class HomeScreen extends StatelessWidget {
                   /// List of products
                   /// Success
                   BlocProvider(
-                    create:
-                        (context) =>
-                            ProductsCubit(getIt())..getInitialProducts(),
+                    create: (context) =>
+                        ProductsCubit(getIt())..getInitialProducts(),
                     child: BlocBuilder<ProductsCubit, ProductsState>(
-                      buildWhen:
-                          (previous, current) =>
-                              current is GetAllProductsLoadingState ||
-                              current is GetAllProductsSuccessState ||
-                              current is GetAllProductsErrorState,
+                      buildWhen: (previous, current) =>
+                          current is GetAllProductsLoadingState ||
+                          current is GetAllProductsSuccessState ||
+                          current is GetAllProductsErrorState,
                       builder: (context, state) {
                         final products =
                             context.read<ProductsCubit>().allProducts;
@@ -350,10 +308,9 @@ class HomeScreen extends StatelessWidget {
                               return Container(
                                 margin: EdgeInsets.only(
                                   right: index == 0 ? 18.w : 0,
-                                  left:
-                                      index == products.length - 1
-                                          ? 18.w
-                                          : 12.w,
+                                  left: index == products.length - 1
+                                      ? 18.w
+                                      : 12.w,
                                 ),
                                 child: GestureDetector(
                                   onTap: () {

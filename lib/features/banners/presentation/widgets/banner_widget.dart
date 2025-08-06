@@ -16,7 +16,6 @@ class BannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        // CustomBannerListSkeletonizerWidget(),
         CustomBannerListWidget(),
       ],
     );

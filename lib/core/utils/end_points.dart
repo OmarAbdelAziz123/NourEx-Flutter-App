@@ -16,11 +16,12 @@ class EndPoints {
   static const String allMyReviews = 'review/myReviews';
   static String deleteMyReview(String productId, String deleteMyReview) => 'review/deleteReview/$productId/$deleteMyReview';
   static String updateMyReview(String productId, String reviewId) => 'review/updateReview/$productId/$reviewId';
-  static const String getAllMyReturnedOrders = 'order/getMyReturnRequests';
+  static const String getAllMyReturnedOrders = 'return/getMyReturnRequests';
   static const String logout = 'auth/logOut';
 
   /// Home
   /// Products
+  static const String getAllBanners = 'banner/getAllBanners';
   static const String products = 'product/getAllProducts';
   static const String productById = 'product/getProductById';
   static const String productReviews = 'review/getReviews/';
