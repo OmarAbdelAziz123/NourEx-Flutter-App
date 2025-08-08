@@ -48,7 +48,6 @@ final Map<String, WidgetBuilder> routeBuilderMap = {
   Routes.profileScreen: (_) => const ProfileScreen(),
   Routes.aboutUsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const AboutUsScreen()),
   Routes.privacyPolicyScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const PrivacyPolicyScreen()),
-  Routes.supportScreen: (_) => BlocProvider(create: (_) => SupportCubit(), child: const SupportScreen()),
   Routes.walletScreen: (_) => BlocProvider(create: (_) => WalletCubit(getIt())..getWalletHistory(type: 'balance'), child: const WalletScreen()),
   Routes.convertPointsToBalanceScreen: (_) => BlocProvider(create: (_) => WalletCubit(getIt()), child: const ConvertPointsToBalanceScreen()),
   Routes.termsAndConditionsScreen: (_) => BlocProvider(create: (_) => ProfileCubit(getIt()), child: const TermsAndConditionsScreen()),

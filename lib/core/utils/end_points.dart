@@ -12,6 +12,11 @@ class EndPoints {
 
   /// Settings
   static const String getProfile = 'user/userProfile';
+  static const String getAllSupportData = 'support/getMyProblems';
+  static const String makeSupportTicket = 'support/sendSupportMessage';
+  static const String getTicketDetails = 'support/getSupportChat';
+  static const String sendMessage = 'support/sendSupportReply';
+  static const String completeTicket = 'support/complete';
   static const String updateProfile = 'user/updateProfile';
   static const String allMyReviews = 'review/myReviews';
   static String deleteMyReview(String productId, String deleteMyReview) => 'review/deleteReview/$productId/$deleteMyReview';

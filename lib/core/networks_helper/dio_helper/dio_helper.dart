@@ -44,6 +44,7 @@ class DioHelper {
       "Accept": "application/json",
       "Language": CacheHelper.getCurrentLanguage(),
       // "Lang": CacheHelper.getCurrentLanguage().toString(),
+      // "authorization": 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY4N2E0MTlkMzllNzViOTk2NjcwNDlhYyIsImVtYWlsIjoiM29tYXJhYmRlbGF6aXoxMjNAZ21haWwuY29tIiwicm9sZSI6InVzZXIiLCJpYXQiOjE3NTM1MzE3NzZ9.q1SVzz6mcjSXNLd5oN-nuz4y0V6vMHBZS6rgWzfNQQA',
       "authorization": token,
     };
     return await dio.get(endPoint, data: data);

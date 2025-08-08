@@ -39,6 +39,8 @@
 	<string>We need access to your location to improve user experience.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to upload images.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+    <string>We need permission to save compressed images to your photo library.</string>
 	<key>NSUserNotificationUsageDescription</key>
 	<string>We use notifications to keep you updated.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

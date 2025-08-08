@@ -126,7 +126,7 @@ class ProfileScreen extends StatelessWidget {
                   duration: const Duration(seconds: 3),
                 );
               }
-            : () => context.pushNamed(Routes.supportScreen),
+            : () => context.pushNamed(Routes.supportScreen, arguments: 'Completed'),
       ),
     ];
 

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
+import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 
 class CustomDropdownButtonWidget<T> extends StatefulWidget {
@@ -139,18 +140,23 @@ class _CustomDropdownButtonWidgetState<T>
                         ),
                       ),
                     10.horizontalSpace,
-                    Text(
-                      selectedValue == null
-                          ? (widget.hint ?? "Select an option")
-                          : (widget.isString
-                              ? selectedValue.toString()
-                              : widget.getItemText!(selectedValue as T)),
-                      style: Styles.highlightEmphasis.copyWith(
-                        color: selectedValue == null
-                            ? AppColors.neutralColor600
-                            : AppColors.neutralColor1000,
+                    Container(
+                      constraints: BoxConstraints(
+                        maxWidth: AppConstants.screenWidth(context) * 0.55,
                       ),
-                      overflow: TextOverflow.ellipsis,
+                      child: Text(
+                        selectedValue == null
+                            ? (widget.hint ?? "Select an option")
+                            : (widget.isString
+                                ? selectedValue.toString()
+                                : widget.getItemText!(selectedValue as T)),
+                        style: Styles.highlightEmphasis.copyWith(
+                          color: selectedValue == null
+                              ? AppColors.neutralColor600
+                              : AppColors.neutralColor1000,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ],
                 ),

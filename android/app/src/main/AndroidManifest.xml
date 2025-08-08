@@ -15,9 +15,13 @@
     <!-- For Notifications -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
+
     <!-- For File Downloads (Optional, in case you download images/files via Dio or cached_network_image) -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+
+    <!-- For Android API >= 33 (Android 13 and above) -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
 
     <!-- For secure storage -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC"/>

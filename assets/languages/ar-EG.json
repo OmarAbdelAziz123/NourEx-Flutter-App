@@ -162,6 +162,8 @@
   "delivered": "تم التوصيل",
   "cancelled": "ملغي",
   "returned1": "تم قبول الإرجاع",
+  "sendImage": "ارسل صورة",
+  "clear": "مسح",
   "returned2": "تم الارجاع",
   "description3": "تم استرجاع الطلب",
   "executionSteps": "مراحل التنفيذ",

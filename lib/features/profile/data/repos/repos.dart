@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:nourex/core/cache_helper/cache_helper.dart';
+import 'package:nourex/core/cache_helper/cache_keys.dart';
 import 'package:nourex/core/networks_helper/api_results/api_result.dart';
 import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -27,6 +29,26 @@ class ProfileRepos {
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
+
+        // Validate response structure
+        if (response.data is Map<String, dynamic> &&
+            response.data['status'] == 'success' &&
+            response.data['data'] != null) {
+          // Extract profilePic from the nested data
+          final userImage = response.data['data']['profilePic'] as String?;
+
+          // Save profilePic to local storage if it exists and is not empty
+          if (userImage != null && userImage.isNotEmpty) {
+            await CacheHelper.saveData(
+              key: CacheKeys.userImage,
+              value: userImage,
+            );
+            print('Profile picture URL saved: $userImage');
+          } else {
+            print('No valid profile picture URL found in response');
+          }
+        }
+
         return ApiResult.success(ProfileDataModel.fromJson(response.data));
       } else {
         if (response.data['message'] == 'Validation Error') {

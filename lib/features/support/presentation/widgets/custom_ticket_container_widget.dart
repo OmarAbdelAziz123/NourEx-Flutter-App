@@ -5,14 +5,16 @@ import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/features/profile/presentation/widgets/custom_arrow_in_containers_widget.dart';
+import 'package:nourex/features/support/data/models/get_all_support_ticket_data_model.dart';
 import 'package:nourex/features/support/data/models/solved_orders_data_model.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomTicketContainerWidget extends StatelessWidget {
   const CustomTicketContainerWidget({
     super.key, required this.solvedOrdersDataModel,
   });
 
-  final SolvedOrdersDataModel solvedOrdersDataModel;
+  final SupportDModel solvedOrdersDataModel;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class CustomTicketContainerWidget extends StatelessWidget {
                 style: Styles.highlightSemiBold,
               ),
               Text(
-                solvedOrdersDataModel.orderNumber,
+                solvedOrdersDataModel.ticketSeq ?? '',
                 style: Styles.captionRegular.copyWith(
                     color: AppColors.neutralColor600
                 ),
@@ -52,6 +54,57 @@ class CustomTicketContainerWidget extends StatelessWidget {
             iconColor: AppColors.primaryColor700,
           ),
         ],
+      ),
+    );
+  }
+}
+class CustomTicketContainerSkeletonizerWidget extends StatelessWidget {
+  const CustomTicketContainerSkeletonizerWidget({
+    super.key,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Skeletonizer(
+      enabled: true,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 12.h),
+        margin: EdgeInsets.symmetric(horizontal: 18.w),
+        decoration: BoxDecoration(
+          border: Border.all(
+            width: 1.w,
+            color: AppColors.primaryColor700,
+          ),
+          borderRadius: BorderRadius.circular(
+            AppConstants.borderRadius + 4.r,
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              spacing: 4.h,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'trackingNumber'.tr(),
+                  style: Styles.highlightSemiBold,
+                ),
+                Text(
+                  'TRACKING_NUMBER',
+                  style: Styles.captionRegular.copyWith(
+                      color: AppColors.neutralColor600
+                  ),
+                ),
+              ],
+            ),
+
+            CustomArrowInContainersWidget(
+              iconColor: AppColors.primaryColor700,
+            ),
+          ],
+        ),
       ),
     );
   }

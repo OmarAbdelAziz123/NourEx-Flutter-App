@@ -705,42 +705,25 @@ $productLink
                       ),
 
                       /// Reviews
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18.w),
-                        child: ShowMoreRowWidget(
-                          title: 'reviews'.tr(),
-                          onTapShowMore: () {
-                            context.pushNamed(
-                              Routes.productReviewsScreen,
-                              arguments: productDetails,
-                            );
-                          },
-                        ),
-                      ),
-                      18.verticalSpace,
-
-                      // Sample review
-                      cubit.allProductReviews.isEmpty
-                          ? Center(
-                              child: Text(
-                                'noReviews'.tr(),
-                                style: Styles.contentRegular.copyWith(
-                                  color: AppColors.neutralColor800,
-                                ),
-                              ),
-                            )
-                          : cubit.allProductReviews == []
-                              ? Padding(
+                      cubit.allProductReviews.isEmpty ||
+                              cubit.allProductReviews == []
+                          ? SizedBox.shrink() : Column(
+                              children: [
+                                Padding(
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 18.w),
-                                  child: Text(
-                                    'noReviews'.tr(),
-                                    style: Styles.contentRegular.copyWith(
-                                      color: AppColors.neutralColor800,
-                                    ),
+                                  child: ShowMoreRowWidget(
+                                    title: 'reviews'.tr(),
+                                    onTapShowMore: () {
+                                      context.pushNamed(
+                                        Routes.productReviewsScreen,
+                                        arguments: productDetails,
+                                      );
+                                    },
                                   ),
-                                )
-                              : ListView.separated(
+                                ),
+                                18.verticalSpace,
+                                ListView.separated(
                                   shrinkWrap: true,
                                   physics: const NeverScrollableScrollPhysics(),
                                   separatorBuilder: (context, index) =>
@@ -789,6 +772,8 @@ $productLink
                                     );
                                   },
                                 ),
+                              ],
+                            ),
                       18.verticalSpace,
                     ],
                   ),

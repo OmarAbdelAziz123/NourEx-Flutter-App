@@ -16,6 +16,8 @@ import 'package:nourex/features/products/data/api_services/api_services.dart';
 import 'package:nourex/features/products/data/repos/repos.dart';
 import 'package:nourex/features/profile/data/api_services/api_services.dart';
 import 'package:nourex/features/profile/data/repos/repos.dart';
+import 'package:nourex/features/support/data/api_services/api_services.dart';
+import 'package:nourex/features/support/data/repos/repos.dart';
 import 'package:nourex/features/wallet/data/api_services/api_services.dart';
 import 'package:nourex/features/wallet/data/repos/repos.dart';
 
@@ -37,6 +39,7 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<WalletApiServices>(() => WalletApiServices(getIt()));
   getIt.registerLazySingleton<MyOrdersApiServices>(() => MyOrdersApiServices(getIt()));
   getIt.registerLazySingleton<BannersApiServices>(() => BannersApiServices(getIt()));
+  getIt.registerLazySingleton<SupportApiServices>(() => SupportApiServices(getIt()));
 
 
   /// Repos
@@ -49,4 +52,5 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<WalletRepos>(() => WalletRepos(getIt()));
   getIt.registerLazySingleton<MyOrdersRepos>(() => MyOrdersRepos(getIt()));
   getIt.registerLazySingleton<BannersRepos>(() => BannersRepos(getIt()));
+  getIt.registerLazySingleton<SupportRepos>(() => SupportRepos(getIt()));
 }

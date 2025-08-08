@@ -57,6 +57,7 @@ import 'package:nourex/features/search/presentation/search_screen.dart';
 import 'package:nourex/features/splash/business_logic/splash_cubit.dart';
 import 'package:nourex/features/splash/presentation/screens/splash_screen.dart';
 import 'package:nourex/features/support/business_logic/support_cubit.dart';
+import 'package:nourex/features/support/data/models/get_all_support_ticket_data_model.dart';
 import 'package:nourex/features/support/presentation/screens/contact_support_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_details_screen.dart';
 import 'package:nourex/features/support/presentation/screens/support_screen.dart';
@@ -427,16 +428,20 @@ class AppRouter {
 
       // Support screens
       case Routes.supportScreen:
+        final status = settings.arguments as String;
+
         return slideTransition(
           screen: const SupportScreen(),
-          cubit: SupportCubit(),
+          cubit: SupportCubit(getIt())..getInitialSupportData(status: status),
           direction: SlideDirection.up,
         );
 
       case Routes.supportDetailsScreenRoute:
+        final Map<String, dynamic> data = settings.arguments as Map<String, dynamic>;
+
         return transition(
-          screen: const SupportDetailsScreen(),
-          cubit: SupportCubit(),
+          screen: SupportDetailsScreen(data: data),
+          cubit: SupportCubit(getIt())..getTicketDetails(id: data['ticketId']),
           type: PageTransitionType.rightToLeftWithFade,
           duration: const Duration(milliseconds: 300),
         );
@@ -444,7 +449,7 @@ class AppRouter {
       case Routes.contactSupportScreenRoute:
         return slideTransition(
           screen: const ContactSupportScreen(),
-          cubit: SupportCubit(),
+          cubit: SupportCubit(getIt()),
           direction: SlideDirection.up,
         );
 
