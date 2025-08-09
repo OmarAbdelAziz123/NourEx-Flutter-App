@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
+import 'package:nourex/core/widgets/loading/custom_loading_when_loading_more_widget.dart';
+import 'package:nourex/core/widgets/loading/custom_refresh_indicator_widget.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_skeletonizer_widget.dart';
 import 'package:nourex/features/products/presentation/widgets/custom_product_card_item_widget.dart';
@@ -39,12 +41,81 @@ class ProductsByCategoryScreen extends StatelessWidget {
           final cubit = context.read<ProductsCubit>();
           final products = cubit.allProducts;
 
-          if (state is GetAllProductsLoadingState && products.isEmpty) {
+          return CustomRefreshIndicatorWidget(
+              onRefresh: () =>
+                  cubit.getInitialProductsByCategory(
+                      categoryId: data['categoryId']),
+              controller: cubit.scrollController,
+              refreshIndicatorKey: cubit.refreshIndicatorKey,
+              slivers: [
+                /// Loading state
+                if (state is GetProductByCategoryLoadingState && products.isEmpty)
+                  SliverPadding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
+                    sliver: SliverList.separated(
+                      itemCount: 6,
+                      separatorBuilder: (context, index) => 12.verticalSpace,
+                      itemBuilder: (context, index) => CustomProductCardItemSkeletonizerWidget(),
+                    ),
+                  )
+
+                /// Empty state
+                else if (products.isEmpty)
+                  SliverToBoxAdapter(
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 50.h),
+                        child: Text('noProducts'.tr()),
+                      ),
+                    ),
+                  )
+
+                /// Success state
+                else
+                  SliverPadding(
+                    padding: EdgeInsets.only(bottom: 18.h, left: 18.w, right: 18.w, top: 18.h),
+                    sliver: SliverList.separated(
+                      itemCount: products.length,
+                      separatorBuilder: (context, index) => 12.verticalSpace,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            context.pushNamed(
+                              Routes.productDetailsScreen,
+                              arguments: products[index].id,
+                            );
+                          },
+                          child: CustomProductCardItemWidget(
+                            product: products[index],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                /// Pagination loading
+                if (state is GetProductByCategoryPaginationLoadingState)
+                  SliverToBoxAdapter(
+                    child: CustomLoadingWhenLoadingMoreWidget(),
+                  ),
+
+                /// Space at bottom
+                SliverToBoxAdapter(child: 18.verticalSpace),
+              ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+/*
+if (state is GetProductByCategoryLoadingState && products.isEmpty) {
             /// 🔄 Loading shimmer state
             return Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: EdgeInsets.only(bottom: 18.h, left: 18.w, right: 18.w),
+                  padding: EdgeInsets.only(bottom: 18.h, left: 18.w, right: 18.w, top: 18.h),
                   child: ListView.separated(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -55,7 +126,7 @@ class ProductsByCategoryScreen extends StatelessWidget {
                 ),
               ),
             );
-          } else if (products.isEmpty) {
+          } else if (products == []) {
             /// ❌ Empty state
             return Center(
               child: Padding(
@@ -84,7 +155,7 @@ class ProductsByCategoryScreen extends StatelessWidget {
                         onTap: () {
                           context.pushNamed(
                             Routes.productDetailsScreen,
-                            arguments: products[index],
+                            arguments: products[index].id,
                           );
                         },
                         child: CustomProductCardItemWidget(
@@ -98,8 +169,4 @@ class ProductsByCategoryScreen extends StatelessWidget {
               ),
             ),
           );
-        },
-      ),
-    );
-  }
-}
+ */

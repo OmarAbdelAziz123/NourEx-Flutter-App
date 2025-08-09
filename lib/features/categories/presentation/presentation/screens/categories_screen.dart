@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/widgets/loading/custom_loading_when_loading_more_widget.dart';
 import 'package:nourex/features/categories/business_logic/categories_cubit.dart';
 import 'package:nourex/features/categories/presentation/presentation/widgets/custom_category_in_all_categories_widget.dart';
@@ -32,12 +33,11 @@ class CategoriesScreen extends StatelessWidget {
         ),
       ),
       body: BlocBuilder<CategoriesCubit, CategoriesState>(
-        buildWhen:
-            (previous, current) =>
-                current is GetAllCategoriesLoadingState ||
-                current is GetAllCategoriesSuccessState ||
-                current is GetAllCategoriesErrorState ||
-                current is CategoriesPaginationLoading,
+        buildWhen: (previous, current) =>
+            current is GetAllCategoriesLoadingState ||
+            current is GetAllCategoriesSuccessState ||
+            current is GetAllCategoriesErrorState ||
+            current is CategoriesPaginationLoading,
         builder: (context, state) {
           final categories = cubit.allCategories;
 
@@ -67,6 +67,7 @@ class CategoriesScreen extends StatelessWidget {
                     ),
                   ),
                 )
+
               /// Empty state
               else if (categories == [] ||
                   categories.isEmpty && state is! GetAllCategoriesLoadingState)
@@ -78,6 +79,7 @@ class CategoriesScreen extends StatelessWidget {
                     ),
                   ),
                 )
+
               /// Error state
               else if (state is GetAllCategoriesErrorState &&
                   categories.isEmpty)
@@ -98,6 +100,7 @@ class CategoriesScreen extends StatelessWidget {
                     ),
                   ),
                 )
+
               /// Loaded Categories
               else ...[
                 SliverPadding(
@@ -106,12 +109,28 @@ class CategoriesScreen extends StatelessWidget {
                     vertical: 18.h,
                   ),
                   sliver: SliverGrid(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      return CustomCategoryInAllCategoriesWidget(
-                        imageUrl: categories[index].image ?? '',
-                        categoryName: categories[index].name ?? '',
-                      );
-                    }, childCount: categories.length),
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            context.pushNamed(
+                              Routes.productsByCategoryScreen,
+                              arguments: {
+                                'categoryName':
+                                categories[index].name,
+                                'categoryId':
+                                categories[index].id
+                              },
+                            );
+                          },
+                          child: CustomCategoryInAllCategoriesWidget(
+                            imageUrl: categories[index].image ?? '',
+                            categoryName: categories[index].name ?? '',
+                          ),
+                        );
+                      },
+                      childCount: categories.length,
+                    ),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 3,
                       mainAxisSpacing: 12.h,

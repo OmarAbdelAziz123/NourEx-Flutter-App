@@ -26,42 +26,7 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-// <<<<<<< make_another_features
     int totalPrice = 0;
-    // final products = [
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '3',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    //   ProductDataModel(
-    //     productName: 'تيشرت بولو',
-    //     productImage: 'assets/pngs/shirt.png',
-    //     productRate: '5',
-    //     countOfNumber: '200',
-    //     productPriceBefore: '2000',
-    //     productPriceAfter: '1500',
-    //   ),
-    // ];
 
     return BlocConsumer<CartCubit, CartState>(
       listener: (context, state) {
@@ -83,7 +48,6 @@ class CartScreen extends StatelessWidget {
             preferredSize: Size.fromHeight(74.h),
             child: MainAppBar2Widget(
               title: 'cart'.tr(),
-              isSubScreen: true,
               onTapSearch: () {},
               onTapNotification: () {},
             ),

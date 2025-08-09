@@ -33,7 +33,7 @@ class CategoryItemInRowWidget extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.r),
           color: isSelected ? AppColors.primaryColor700 : Colors.white,
-          border: Border.all(color: AppColors.primaryColor700, width: 1.w),
+          border: Border.all(color: isSelected ? AppColors.primaryColor700 : AppColors.neutralColor300, width: 1.w),
         ),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
         child: AnimatedDefaultTextStyle(
