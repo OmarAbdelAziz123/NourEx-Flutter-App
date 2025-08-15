@@ -13,6 +13,7 @@ import 'package:nourex/core/widgets/bottom_nav_bar/custom_bottom_nav_bar_make_bu
 import 'package:nourex/core/widgets/bottom_sheet/custom_shared_show_bottom_sheet.dart';
 import 'package:nourex/core/widgets/button/custom_button_widget.dart';
 import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dart';
+import 'package:nourex/features/addresses/presentation/widgets/custom_addresses_container_skeletonizer_widget.dart';
 import 'package:nourex/features/addresses/presentation/widgets/custom_addresses_container_widget.dart';
 import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/cart/presentation/widgets/toggle_payment_methods_widget.dart';

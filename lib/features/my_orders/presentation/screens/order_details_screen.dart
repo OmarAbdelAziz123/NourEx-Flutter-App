@@ -362,6 +362,7 @@ class OrderDetailsScreen extends StatelessWidget {
                               );
                         },
                         child: CustomProductCardItemWidget(
+                          isInHome: false,
                           product:
                               ProductModel.convertMyOrderProductToProductModel(
                             ordersList.products![index],

@@ -37,7 +37,7 @@ class AddNewAddressScreen extends StatelessWidget {
       bottomNavigationBar: BlocConsumer<AddressesCubit, AddressesState>(
         listener: (context, state) {
           if(state is AddAddressSuccessState) {
-            // context.pop();
+            context.pop();
           }
         },
         builder: (context, state) {
@@ -46,7 +46,9 @@ class AddNewAddressScreen extends StatelessWidget {
           return CustomBottomNavBarMakeButtonOnly(
             buttonTitle: 'save'.tr(),
             onPressed: () {
-              addressesCubit.addAddress();
+              if(addressesCubit.formKey.currentState!.validate()) {
+                addressesCubit.addAddress();
+              }
             },
           );
         },

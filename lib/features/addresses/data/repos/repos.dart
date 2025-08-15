@@ -36,6 +36,12 @@ class AddressesRepos {
         return ApiResult.failure(ErrorHandler.handleApiError(null));
       }
       if (response.statusCode == 200 || response.statusCode == 201) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check,
+          duration: const Duration(seconds: 3),
+        );
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
@@ -69,6 +75,12 @@ class AddressesRepos {
         return ApiResult.failure(ErrorHandler.handleApiError(null));
       }
       if (response.statusCode == 200) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check,
+          duration: const Duration(seconds: 3),
+        );
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {
@@ -93,55 +105,6 @@ class AddressesRepos {
       return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
     }
   }
-  // Future<ApiResult<String>> updateAddress({
-  //   required String id,
-  //   required String name,
-  //   required String phoneNo,
-  //   required String city,
-  //   required String zone,
-  //   required String street,
-  //   required String type,
-  //   required String notes,
-  // }) async {
-  //   try {
-  //     final response = await addressesApiServices.updateAddress(
-  //       id: id,
-  //       name: name,
-  //       phoneNo: phoneNo,
-  //       city: city,
-  //       zone: zone,
-  //       street: street,
-  //       type: type,
-  //       notes: notes,
-  //     );
-  //     if (response == null) {
-  //       return ApiResult.failure(ErrorHandler.handleApiError(null));
-  //     }
-  //     if (response.statusCode == 200) {
-  //       return ApiResult.success(response.data['message']);
-  //     } else {
-  //       if (response.data['message'] == 'Validation Error') {
-  //         return await ErrorHandler.handleValidationErrorResponse<String>(
-  //           response,
-  //         );
-  //       } else {
-  //         ToastManager.showCustomToast(
-  //           message: response.data['message'],
-  //           backgroundColor: AppColors.redColor200,
-  //           icon: Icons.error_outline,
-  //           duration: const Duration(seconds: 3),
-  //         );
-  //         return ApiResult.failure(ErrorHandler.handleApiError(response));
-  //       }
-  //     }
-  //   } on DioException catch (e) {
-  //     return ApiResult.failure(ErrorHandler.handleDioError(e));
-  //   } catch (e, stackTrace) {
-  //     print('❌ Unexpected error: $e');
-  //     print('📌 Stack trace: $stackTrace');
-  //     return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
-  //   }
-  // }
 
   /// Delete Address
   Future<ApiResult<String>> deleteAddress({required String id}) async {
@@ -151,6 +114,12 @@ class AddressesRepos {
         return ApiResult.failure(ErrorHandler.handleApiError(null));
       }
       if (response.statusCode == 200) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check,
+          duration: const Duration(seconds: 3),
+        );
         return ApiResult.success(response.data['message']);
       } else {
         if (response.data['message'] == 'Validation Error') {

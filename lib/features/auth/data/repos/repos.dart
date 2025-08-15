@@ -104,7 +104,7 @@ class AuthRepos {
 
         /// Show success toast
         ToastManager.showCustomToast(
-          message: userData.message ?? 'تم تسجيل الدخول بنجاح',
+          message: userData.message ?? '',
           backgroundColor: AppColors.greenColor200,
           icon: Icons.check_circle_outline,
           duration: const Duration(seconds: 3),

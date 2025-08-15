@@ -105,7 +105,7 @@ class CustomOrderContainerSkeletonWidget extends StatelessWidget {
                   textStyle2: Styles.highlightEmphasis,
                 ),
                 Text(
-                  'orderDataModel.products?.map((e) => e.name ?? '').join( ',
+                  'orderDataModel.products?',
                   style: Styles.captionRegular.copyWith(
                       color: AppColors.neutralColor600
                   ),

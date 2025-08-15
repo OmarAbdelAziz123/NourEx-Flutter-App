@@ -43,7 +43,7 @@ class CustomProductCardItemSkeletonizerWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'product name',
+                  'product',
                   style: Styles.highlightEmphasis,
                 ),
                 Row(

@@ -119,7 +119,7 @@ class ChooseLoginOrRegisterScreen extends StatelessWidget {
                                     context.pop();
 
                                     /// TODO: Make Push And Remove Until Screen
-                                    context.pushNamed(Routes.mainLayoutScreen, arguments: 0);
+                                    context.pushNamedAndRemoveUntil(Routes.mainLayoutScreen, arguments: 0);
                                   },
                                 );
                               },

@@ -89,7 +89,7 @@ class MyReviewsScreen extends StatelessWidget {
                 /// Loaded data
                 else ...[
                   SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 16.h),
+                    padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: context.locale.languageCode == 'ar' ? 0.w : 16.w),
                     sliver: SliverList.separated(
                       itemCount: reviews.length,
                       itemBuilder: (context, index) {

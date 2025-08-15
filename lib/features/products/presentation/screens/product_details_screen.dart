@@ -178,13 +178,14 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final cubit = context.read<ProductsCubit>();
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(74.h),
         child: MainAppBar2Widget(
-          title: 'تيشرت بولو',
+          title: 'productDetails'.tr(),
           isSubScreen: true,
           haveOnlyNotification: false,
           onTapBack: () {
@@ -680,21 +681,27 @@ $productLink
                                 ),
                               ),
                               child: Column(
-                                spacing: 8.h,
+                                mainAxisSize: MainAxisSize.min, // Limit the column height
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Row(
-                                    children: [
-                                      CustomRichText(
-                                        text1: 'productNumber'.tr(),
-                                        textStyle1: Styles.highlightEmphasis,
-                                        text2: productDetails?.sId ?? '',
-                                        textStyle2:
-                                            Styles.contentRegular.copyWith(
-                                          color: AppColors.neutralColor800,
+                                  Flexible( // Constrain the row width
+                                    child: Column(
+                                      spacing: 8.h,
+                                      mainAxisAlignment: MainAxisAlignment.start, // Align to start (left)
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'productNumber'.tr(),
+                                          style: Styles.highlightEmphasis,
                                         ),
-                                      ),
-                                    ],
+                                        Text(
+                                          productDetails?.sId ?? '',
+                                          style: Styles.contentRegular.copyWith(
+                                            color: AppColors.neutralColor800,
+                                          ),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),

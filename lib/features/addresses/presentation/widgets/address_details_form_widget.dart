@@ -24,7 +24,7 @@ class _AddressDetailsFormWidgetState extends State<AddressDetailsFormWidget> {
   @override
   void initState() {
     final cubit = context.read<AddressesCubit>();
-    cubit.isMain = widget.addressModel?.type == 'Main';
+    cubit.isMain = widget.addressModel.type == 'Main';
     super.initState();
   }
 
@@ -123,111 +123,6 @@ class _AddressDetailsFormWidgetState extends State<AddressDetailsFormWidget> {
               32.verticalSpace,
 
               /// Is Main Address Section with Enhanced UX
-              // Container(
-              //   padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 12.h),
-              //   decoration: BoxDecoration(
-              //     color: AppColors.neutralColor100, // Light background
-              //     borderRadius: BorderRadius.circular(
-              //       AppConstants.borderRadius,
-              //     ),
-              //     border: Border.all(
-              //       color:
-              //           addressModel.type == 'Main'
-              //               ? AppColors.primaryColor700
-              //               : AppColors.neutralColor300,
-              //       width: 1.w,
-              //     ),
-              //   ),
-              //   child: Column(
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       /// Main checkbox row
-              //       InkWell(
-              //         onTap: () {
-              //           cubit.toggleIsMain(
-              //             addressModel.type == 'Main' ? true : false,
-              //           );
-              //         },
-              //         child: Row(
-              //           spacing: 8.w,
-              //           children: [
-              //             Transform.scale(
-              //               scale: 1.2,
-              //               child: Checkbox(
-              //                 value: cubit.isMain,
-              //                 // value: addressModel.type == 'Main' ? true : false,
-              //                 onChanged: (value) {
-              //                   cubit.toggleIsMain();
-              //                   // cubit.toggleIsMain(value ?? false);
-              //                 },
-              //                 activeColor:
-              //                     addressModel.type == 'Main'
-              //                         ? AppColors.primaryColor700
-              //                         : AppColors.neutralColor100,
-              //                 checkColor: Colors.white,
-              //                 shape: RoundedRectangleBorder(
-              //                   borderRadius: BorderRadius.circular(
-              //                     AppConstants.borderRadius - 4.w,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ),
-              //             Expanded(
-              //               child: Column(
-              //                 spacing: 4.h,
-              //                 crossAxisAlignment: CrossAxisAlignment.start,
-              //                 children: [
-              //                   Text(
-              //                     'isMainAddress'.tr(),
-              //                     style: Styles.highlightEmphasis.copyWith(
-              //                       color:
-              //                           addressModel.type == 'Main'
-              //                               ? AppColors.primaryColor700
-              //                               : AppColors.neutralColor800,
-              //                     ),
-              //                   ),
-              //                   Text(
-              //                     'mainAddressDescription'.tr(),
-              //                     style: Styles.contentRegular.copyWith(
-              //                       color: AppColors.neutralColor600,
-              //                     ),
-              //                   ),
-              //                 ],
-              //               ),
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //
-              //       /// Optional: Show additional info when selected
-              //       if (addressModel.type == 'Main') ...[
-              //         12.verticalSpace,
-              //         Container(
-              //           padding: EdgeInsets.all(12.sp),
-              //           decoration: BoxDecoration(
-              //             color: AppColors.primaryColor700.withOpacity(0.1),
-              //             borderRadius: BorderRadius.circular(
-              //               AppConstants.borderRadius - 2.w,
-              //             ),
-              //           ),
-              //           child: Row(
-              //             children: [
-              //               Expanded(
-              //                 child: Text(
-              //                   'mainAddressNote'.tr(),
-              //                   style: Styles.contentRegular.copyWith(
-              //                     color: AppColors.primaryColor700,
-              //                     fontSize: 12.sp,
-              //                   ),
-              //                 ),
-              //               ),
-              //             ],
-              //           ),
-              //         ),
-              //       ],
-              //     ],
-              //   ),
-              // ),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8.h, vertical: 12.h),
                 decoration: BoxDecoration(

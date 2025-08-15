@@ -32,6 +32,22 @@ class AppValidator {
     }
   }
 
+  static String? validateZone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validation.zone.required'.tr();
+    } else {
+      return null;
+    }
+  }
+
+  static String? validateStreet(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'validation.street.required'.tr();
+    } else {
+      return null;
+    }
+  }
+
   static String? validateBuildingNumber(String? value) {
     if (value == null || value.isEmpty) {
       return 'validation.building_number.required'.tr();

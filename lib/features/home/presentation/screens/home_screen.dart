@@ -75,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                           /// Empty
                           return categories == []
                               ? Text(
-                                  'noInvoices'.tr(),
+                                  'noCategories'.tr(),
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 16.sp,
@@ -226,6 +226,7 @@ class HomeScreen extends StatelessWidget {
                                     );
                                   },
                                   child: CustomProductCardItemWidget(
+                                    isInHome: true,
                                     product: products[index],
                                   ),
                                 ),
@@ -317,6 +318,7 @@ class HomeScreen extends StatelessWidget {
                                     );
                                   },
                                   child: CustomProductCardItemWidget(
+                                    isInHome: true,
                                     product: products[index],
                                   ),
                                 ),

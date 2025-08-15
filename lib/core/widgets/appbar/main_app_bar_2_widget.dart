@@ -1,14 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:nourex/core/extensions/navigation_extension.dart';
-import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
-import 'package:nourex/core/utils/app_constants.dart';
-import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dart';
-import 'package:nourex/features/search/business_logic/search_cubit.dart';
 
 class MainAppBar2Widget extends StatelessWidget {
   const MainAppBar2Widget({
@@ -45,24 +40,27 @@ class MainAppBar2Widget extends StatelessWidget {
         toolbarHeight: 74.h,
         leadingWidth: 70.w,
         leading: Container(
-          padding: EdgeInsets.only(right: 18.w),
+          padding: EdgeInsets.only(right: context.locale.languageCode == 'en' ? 0 : 18.w),
           child: InkWell(
             highlightColor: Colors.transparent,
+            splashColor: Colors.transparent,
             onTap: isSubScreen == true ? onTapBack : onTapSearch,
-            child:
-            isSubScreen == true
-                ? SvgPicture.asset(
-              'assets/svgs/back_button_icon.svg',
-              width: 50.w,
-              height: 50.h,
-              fit: BoxFit.scaleDown,
-            )
+            child: isSubScreen == true
+                ? Transform.rotate(
+                    angle: context.locale.languageCode == 'en' ? 3.14159 : 0.0,
+                    child: SvgPicture.asset(
+                      'assets/svgs/back_button_icon.svg',
+                      width: 50.w,
+                      height: 50.h,
+                      fit: BoxFit.scaleDown,
+                    ),
+                  )
                 : SvgPicture.asset(
-              'assets/svgs/search_icon.svg',
-              width: 50.w,
-              height: 50.h,
-              fit: BoxFit.scaleDown,
-            ),
+                    'assets/svgs/search_icon.svg',
+                    width: 50.w,
+                    height: 50.h,
+                    fit: BoxFit.scaleDown,
+                  ),
           ),
         ),
         centerTitle: true,
@@ -76,27 +74,29 @@ class MainAppBar2Widget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 18.w),
             child: InkWell(
+              highlightColor: Colors.transparent,
+              splashColor: Colors.transparent,
               onTap: isSubScreen == true ? onTapSearch : onTapNotification,
               child: haveOnlyNotification == true
                   ? SvgPicture.asset(
-                'assets/svgs/notification_icon.svg',
-                width: 50.w,
-                height: 50.h,
-                fit: BoxFit.scaleDown,
-              ) :
-              isSubScreen == true
-                  ? SvgPicture.asset(
-                'assets/svgs/search_icon.svg',
-                width: 50.w,
-                height: 50.h,
-                fit: BoxFit.scaleDown,
-              )
-                  : SvgPicture.asset(
-                'assets/svgs/notification_icon.svg',
-                width: 50.w,
-                height: 50.h,
-                fit: BoxFit.scaleDown,
-              ),
+                      'assets/svgs/notification_icon.svg',
+                      width: 50.w,
+                      height: 50.h,
+                      fit: BoxFit.scaleDown,
+                    )
+                  : isSubScreen == true
+                      ? SvgPicture.asset(
+                          'assets/svgs/search_icon.svg',
+                          width: 50.w,
+                          height: 50.h,
+                          fit: BoxFit.scaleDown,
+                        )
+                      : SvgPicture.asset(
+                          'assets/svgs/notification_icon.svg',
+                          width: 50.w,
+                          height: 50.h,
+                          fit: BoxFit.scaleDown,
+                        ),
             ),
           ),
         ],

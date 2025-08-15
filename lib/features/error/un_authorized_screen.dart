@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
@@ -45,7 +46,7 @@ class UnAuthorizedScreen extends StatelessWidget {
 
                     // Main title
                     Text(
-                      'وصول غير مخول',
+                      'notDelivered'.tr(),
                       style: Styles.heading1,
                       textAlign: TextAlign.center,
                     ),
@@ -54,7 +55,7 @@ class UnAuthorizedScreen extends StatelessWidget {
 
                     // Description
                     Text(
-                      'عذراً، لا تملك الصلاحية للوصول إلى هذه الصفحة.\nيرجى التواصل مع الإدارة للحصول على الصلاحيات المطلوبة.',
+                      'noPermission'.tr(),
                       style: Styles.contentRegular.copyWith(
                         color: AppColors.neutralColor600 ?? Colors.grey[600],
                         height: 1.5,
@@ -72,7 +73,7 @@ class UnAuthorizedScreen extends StatelessWidget {
                             context.pushNamedAndRemoveUntil(Routes.loginScreen);
                           },
                           color: AppColors.primaryColor700 ?? Colors.green,
-                          text: 'العودة لتسجيل الدخول',
+                          text: 'pleaseLoginFirst2'.tr(),
                           textStyle:  Styles.highlightBold.copyWith(color: Colors.white),
                         ),
 
@@ -85,7 +86,7 @@ class UnAuthorizedScreen extends StatelessWidget {
                             color: AppColors.primaryColor700,
                             width: 1.w,
                           ),
-                          text: 'التواصل مع الدعم',
+                          text: 'contactSupports'.tr(),
                           textStyle:  Styles.highlightBold.copyWith(
                             color: AppColors.primaryColor700 ?? Colors.green,
                           ),
@@ -112,7 +113,7 @@ class UnAuthorizedScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(16.r),
         ),
         title: Text(
-          'التواصل مع الدعم',
+          'contactSupports'.tr(),
           style: Styles.heading4,
           textAlign: TextAlign.center,
         ),
@@ -120,15 +121,15 @@ class UnAuthorizedScreen extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'يمكنك التواصل معنا عبر:',
+              'contact'.tr(),
               style: Styles.contentRegular,
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 16.h),
             _buildContactOption(
               icon: Icons.email_outlined,
-              title: 'البريد الإلكتروني',
-              subtitle: 'support@nourex.com',
+              title: 'eAddress'.tr(),
+              subtitle: 'nour.noorex@gmail.com',
               onTap: () {
                 // Handle email contact
               },
@@ -136,8 +137,8 @@ class UnAuthorizedScreen extends StatelessWidget {
             SizedBox(height: 12.h),
             _buildContactOption(
               icon: Icons.phone_outlined,
-              title: 'الهاتف',
-              subtitle: '+20 123 456 789',
+              title: 'pNumber'.tr(),
+              subtitle: '+963 997 485 516',
               onTap: () {
                 // Handle phone contact
               },
@@ -148,7 +149,7 @@ class UnAuthorizedScreen extends StatelessWidget {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'إغلاق',
+              'close'.tr(),
               style: Styles.highlightSemiBold.copyWith(
                 color: AppColors.primaryColor700 ?? Colors.green,
               ),

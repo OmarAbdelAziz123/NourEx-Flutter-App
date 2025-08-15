@@ -10,9 +10,14 @@ import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/cache_network_image/cache_network_image_widget.dart';
 
 class CustomProductCardItemWidget extends StatelessWidget {
-  const CustomProductCardItemWidget({super.key, required this.product});
+  const CustomProductCardItemWidget({
+    super.key,
+    required this.product,
+    this.isInHome = true,
+  });
 
   final ProductModel product;
+  final bool isInHome;
 
   @override
   Widget build(BuildContext context) {
@@ -38,59 +43,123 @@ class CustomProductCardItemWidget extends StatelessWidget {
             height: 100.h,
           ),
           12.horizontalSpace,
-          Column(
-            spacing: 4.h,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                product.name ?? '',
-                style: Styles.highlightEmphasis,
-              ),
+          isInHome == true
+              ? Column(
+                  spacing: 4.h,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      product.name ?? '',
+                      style: Styles.highlightEmphasis,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
 
-              Text(
-                product.id.toString() ?? '',
-                style: Styles.contentRegular.copyWith(
-                  color: AppColors.neutralColor400,
+                    Text(
+                      product.id.toString() ?? '',
+                      style: Styles.contentRegular.copyWith(
+                        color: AppColors.neutralColor400,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+
+                    Row(
+                      spacing: 4.w,
+                      children: [
+                        Text(
+                          '2.5',
+                          // product.productRate,
+                          style: Styles.contentEmphasis.copyWith(
+                            color: AppColors.yellowColor100,
+                          ),
+                        ),
+                        ...List.generate(
+                          double.tryParse('2.5')?.round() ?? 0,
+                          // double.tryParse(product.productRate)?.round() ?? 0,
+                          (index) => SvgPicture.asset(
+                            'assets/svgs/stars.svg',
+                            fit: BoxFit.scaleDown,
+                          ),
+                        ),
+                        // SvgPicture.asset('assets/svgs/stars.svg'),
+                        SvgPicture.asset('assets/svgs/small_circle.svg'),
+                        Text(
+                          '30 ${'order'.tr()}',
+                          // '${product.countOfNumber} ${'order'.tr()}',
+                          style: Styles.contentRegular.copyWith(
+                            color: AppColors.neutralColor400,
+                          ),
+                        )
+                      ],
+                    ),
+
+                    // CustomPriceAfterAndBeforeWidget(
+                    //   priceBefore: '${product.price} ${'currency'.tr()}',
+                    //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
+                    // ),
+                  ],
+                )
+              : Expanded(
+                  child: Column(
+                    spacing: 4.h,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name ?? '',
+                        style: Styles.highlightEmphasis,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+
+                      Text(
+                        product.id.toString() ?? '',
+                        style: Styles.contentRegular.copyWith(
+                          color: AppColors.neutralColor400,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+
+                      Row(
+                        spacing: 4.w,
+                        children: [
+                          Text(
+                            '2.5',
+                            // product.productRate,
+                            style: Styles.contentEmphasis.copyWith(
+                              color: AppColors.yellowColor100,
+                            ),
+                          ),
+                          ...List.generate(
+                            double.tryParse('2.5')?.round() ?? 0,
+                            // double.tryParse(product.productRate)?.round() ?? 0,
+                            (index) => SvgPicture.asset(
+                              'assets/svgs/stars.svg',
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                          // SvgPicture.asset('assets/svgs/stars.svg'),
+                          SvgPicture.asset('assets/svgs/small_circle.svg'),
+                          Text(
+                            '30 ${'order'.tr()}',
+                            // '${product.countOfNumber} ${'order'.tr()}',
+                            style: Styles.contentRegular.copyWith(
+                              color: AppColors.neutralColor400,
+                            ),
+                          )
+                        ],
+                      ),
+
+                      // CustomPriceAfterAndBeforeWidget(
+                      //   priceBefore: '${product.price} ${'currency'.tr()}',
+                      //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
-
-              Row(
-                spacing: 4.w,
-                children: [
-                  Text(
-                    '2.5',
-                    // product.productRate,
-                    style: Styles.contentEmphasis.copyWith(
-                      color: AppColors.yellowColor100,
-                    ),
-                  ),
-                  ...List.generate(
-                    double.tryParse('2.5')?.round() ?? 0,
-                    // double.tryParse(product.productRate)?.round() ?? 0,
-                        (index) => SvgPicture.asset(
-                      'assets/svgs/stars.svg',
-                      fit: BoxFit.scaleDown,
-                    ),
-                  ),
-                  // SvgPicture.asset('assets/svgs/stars.svg'),
-                  SvgPicture.asset('assets/svgs/small_circle.svg'),
-                  Text(
-                    '30 ${'order'.tr()}',
-                    // '${product.countOfNumber} ${'order'.tr()}',
-                    style: Styles.contentRegular.copyWith(
-                      color: AppColors.neutralColor400,
-                    ),
-                  )
-                ],
-              ),
-
-              // CustomPriceAfterAndBeforeWidget(
-              //   priceBefore: '${product.price} ${'currency'.tr()}',
-              //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
-              // ),
-            ],
-          ),
         ],
       ),
     );

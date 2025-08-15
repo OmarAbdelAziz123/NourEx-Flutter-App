@@ -18,12 +18,14 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
     required this.onTapRemoveItem,
     required this.onTapPlusItem,
     required this.onTapMinusItem,
+    this.isLoaded = true,
   });
 
   final CartProduct cartProduct;
   final VoidCallback onTapRemoveItem;
   final VoidCallback onTapPlusItem;
   final VoidCallback onTapMinusItem;
+  final bool? isLoaded;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,9 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                 ),
 
                 /// Product Category
-                Positioned(
+                isLoaded == true
+
+                 ? Positioned(
                   top: 8.h,
                   right: isArabic == false ? null : 8.w,
                   left: isArabic == true ? null : 8.w,
@@ -86,7 +90,7 @@ class CustomProductCardItemInCartWidget extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
+                ) : SizedBox.shrink(),
               ],
             ),
           ),

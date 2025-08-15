@@ -97,10 +97,11 @@ class ReviewItemWidget extends StatelessWidget {
         ),
 
         /// Divider
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: const CustomDividerInBottomSheet(),
-        ),
+        // Padding(
+          // padding: EdgeInsets.symmetric(horizontal: 18.w),
+          // child:
+          const CustomDividerInBottomSheet(),
+        // ),
 
         /// Review Text
         Padding(

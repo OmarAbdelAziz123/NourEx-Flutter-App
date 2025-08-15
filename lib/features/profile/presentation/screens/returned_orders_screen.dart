@@ -63,6 +63,7 @@ class ReturnedOrdersScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget _buildTabContent(currentTabIndex) {
     switch (currentTabIndex) {
       case 0:
@@ -229,7 +230,8 @@ class ReturnedOrderDetailsScreen extends StatelessWidget {
 
                   return Column(
                     children: [
-                      CustomProductCardItemWidget(product: productModel),
+                      CustomProductCardItemWidget(
+                          isInHome: false, product: productModel),
                       18.verticalSpace,
                       buildReturnStatusTimeline(
                         productMap['productStatus'] ?? '',

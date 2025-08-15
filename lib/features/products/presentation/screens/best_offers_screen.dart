@@ -202,6 +202,7 @@ class BestOffersScreen extends StatelessWidget {
                                   );
                                 },
                                 child: CustomProductCardItemWidget(
+                                  isInHome: false,
                                   product: products[index],
                                 ),
                               );

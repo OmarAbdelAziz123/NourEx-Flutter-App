@@ -5,9 +5,37 @@
   "welcome": "Welcome 👋",
   "pleaseLoginFirst": "Please login first",
   "haveANiceDay": "Good morning 👋",
+  "notDelivered": "Unauthorized access",
   "showMore": "View All",
+  "pleaseLoginFirst2": "Back to login",
+  "noPermission": "Sorry, you do not have permission to access this page. \nPlease contact the administration to obtain the required permissions.",
+  "contactSupports": "Contact support",
+
+
+
+  "contact": "You can contact us via:",
+  "eAddress": "Email",
+  "pNumber": "Phone",
+  "close": "Close",
+  "productDetails": "Product details",
+  "noCategories": "No categories",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "returned": "Returned",
   "doneReturned": "The order has been returned.",
+  "no_products_in_cart": "No products in cart",
   "rejectedd": "Rejected",
   "thirdStepInCancel": "The order has been cancelled.",
   "preview": "Preview",

@@ -86,6 +86,7 @@ class ProductsByCategoryScreen extends StatelessWidget {
                             );
                           },
                           child: CustomProductCardItemWidget(
+                            isInHome: false,
                             product: products[index],
                           ),
                         );

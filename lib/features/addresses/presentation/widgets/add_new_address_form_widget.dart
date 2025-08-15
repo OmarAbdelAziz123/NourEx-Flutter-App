@@ -71,7 +71,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
-                validator: (value) => AppValidator.validateUsername(value!),
+                validator: (value) => AppValidator.validateCity(value!),
               ),
               16.verticalSpace,
 
@@ -87,7 +87,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
-                validator: (value) => AppValidator.validateUsername(value!),
+                validator: (value) => AppValidator.validateZone(value!),
               ),
               16.verticalSpace,
 
@@ -103,7 +103,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
-                validator: (value) => AppValidator.validateUsername(value!),
+                validator: (value) => AppValidator.validateStreet(value!),
               ),
               32.verticalSpace,
 

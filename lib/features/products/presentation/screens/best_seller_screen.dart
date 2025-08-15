@@ -261,9 +261,9 @@ class BestSellerScreen extends StatelessWidget {
                 final categoriesCubit = context.read<CategoriesCubit>();
                 final categories = categoriesCubit.allCategories;
 
-                // Create a list with "All" as the first item
+                /// Create a list with "All" as the first item
                 final displayCategories = [
-                  CategoryModel(id: '', name: 'all'.tr()), // Synthetic "All" category
+                  CategoryModel(id: '', name: 'all'.tr()),
                   ...categories,
                 ];
 
@@ -415,6 +415,7 @@ class BestSellerScreen extends StatelessWidget {
                                   );
                                 },
                                 child: CustomProductCardItemWidget(
+                                  isInHome: false,
                                   product: products[index],
                                 ),
                               );
