@@ -737,8 +737,9 @@ $productLink
                 ),
 
                 /// Reviews
-                state is GetProductReviewsLoadingState ||
-                cubit.allProductReviews.isEmpty ||
+                cubit.allProductReviews.isEmpty
+                ? Container()
+                : state is GetProductReviewsLoadingState ||
                     cubit.allProductReviews == []
                     ? ReviewItemSkeletonizerWidget()
                     : Column(
