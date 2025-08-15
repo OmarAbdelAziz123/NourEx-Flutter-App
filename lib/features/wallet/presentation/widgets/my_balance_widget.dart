@@ -53,7 +53,7 @@ class MyBalanceWidget extends StatelessWidget {
                         ),
                         12.verticalSpace,
                         Text(
-                          '${cubit.walletDataModel?.balance} ${'currency'
+                          '${cubit.walletDataModel?.balance ?? '0.00'} ${'currency'
                               .tr()}',
                           style: Styles.heading1.copyWith(
                             color: AppColors.neutralColor100,

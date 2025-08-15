@@ -10,6 +10,9 @@ class EndPoints {
   static String confirmPhoneEmailOTP(String email) => 'auth/confirmPhoneEmailOTP/$email';
   static String setPassword(String email) => 'auth/setPassword/$email';
 
+  /// Notifications
+  static const String getAllNotifications = 'notification/getAllNotifications';
+
   /// Settings
   static const String getProfile = 'user/userProfile';
   static const String getAllSupportData = 'support/getMyProblems';
@@ -21,6 +24,7 @@ class EndPoints {
   static const String allMyReviews = 'review/myReviews';
   static String deleteMyReview(String productId, String deleteMyReview) => 'review/deleteReview/$productId/$deleteMyReview';
   static String updateMyReview(String productId, String reviewId) => 'review/updateReview/$productId/$reviewId';
+  static String makeReportReview(String reviewId) => 'review/reportReview/$reviewId';
   static const String getAllMyReturnedOrders = 'return/getMyReturnRequests';
   static const String logout = 'auth/logOut';
 
@@ -28,6 +32,7 @@ class EndPoints {
   /// Products
   static const String getAllBanners = 'banner/getAllBanners';
   static const String products = 'product/getAllProducts';
+  static const String search = 'product/searchProducts';
   static const String productById = 'product/getProductById';
   static const String productReviews = 'review/getReviews/';
   static const String productsByCategory = 'product/getProductsByCategoryId';

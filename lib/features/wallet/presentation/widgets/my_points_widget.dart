@@ -57,7 +57,7 @@ class MyPointsWidget extends StatelessWidget {
                         ),
                         12.verticalSpace,
                         Text(
-                          '${cubit.walletDataModel?.points} ',
+                          '${cubit.walletDataModel?.points  ?? '0.00'} ',
                           style: Styles.heading1.copyWith(
                             color: AppColors.neutralColor100,
                           ),

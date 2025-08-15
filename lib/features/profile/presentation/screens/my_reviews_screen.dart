@@ -154,10 +154,10 @@ class MyReviewsScreen extends StatelessWidget {
                               }
                             },
                             menuItems: [
-                              {
-                                'title': 'الابلاغ',
-                                'icon': Icons.report_outlined
-                              },
+                              // {
+                              //   'title': 'الابلاغ',
+                              //   'icon': Icons.report_outlined
+                              // },
                               {'title': 'تعديل التقييم', 'icon': Iconsax.edit},
                               {'title': 'حذف التقييم', 'icon': Iconsax.trash},
                             ],

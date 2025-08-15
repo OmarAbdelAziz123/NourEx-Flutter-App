@@ -105,7 +105,7 @@ class MainAppBarWidget extends StatelessWidget {
             ),
             if(haveNotificationIcon == true)
               InkWell(
-              onTap: () {},
+              onTap: () => context.pushNamed(Routes.notificationScreen),
               child: SvgPicture.asset(
                 'assets/svgs/notification_icon.svg',
                 width: 50.w,

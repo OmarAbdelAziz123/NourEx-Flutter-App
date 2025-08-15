@@ -67,6 +67,9 @@ class MainAppBarInSearchWidget extends StatelessWidget {
                         cubit.onChangeSearchText(
                           value,
                         );
+                        if (value != null && value.isNotEmpty) {
+                          cubit.getInitialProductsBySearch();
+                        }
                       },
                       borderRadius: AppConstants.borderRadius + 4.r,
                       suffixIcon: InkWell(
@@ -97,8 +100,6 @@ class MainAppBarInSearchWidget extends StatelessWidget {
                       child: InkWell(
                         highlightColor: Colors.transparent,
                         onTap: () {
-                          searchController.clear();
-                          searchController.clear();
                           context.read<SearchCubit>().onChangeSearchText(
                             '',
                           );

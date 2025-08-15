@@ -29,6 +29,8 @@ import 'package:nourex/features/my_orders/data/models/my_orders_data_model.dart'
 import 'package:nourex/features/my_orders/presentation/screens/returned_order_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/order_details_screen.dart';
 import 'package:nourex/features/my_orders/presentation/screens/product_status_screen.dart';
+import 'package:nourex/features/notification/business_logic/notification_cubit.dart';
+import 'package:nourex/features/notification/presentation/screens/notification_screen.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/presentation/screens/best_offers_screen.dart';
@@ -247,7 +249,7 @@ class AppRouter {
       case Routes.searchScreen:
         return transition(
           screen: const SearchScreen(),
-          cubit: SearchCubit(),
+          cubit: SearchCubit(getIt()),
           type: PageTransitionType.topToBottom,
           duration: const Duration(milliseconds: 300),
         );
@@ -255,7 +257,14 @@ class AppRouter {
       case Routes.filterScreen:
         return slideTransition(
           screen: const FilterScreen(),
-          cubit: SearchCubit(),
+          cubit: SearchCubit(getIt()),
+          direction: SlideDirection.left,
+        );
+
+      case Routes.notificationScreen:
+        return slideTransition(
+          screen: const NotificationScreen(),
+          cubit: NotificationCubit(getIt())..getInitialNotifications(),
           direction: SlideDirection.left,
         );
 

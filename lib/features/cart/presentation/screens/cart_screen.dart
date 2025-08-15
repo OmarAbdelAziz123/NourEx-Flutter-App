@@ -171,16 +171,17 @@ class CartScreen extends StatelessWidget {
                 ),
                 bottomNavigationBar: cartCubit.cartDataModel == null ||
                         cartCubit.cartDataModel!.result == null ||
-                        cartCubit.cartDataModel!.result!.products == []
+                        cartCubit.cartDataModel!.result!.products == [] ||
+                    cartCubit.cartDataModel!.result!.products!.isEmpty
                     ? null
                     : CustomBottomNavBarMakeButtonOnly(
                         buttonTitle: 'complete'.tr(),
                         onPressed: () {
-                          context.pushNamed(
-                            Routes.completePayScreen,
-                            arguments: totalPrice,
-                          );
-                        },
+                                    context.pushNamed(
+                                      Routes.completePayScreen,
+                                      arguments: totalPrice,
+                                    );
+                                  },
                       ),
               );
       },

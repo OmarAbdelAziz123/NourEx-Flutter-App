@@ -22,6 +22,8 @@ import 'package:nourex/features/cart/business_logic/cart_cubit.dart';
 import 'package:nourex/features/products/business_logic/products_cubit.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/data/models/variant_option.dart';
+import 'package:nourex/features/profile/business_logic/profile_cubit.dart';
+import 'package:nourex/features/profile/presentation/widgets/review_item_skeletonizer_widget.dart';
 import 'package:nourex/features/profile/presentation/widgets/review_item_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -30,8 +32,8 @@ class ProductDetailsScreen extends StatelessWidget {
 
   final String productId;
 
-  List<VariantOption> _generateVariantOptions(
-      List<String?> values, String variantType) {
+  List<VariantOption> _generateVariantOptions(List<String?> values,
+      String variantType) {
     return values.where((value) => value != null).map((value) {
       // Enhanced color detection
       final isColorVariant = variantType.toLowerCase().contains('color') ||
@@ -52,7 +54,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
   Color? _getColorFromString(String colorName) {
     switch (colorName.toLowerCase()) {
-      // Arabic colors
+    // Arabic colors
       case 'أسود':
       case 'black':
         return Colors.black;
@@ -78,7 +80,7 @@ class ProductDetailsScreen extends StatelessWidget {
       case 'أخضر':
       case 'green':
         return Colors.green;
-      // Additional common colors
+    // Additional common colors
       case 'orange':
       case 'برتقالي':
         return Colors.orange;
@@ -146,8 +148,8 @@ class ProductDetailsScreen extends StatelessWidget {
   }
 
   /// ✅ Add this helper method for stock:
-  int _getStockAmount(
-      Result? productDetails, Map<String, String?> selectedVariants) {
+  int _getStockAmount(Result? productDetails,
+      Map<String, String?> selectedVariants) {
     if (productDetails?.variants == null) return 0;
 
     /// Find matching variant based on selected variants
@@ -177,7 +179,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final isArabic = Localizations
+        .localeOf(context)
+        .languageCode == 'ar';
     final cubit = context.read<ProductsCubit>();
 
     return Scaffold(
@@ -206,196 +210,198 @@ class ProductDetailsScreen extends StatelessWidget {
           final selectedPrice = cubit.selectedPrice;
 
           return state is GetProductByIdLoadingState ||
-                  cubit.productDetailsModel == null
+              cubit.productDetailsModel == null
               ? const Center(child: CircularProgressIndicator())
               : SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                18.verticalSpace,
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 18.w),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      18.verticalSpace,
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 18.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            /// Image and Sub Images
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 400),
-                              child: InteractiveViewer(
-                                key: ValueKey(
-                                    productDetails?.mainImageURL ?? ''),
-                                panEnabled: true,
-                                scaleEnabled: true,
-                                minScale: 1.0,
-                                maxScale: 4.0,
-                                child: CacheNetworkImagesWidget(
-                                  image: productDetails?.mainImageURL ?? '',
-                                  width: double.infinity,
-                                  height: 249.h,
-                                  boxFit: BoxFit.fill,
-                                  borderRadius: 10.r,
-                                ),
-                              ),
+
+                      /// Image and Sub Images
+                      AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 400),
+                        child: InteractiveViewer(
+                          key: ValueKey(
+                              productDetails?.mainImageURL ?? ''),
+                          panEnabled: true,
+                          scaleEnabled: true,
+                          minScale: 1.0,
+                          maxScale: 4.0,
+                          child: CacheNetworkImagesWidget(
+                            image: productDetails?.mainImageURL ?? '',
+                            width: double.infinity,
+                            height: 249.h,
+                            boxFit: BoxFit.fill,
+                            borderRadius: 10.r,
+                          ),
+                        ),
+                      ),
+                      12.verticalSpace,
+                      if (subImages.isNotEmpty)
+                        Container(
+                          width: double.infinity,
+                          height: 60.h,
+                          padding: EdgeInsets.symmetric(vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            border: Border.all(
+                              color: AppColors.neutralColor300,
+                              width: 1.w,
                             ),
-                            12.verticalSpace,
-                            if (subImages.isNotEmpty)
-                              Container(
-                                width: double.infinity,
-                                height: 60.h,
-                                padding: EdgeInsets.symmetric(vertical: 8.h),
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  border: Border.all(
-                                    color: AppColors.neutralColor300,
-                                    width: 1.w,
-                                  ),
-                                  borderRadius: BorderRadius.circular(
-                                    AppConstants.borderRadius + 4.r,
-                                  ),
-                                ),
-                                child: SingleChildScrollView(
-                                  scrollDirection: Axis.horizontal,
-                                  child: Row(
-                                    children: List.generate(subImages.length,
-                                        (index) {
-                                      final image = subImages[index];
-                                      return GestureDetector(
-                                        onTap: () {
-                                          cubit.updateMainImage(
-                                              image); // ✅ Use cubit method
-                                          // setState(() {
-                                          //   productDetails?.mainImageURL =
-                                          //       image;
-                                          // });
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.symmetric(
-                                              horizontal: 8.w),
-                                          padding: EdgeInsets.all(2.sp),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: image ==
-                                                      productDetails
-                                                          ?.mainImageURL
-                                                  ? AppColors.primaryColor700
-                                                  : Colors.transparent,
-                                              width: 1.5.w,
-                                            ),
-                                            borderRadius: BorderRadius.circular(
-                                              AppConstants.borderRadius - 2.r,
-                                            ),
+                            borderRadius: BorderRadius.circular(
+                              AppConstants.borderRadius + 4.r,
+                            ),
+                          ),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(subImages.length,
+                                      (index) {
+                                    final image = subImages[index];
+                                    return GestureDetector(
+                                      onTap: () {
+                                        cubit.updateMainImage(
+                                            image); // ✅ Use cubit method
+                                        // setState(() {
+                                        //   productDetails?.mainImageURL =
+                                        //       image;
+                                        // });
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.symmetric(
+                                            horizontal: 8.w),
+                                        padding: EdgeInsets.all(2.sp),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: image ==
+                                                productDetails
+                                                    ?.mainImageURL
+                                                ? AppColors.primaryColor700
+                                                : Colors.transparent,
+                                            width: 1.5.w,
                                           ),
-                                          child: CacheNetworkImagesWidget(
-                                            image: image,
-                                            width: 62.w,
-                                            height: 41.h,
-                                            borderRadius: 9.r,
-                                            boxFit: BoxFit.fill,
+                                          borderRadius: BorderRadius.circular(
+                                            AppConstants.borderRadius - 2.r,
                                           ),
                                         ),
-                                      );
-                                    }),
-                                  ),
+                                        child: CacheNetworkImagesWidget(
+                                          image: image,
+                                          width: 62.w,
+                                          height: 41.h,
+                                          borderRadius: 9.r,
+                                          boxFit: BoxFit.fill,
+                                        ),
+                                      ),
+                                    );
+                                  }),
+                            ),
+                          ),
+                        ),
+                      18.verticalSpace,
+
+                      /// Product name & stock
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                productDetails?.name ?? 'No Name',
+                                style: Styles.captionRegular.copyWith(
+                                  color: AppColors.neutralColor600,
                                 ),
                               ),
-                            18.verticalSpace,
-
-                            /// Product name & stock
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      productDetails?.name ?? 'No Name',
-                                      style: Styles.captionRegular.copyWith(
-                                        color: AppColors.neutralColor600,
-                                      ),
-                                    ),
-                                    8.horizontalSpace,
-                                    _getStockAmount(productDetails,
-                                                cubit.selectedVariants) <
-                                            10
-                                        ? Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 8.w, vertical: 6.h),
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  AppColors.secondaryColor500,
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                      AppConstants
-                                                              .borderRadius +
-                                                          18.r),
-                                            ),
-                                            child: Text(
-                                              '${_getStockAmount(productDetails, cubit.selectedVariants)} متبقي',
-                                              // '${productDetails?.stock.toString()} متبقي',
-                                              style: Styles.captionEmphasis
-                                                  .copyWith(
-                                                color:
-                                                    AppColors.neutralColor100,
-                                              ),
-                                            ),
-                                          )
-                                        : SizedBox.shrink(),
-                                  ],
+                              8.horizontalSpace,
+                              _getStockAmount(productDetails,
+                                  cubit.selectedVariants) <
+                                  10
+                                  ? Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 6.h),
+                                decoration: BoxDecoration(
+                                  color:
+                                  AppColors.secondaryColor500,
+                                  borderRadius:
+                                  BorderRadius.circular(
+                                      AppConstants
+                                          .borderRadius +
+                                          18.r),
                                 ),
-                                Row(
-                                  spacing: 12.w,
-                                  children: [
-                                    // if(cubit.productDetailsModel?.result?.isRated == true)
-                                    //   GestureDetector(
-                                    //   onTap: () {
-                                    //     showModalBottomSheet(
-                                    //       context: context,
-                                    //       isScrollControlled: true,
-                                    //       builder: (context) {
-                                    //         return CustomSharedBottomSheetReview(
-                                    //           title: 'التقييم',
-                                    //           nameOfFiled: 'قيّم هذا المنتج',
-                                    //           initialRating: 3.5,
-                                    //           hintText:
-                                    //               'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
-                                    //           isEdit: false,
-                                    //           buttonText1: 'تاكيد',
-                                    //           buttonText2: 'الغاء',
-                                    //           onRatingChanged: (rating) {},
-                                    //           commentController:
-                                    //               TextEditingController(),
-                                    //           onEditPressed: () {},
-                                    //           onCancelPressed: () {
-                                    //             Navigator.pop(context);
-                                    //           },
-                                    //         );
-                                    //       },
-                                    //     );
-                                    //   },
-                                    //   child: Text(
-                                    //     'تقييم المنتج',
-                                    //     style:
-                                    //         Styles.highlightSemiBold.copyWith(
-                                    //       color: AppColors.primaryColor700,
-                                    //       decoration: TextDecoration.underline,
-                                    //       decorationColor:
-                                    //           AppColors.primaryColor700,
-                                    //       decorationThickness: 1.5.w,
-                                    //     ),
-                                    //   ),
-                                    // ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        final productName =
-                                            productDetails?.name ?? '';
-                                        final productDesc =
-                                            AppConstants.removeHtmlTags(
-                                                productDetails?.description ??
-                                                    '');
-                                        final productLink =
-                                            "https://noorex-dashboard.vercel.app/products/1";
-                                        // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
+                                child: Text(
+                                  '${_getStockAmount(productDetails,
+                                      cubit.selectedVariants)} متبقي',
+                                  // '${productDetails?.stock.toString()} متبقي',
+                                  style: Styles.captionEmphasis
+                                      .copyWith(
+                                    color:
+                                    AppColors.neutralColor100,
+                                  ),
+                                ),
+                              )
+                                  : SizedBox.shrink(),
+                            ],
+                          ),
+                          Row(
+                            spacing: 12.w,
+                            children: [
+                              // if(cubit.productDetailsModel?.result?.isRated == true)
+                              //   GestureDetector(
+                              //   onTap: () {
+                              //     showModalBottomSheet(
+                              //       context: context,
+                              //       isScrollControlled: true,
+                              //       builder: (context) {
+                              //         return CustomSharedBottomSheetReview(
+                              //           title: 'التقييم',
+                              //           nameOfFiled: 'قيّم هذا المنتج',
+                              //           initialRating: 3.5,
+                              //           hintText:
+                              //               'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
+                              //           isEdit: false,
+                              //           buttonText1: 'تاكيد',
+                              //           buttonText2: 'الغاء',
+                              //           onRatingChanged: (rating) {},
+                              //           commentController:
+                              //               TextEditingController(),
+                              //           onEditPressed: () {},
+                              //           onCancelPressed: () {
+                              //             Navigator.pop(context);
+                              //           },
+                              //         );
+                              //       },
+                              //     );
+                              //   },
+                              //   child: Text(
+                              //     'تقييم المنتج',
+                              //     style:
+                              //         Styles.highlightSemiBold.copyWith(
+                              //       color: AppColors.primaryColor700,
+                              //       decoration: TextDecoration.underline,
+                              //       decorationColor:
+                              //           AppColors.primaryColor700,
+                              //       decorationThickness: 1.5.w,
+                              //     ),
+                              //   ),
+                              // ),
+                              GestureDetector(
+                                onTap: () {
+                                  final productName =
+                                      productDetails?.name ?? '';
+                                  final productDesc =
+                                  AppConstants.removeHtmlTags(
+                                      productDetails?.description ??
+                                          '');
+                                  final productLink =
+                                      "https://noorex-dashboard.vercel.app/products/1";
+                                  // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
 
-                                        final shareText = '''
+                                  final shareText = '''
 $productName
 
 $productDesc
@@ -404,259 +410,317 @@ $productDesc
 $productLink
 ''';
 
-                                        Share.share(shareText);
-                                      },
-                                      child: SvgPicture.asset(
-                                        'assets/svgs/share_icon.svg',
-                                        fit: BoxFit.scaleDown,
-                                      ),
-                                    ),
-                                  ],
+                                  Share.share(shareText);
+                                },
+                                child: SvgPicture.asset(
+                                  'assets/svgs/share_icon.svg',
+                                  fit: BoxFit.scaleDown,
                                 ),
-                              ],
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                      4.verticalSpace,
+
+                      /// Final Product Name
+                      Text(productDetails?.name ?? '',
+                          style: Styles.featureSemiBold),
+                      4.verticalSpace,
+
+                      /// Brand and Price
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            spacing: 12.w,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: AppColors.neutralColor300,
+                                radius: 13.r,
+                                backgroundImage: productDetails?.createdBy
+                                    ?.profilePic != null
+                                    ? NetworkImage(
+                                    productDetails!.createdBy!.profilePic!)
+                                    : const AssetImage(
+                                    'assets/pngs/admin_image.png'),
+                              ),
+                              Text(
+                                productDetails?.createdBy?.vendorName ??
+                                    '',
+                                // productDetails?.name ?? '',
+                                style: Styles.contentBold.copyWith(
+                                  color: AppColors.secondaryColor500,
+                                ),
+                              ),
+                              if (productDetails
+                                  ?.createdBy?.varifiedVendor ==
+                                  true)
+                                SvgPicture.asset(
+                                  'assets/svgs/water_mark_icon.svg',
+                                  fit: BoxFit.scaleDown,
+                                ),
+                            ],
+                          ),
+                          Text(
+                            '${selectedPrice ??
+                                _getDefaultPrice(productDetails)} ${'currency'
+                                .tr()}',
+
+                            // ' ${selectedPrice ?? productDetails?.finalPrice} ${'currency'.tr()}',
+                            style: Styles.heading4,
+                          ),
+                        ],
+                      ),
+
+                      18.verticalSpace,
+
+                      /// Variants
+                      if (productDetails?.variants != null &&
+                          productDetails!.variants!.isNotEmpty)
+                        Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.all(16.w),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(
+                              color: AppColors.neutralColor300,
+                              width: 1.w,
                             ),
-                            4.verticalSpace,
+                          ),
+                          child: Column(
+                            children: variantsMap.entries.map((entry) {
+                              final variantType = entry.key;
+                              final values = entry.value;
+                              final options = _generateVariantOptions(
+                                  values, variantType);
+                              final isColorVariant = variantType
+                                  .toLowerCase()
+                                  .contains('color') ||
+                                  variantType
+                                      .toLowerCase()
+                                      .contains('لون');
 
-                            /// Final Product Name
-                            Text(productDetails?.name ?? '',
-                                style: Styles.featureSemiBold),
-                            4.verticalSpace,
+                              return Column(
+                                children: [
 
-                            /// Brand and Price
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  spacing: 12.w,
-                                  children: [
-                                    CircleAvatar(
-                                      backgroundColor:
-                                          AppColors.neutralColor300,
-                                      radius: 13.r,
-                                    ),
-                                    Text(
-                                      productDetails?.name ?? '',
-                                      style: Styles.contentBold.copyWith(
-                                        color: AppColors.secondaryColor500,
-                                      ),
-                                    ),
-                                    SvgPicture.asset(
-                                      'assets/svgs/water_mark_icon.svg',
-                                      fit: BoxFit.scaleDown,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  '${selectedPrice ?? _getDefaultPrice(productDetails)} ${'currency'.tr()}',
+                                  /// Row containing variant options and title
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.center,
+                                    children: [
 
-                                  // ' ${selectedPrice ?? productDetails?.finalPrice} ${'currency'.tr()}',
-                                  style: Styles.heading4,
-                                ),
-                              ],
-                            ),
+                                      /// Variant Options (Left side)
+                                      Expanded(
+                                        child: Wrap(
+                                          spacing: 8.w,
+                                          runSpacing: 8.h,
+                                          alignment: WrapAlignment.start,
+                                          children: options.map((option) {
+                                            final isSelected =
+                                                selectedVariants[
+                                                variantType] ==
+                                                    option.id;
 
-                            18.verticalSpace,
-
-                            /// Variants
-                            if (productDetails?.variants != null &&
-                                productDetails!.variants!.isNotEmpty)
-                              Container(
-                                width: double.infinity,
-                                padding: EdgeInsets.all(16.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12.r),
-                                  border: Border.all(
-                                    color: AppColors.neutralColor300,
-                                    width: 1.w,
-                                  ),
-                                ),
-                                child: Column(
-                                  children: variantsMap.entries.map((entry) {
-                                    final variantType = entry.key;
-                                    final values = entry.value;
-                                    final options = _generateVariantOptions(
-                                        values, variantType);
-                                    final isColorVariant = variantType
-                                            .toLowerCase()
-                                            .contains('color') ||
-                                        variantType
-                                            .toLowerCase()
-                                            .contains('لون');
-
-                                    return Column(
-                                      children: [
-                                        /// Row containing variant options and title
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            /// Variant Options (Left side)
-                                            Expanded(
-                                              child: Wrap(
-                                                spacing: 8.w,
-                                                runSpacing: 8.h,
-                                                alignment: WrapAlignment.start,
-                                                children: options.map((option) {
-                                                  final isSelected =
-                                                      selectedVariants[
-                                                              variantType] ==
-                                                          option.id;
-
-                                                  if (isColorVariant) {
-                                                    /// Color Variant Design
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        cubit
-                                                            .updateSelectedVariant(
-                                                                variantType,
-                                                                option.id);
-                                                      },
-                                                      child: Container(
-                                                        width: 36.w,
-                                                        height: 36.h,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: option.color ??
-                                                              Colors.grey,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      6.r),
-                                                          border: Border.all(
-                                                            color: isSelected
-                                                                ? AppColors
-                                                                    .primaryColor700
-                                                                : Colors.grey
-                                                                    .shade300,
-                                                            width: isSelected
-                                                                ? 2.5.w
-                                                                : 1.w,
-                                                          ),
-                                                        ),
-                                                        child: isSelected
-                                                            ? Icon(
-                                                                Icons.check,
-                                                                color: _getContrastColor(
-                                                                    option.color ??
-                                                                        Colors
-                                                                            .grey),
-                                                                size: 18.sp,
-                                                              )
-                                                            : null,
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    // Size/Text Variant Design
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                        cubit
-                                                            .updateSelectedVariant(
-                                                                variantType,
-                                                                option.id);
-                                                      },
-                                                      child: Container(
-                                                        padding: EdgeInsets
-                                                            .symmetric(
-                                                          horizontal: 14.w,
-                                                          vertical: 8.h,
-                                                        ),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: isSelected
-                                                              ? Colors.black
-                                                              : Colors.white,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      6.r),
-                                                          border: Border.all(
-                                                            color: isSelected
-                                                                ? Colors.black
-                                                                : Colors.grey
-                                                                    .shade300,
-                                                            width: 1.w,
-                                                          ),
-                                                        ),
-                                                        child: Text(
-                                                          option.label,
-                                                          style: TextStyle(
-                                                            color: isSelected
-                                                                ? Colors.white
-                                                                : Colors.black,
-                                                            fontSize: 14.sp,
-                                                            fontWeight:
-                                                                isSelected
-                                                                    ? FontWeight
-                                                                        .w600
-                                                                    : FontWeight
-                                                                        .w500,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }
-                                                }).toList(),
-                                              ),
-                                            ),
-
-                                            /// Variant Type Title (Right side)
-                                            Container(
-                                              margin:
-                                                  EdgeInsets.only(right: 8.w),
-                                              child: Text(
-                                                variantType,
-                                                style: TextStyle(
-                                                  fontSize: 14.sp,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black87,
+                                            if (isColorVariant) {
+                                              /// Color Variant Design
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  cubit
+                                                      .updateSelectedVariant(
+                                                      variantType,
+                                                      option.id);
+                                                },
+                                                child: Container(
+                                                  width: 36.w,
+                                                  height: 36.h,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    color: option.color ??
+                                                        Colors.grey,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        6.r),
+                                                    border: Border.all(
+                                                      color: isSelected
+                                                          ? AppColors
+                                                          .primaryColor700
+                                                          : Colors.grey
+                                                          .shade300,
+                                                      width: isSelected
+                                                          ? 2.5.w
+                                                          : 1.w,
+                                                    ),
+                                                  ),
+                                                  child: isSelected
+                                                      ? Icon(
+                                                    Icons.check,
+                                                    color: _getContrastColor(
+                                                        option.color ??
+                                                            Colors
+                                                                .grey),
+                                                    size: 18.sp,
+                                                  )
+                                                      : null,
                                                 ),
-                                              ),
-                                            ),
-                                          ],
+                                              );
+                                            } else {
+                                              // Size/Text Variant Design
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  cubit
+                                                      .updateSelectedVariant(
+                                                      variantType,
+                                                      option.id);
+                                                },
+                                                child: Container(
+                                                  padding: EdgeInsets
+                                                      .symmetric(
+                                                    horizontal: 14.w,
+                                                    vertical: 8.h,
+                                                  ),
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    color: isSelected
+                                                        ? Colors.black
+                                                        : Colors.white,
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(
+                                                        6.r),
+                                                    border: Border.all(
+                                                      color: isSelected
+                                                          ? Colors.black
+                                                          : Colors.grey
+                                                          .shade300,
+                                                      width: 1.w,
+                                                    ),
+                                                  ),
+                                                  child: Text(
+                                                    option.label,
+                                                    style: TextStyle(
+                                                      color: isSelected
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                      fontSize: 14.sp,
+                                                      fontWeight:
+                                                      isSelected
+                                                          ? FontWeight
+                                                          .w600
+                                                          : FontWeight
+                                                          .w500,
+                                                    ),
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          }).toList(),
                                         ),
+                                      ),
 
-                                        /// Divider between variants
-                                        if (entry !=
-                                            variantsMap.entries.last) ...[
-                                          20.verticalSpace,
-                                          CustomDividerInBottomSheet(
-                                            dividerColor:
-                                                AppColors.neutralColor300,
+                                      /// Variant Type Title (Right side)
+                                      Container(
+                                        margin:
+                                        EdgeInsets.only(right: 8.w),
+                                        child: Text(
+                                          variantType,
+                                          style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.black87,
                                           ),
-                                          20.verticalSpace,
-                                        ],
-                                      ],
-                                    );
-                                  }).toList(),
-                                ),
-                              ),
-                            18.verticalSpace,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
 
-                            /// Description
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(12.w),
-                              decoration: BoxDecoration(
-                                color: AppColors.neutralColor100,
-                                borderRadius: BorderRadius.circular(
-                                    AppConstants.borderRadius),
-                                border: Border.all(
-                                  color: AppColors.neutralColor300,
-                                  width: 1.w,
-                                ),
+                                  /// Divider between variants
+                                  if (entry !=
+                                      variantsMap.entries.last) ...[
+                                    20.verticalSpace,
+                                    CustomDividerInBottomSheet(
+                                      dividerColor:
+                                      AppColors.neutralColor300,
+                                    ),
+                                    20.verticalSpace,
+                                  ],
+                                ],
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      18.verticalSpace,
+
+                      /// Description
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.neutralColor100,
+                          borderRadius: BorderRadius.circular(
+                              AppConstants.borderRadius),
+                          border: Border.all(
+                            color: AppColors.neutralColor300,
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Column(
+                          spacing: 8.h,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('الوصف',
+                                style: Styles.highlightEmphasis),
+                            Text(
+                              AppConstants.removeHtmlTags(
+                                  productDetails?.description ?? ''),
+                              style: Styles.contentRegular.copyWith(
+                                color: AppColors.neutralColor800,
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      18.verticalSpace,
+
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          color: AppColors.neutralColor100,
+                          borderRadius: BorderRadius.circular(
+                            AppConstants.borderRadius,
+                          ),
+                          border: Border.all(
+                            color: AppColors.neutralColor300,
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          // Limit the column height
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              // Constrain the row width
                               child: Column(
                                 spacing: 8.h,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                MainAxisAlignment.start,
+                                // Align to start (left)
+                                crossAxisAlignment:
+                                CrossAxisAlignment.start,
                                 children: [
-                                  Text('الوصف',
-                                      style: Styles.highlightEmphasis),
                                   Text(
-                                    AppConstants.removeHtmlTags(
-                                        productDetails?.description ?? ''),
+                                    'productNumber'.tr(),
+                                    style: Styles.highlightEmphasis,
+                                  ),
+                                  Text(
+                                    productDetails?.sId ?? '',
                                     style: Styles.contentRegular.copyWith(
                                       color: AppColors.neutralColor800,
                                     ),
@@ -664,127 +728,100 @@ $productLink
                                 ],
                               ),
                             ),
-
-                            18.verticalSpace,
-
-                            Container(
-                              width: double.infinity,
-                              padding: EdgeInsets.all(12.w),
-                              decoration: BoxDecoration(
-                                color: AppColors.neutralColor100,
-                                borderRadius: BorderRadius.circular(
-                                  AppConstants.borderRadius,
-                                ),
-                                border: Border.all(
-                                  color: AppColors.neutralColor300,
-                                  width: 1.w,
-                                ),
-                              ),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min, // Limit the column height
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Flexible( // Constrain the row width
-                                    child: Column(
-                                      spacing: 8.h,
-                                      mainAxisAlignment: MainAxisAlignment.start, // Align to start (left)
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'productNumber'.tr(),
-                                          style: Styles.highlightEmphasis,
-                                        ),
-                                        Text(
-                                          productDetails?.sId ?? '',
-                                          style: Styles.contentRegular.copyWith(
-                                            color: AppColors.neutralColor800,
-                                          ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            18.verticalSpace,
                           ],
                         ),
                       ),
-
-                      /// Reviews
-                      cubit.allProductReviews.isEmpty ||
-                              cubit.allProductReviews == []
-                          ? SizedBox.shrink() : Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 18.w),
-                                  child: ShowMoreRowWidget(
-                                    title: 'reviews'.tr(),
-                                    onTapShowMore: () {
-                                      context.pushNamed(
-                                        Routes.productReviewsScreen,
-                                        arguments: productDetails,
-                                      );
-                                    },
-                                  ),
-                                ),
-                                18.verticalSpace,
-                                ListView.separated(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  separatorBuilder: (context, index) =>
-                                      18.verticalSpace,
-                                  itemCount: cubit.allProductReviews.length < 6
-                                      ? cubit.allProductReviews.length
-                                      : 6,
-                                  itemBuilder: (context, index) {
-                                    final review =
-                                        cubit.allProductReviews[index];
-                                    final isArabic =
-                                        Localizations.localeOf(context)
-                                                .languageCode ==
-                                            'ar';
-
-                                    return ReviewItemWidget(
-                                      reviewerName: review.user!.name ?? '',
-                                      profileImagePath:
-                                          review.user!.profilePic ?? '',
-                                      reviewText: review.comment ??
-                                          'الخدمة كانت رائعة جدًا! مقدم الخدمة محترف ووصل في الوقت المحدد. أنصح الجميع بالتعامل معه. شكرًا لتطبيق حرفة على التجربة الممتازة',
-                                      timeAgo:
-                                          review.createdAt.toString() ?? '0',
-                                      rating: review.rating ?? 0,
-                                      isArabic: isArabic,
-                                      moreIconButtonWidget: review.myReview ==
-                                              true
-                                          ? 18.horizontalSpace
-                                          : CustomDropDownMenuWidget(
-                                              onSelected: (String value) {},
-                                              menuItems: [
-                                                {
-                                                  'title': 'report'.tr(),
-                                                  'icon': Icons.report_outlined
-                                                },
-                                                {
-                                                  'title': 'editReview'.tr(),
-                                                  'icon': Iconsax.edit
-                                                },
-                                                {
-                                                  'title': 'deleteReview'.tr(),
-                                                  'icon': Iconsax.trash
-                                                },
-                                              ],
-                                            ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
                       18.verticalSpace,
                     ],
                   ),
-                );
+                ),
+
+                /// Reviews
+                state is GetProductReviewsLoadingState ||
+                cubit.allProductReviews.isEmpty ||
+                    cubit.allProductReviews == []
+                    ? ReviewItemSkeletonizerWidget()
+                    : Column(
+                  children: [
+                    Padding(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 18.w),
+                      child: ShowMoreRowWidget(
+                        title: 'reviews'.tr(),
+                        onTapShowMore: () {
+                          context.pushNamed(
+                            Routes.productReviewsScreen,
+                            arguments: productDetails,
+                          );
+                        },
+                      ),
+                    ),
+                    18.verticalSpace,
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      separatorBuilder: (context, index) =>
+                      18.verticalSpace,
+                      itemCount: cubit.allProductReviews.length < 6
+                          ? cubit.allProductReviews.length
+                          : 6,
+                      itemBuilder: (context, index) {
+                        final review =
+                        cubit.allProductReviews[index];
+                        final isArabic =
+                            Localizations
+                                .localeOf(context)
+                                .languageCode ==
+                                'ar';
+
+                        return ReviewItemWidget(
+                          reviewerName: review.user!.name ?? '',
+                          profileImagePath:
+                          review.user!.profilePic ?? '',
+                          reviewText: review.comment ??
+                              'الخدمة كانت رائعة جدًا! مقدم الخدمة محترف ووصل في الوقت المحدد. أنصح الجميع بالتعامل معه. شكرًا لتطبيق حرفة على التجربة الممتازة',
+                          timeAgo:
+                          review.createdAt.toString() ?? '0',
+                          rating: review.rating ?? 0,
+                          isArabic: isArabic,
+                          moreIconButtonWidget: review.myReview ==
+                              true
+                              ? 18.horizontalSpace
+                              : BlocProvider(
+                            create: (context) => ProfileCubit(getIt()),
+                            child: BlocConsumer<ProfileCubit, ProfileState>(
+                              listener: (context, state) {
+                                if(state is MakeReportReviewSuccessState) {
+                                  cubit.getInitialProductReviews(productId: productDetails!.sId ?? '');
+                                }
+                              },
+                              builder: (context, state) {
+                                final cu = context.read<ProfileCubit>();
+                                return CustomDropDownMenuWidget(
+                                  onSelected: (String value) {
+                                    if (value == 'report'.tr()) {
+                                      cu.makeReportReview(reviewId: review.id ?? '');
+                                    }
+                                  },
+                                  menuItems: [
+                                    {
+                                      'title': 'report'.tr(),
+                                      'icon': Icons.report_outlined
+                                    },
+                                  ],
+                                );
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                18.verticalSpace,
+              ],
+            ),
+          );
         },
       ),
       bottomNavigationBar: BlocProvider(

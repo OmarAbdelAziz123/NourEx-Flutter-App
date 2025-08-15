@@ -24,6 +24,7 @@ Map<String, dynamic> _$ProductDetailsModelToJson(
 Result _$ResultFromJson(Map<String, dynamic> json) => Result(
       sId: json['_id'] as String?,
       customId: json['customId'] as String?,
+      isRated: json['isRated'] as bool?,
       sku: json['sku'] as String?,
       name: json['name'] as String?,
       slug: json['slug'] as String?,
@@ -42,7 +43,10 @@ Result _$ResultFromJson(Map<String, dynamic> json) => Result(
           ?.map((e) => Variants.fromJson(e as Map<String, dynamic>))
           .toList(),
       createdAt: json['createdAt'] as String?,
-    )..isRated = json['isRated'] as bool?;
+      createdBy: json['createdBy'] == null
+          ? null
+          : CreatedBy.fromJson(json['createdBy'] as Map<String, dynamic>),
+    );
 
 Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
       '_id': instance.sId,
@@ -60,6 +64,19 @@ Map<String, dynamic> _$ResultToJson(Result instance) => <String, dynamic>{
       'availableVariants': instance.availableVariants,
       'variants': instance.variants?.map((e) => e.toJson()).toList(),
       'createdAt': instance.createdAt,
+      'createdBy': instance.createdBy?.toJson(),
+    };
+
+CreatedBy _$CreatedByFromJson(Map<String, dynamic> json) => CreatedBy(
+      vendorName: json['vendorName'] as String?,
+      varifiedVendor: json['varifiedVendor'] as bool?,
+      profilePic: json['profilePic'] as String?,
+    );
+
+Map<String, dynamic> _$CreatedByToJson(CreatedBy instance) => <String, dynamic>{
+      'vendorName': instance.vendorName,
+      'varifiedVendor': instance.varifiedVendor,
+      'profilePic': instance.profilePic,
     };
 
 Variants _$VariantsFromJson(Map<String, dynamic> json) => Variants(

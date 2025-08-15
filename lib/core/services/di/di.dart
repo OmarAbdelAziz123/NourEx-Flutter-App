@@ -12,10 +12,14 @@ import 'package:nourex/features/categories/data/api_services/api_services.dart';
 import 'package:nourex/features/categories/data/repos/repos.dart';
 import 'package:nourex/features/my_orders/data/api_services/api_services.dart';
 import 'package:nourex/features/my_orders/data/repos/repos.dart';
+import 'package:nourex/features/notification/data/api_services/api_services.dart';
+import 'package:nourex/features/notification/data/repos/repos.dart';
 import 'package:nourex/features/products/data/api_services/api_services.dart';
 import 'package:nourex/features/products/data/repos/repos.dart';
 import 'package:nourex/features/profile/data/api_services/api_services.dart';
 import 'package:nourex/features/profile/data/repos/repos.dart';
+import 'package:nourex/features/search/data/api_services/api_services.dart';
+import 'package:nourex/features/search/data/repos/repos.dart';
 import 'package:nourex/features/support/data/api_services/api_services.dart';
 import 'package:nourex/features/support/data/repos/repos.dart';
 import 'package:nourex/features/wallet/data/api_services/api_services.dart';
@@ -40,6 +44,8 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<MyOrdersApiServices>(() => MyOrdersApiServices(getIt()));
   getIt.registerLazySingleton<BannersApiServices>(() => BannersApiServices(getIt()));
   getIt.registerLazySingleton<SupportApiServices>(() => SupportApiServices(getIt()));
+  getIt.registerLazySingleton<SearchApiServices>(() => SearchApiServices(getIt()));
+  getIt.registerLazySingleton<NotificationApiServices>(() => NotificationApiServices(getIt()));
 
 
   /// Repos
@@ -53,4 +59,6 @@ Future<void> setupDependencyInjection() async {
   getIt.registerLazySingleton<MyOrdersRepos>(() => MyOrdersRepos(getIt()));
   getIt.registerLazySingleton<BannersRepos>(() => BannersRepos(getIt()));
   getIt.registerLazySingleton<SupportRepos>(() => SupportRepos(getIt()));
+  getIt.registerLazySingleton<SearchRepos>(() => SearchRepos(getIt()));
+  getIt.registerLazySingleton<NotificationRepos>(() => NotificationRepos(getIt()));
 }

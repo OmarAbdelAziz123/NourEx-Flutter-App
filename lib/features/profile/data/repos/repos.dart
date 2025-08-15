@@ -29,7 +29,6 @@ class ProfileRepos {
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-
         // Validate response structure
         if (response.data is Map<String, dynamic> &&
             response.data['status'] == 'success' &&
@@ -192,6 +191,45 @@ class ProfileRepos {
     try {
       final response = await profileApiServices.updateMyReview(
           productId, reviewId, comment, rating);
+
+      if (response == null) {
+        return ApiResult.failure(ErrorHandler.handleApiError(null));
+      }
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ToastManager.showCustomToast(
+          message: response.data['message'],
+          backgroundColor: AppColors.greenColor200,
+          icon: Icons.check_circle_outline,
+          duration: const Duration(seconds: 3),
+        );
+
+        return ApiResult.success(response.data['message']);
+      } else {
+        if (response.data['message'] == 'Validation Error') {
+          return await ErrorHandler.handleValidationErrorResponse<String>(
+              response);
+        } else {
+          ToastManager.showCustomToast(
+            message: response.data['message'],
+            backgroundColor: AppColors.redColor200,
+            icon: Icons.error_outline,
+            duration: const Duration(seconds: 3),
+          );
+          return ApiResult.failure(ErrorHandler.handleApiError(response));
+        }
+      }
+    } on DioException catch (e) {
+      return ApiResult.failure(ErrorHandler.handleDioError(e));
+    } catch (e) {
+      return ApiResult.failure(ErrorHandler.handleUnexpectedError(e));
+    }
+  }
+
+  /// Make Report Review
+  Future<ApiResult<String>> makeReportReview(String reviewId) async {
+    try {
+      final response = await profileApiServices.makeReportReview(reviewId);
 
       if (response == null) {
         return ApiResult.failure(ErrorHandler.handleApiError(null));

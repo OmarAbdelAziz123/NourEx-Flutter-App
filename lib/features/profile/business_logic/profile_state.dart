@@ -75,6 +75,16 @@ final class UpdateReviewErrorState extends ProfileState {
   UpdateReviewErrorState(this.error);
 }
 
+/// Make Report Review States
+final class MakeReportReviewLoadingState extends ProfileState {}
+
+final class MakeReportReviewSuccessState extends ProfileState {}
+
+final class MakeReportReviewErrorState extends ProfileState {
+  final String error;
+  MakeReportReviewErrorState(this.error);
+}
+
 /// Logout States
 final class LogoutLoadingState extends ProfileState {}
 

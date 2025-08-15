@@ -62,7 +62,7 @@ class AddressesScreen extends StatelessWidget {
               if (addressesList.isEmpty && state is GetAllAddressesLoadingState)
                 SliverPadding(
                   padding:
-                  EdgeInsets.symmetric(horizontal: 0.w, vertical: 16.h),
+                  EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                   sliver: SliverList.separated(
                     itemCount: 10,
                     separatorBuilder: (context, index) => 16.verticalSpace,

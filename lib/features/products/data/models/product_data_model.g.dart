@@ -43,8 +43,12 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       id: json['_id'] as String?,
       sku: json['sku'] as String?,
       name: json['name'] as String?,
+      description: json['description'] as String?,
       mainImageURL: json['mainImageURL'] as String?,
       createdAt: json['createdAt'] as String?,
+      createdBy: json['createdBy'] == null
+          ? null
+          : CreatedBy.fromJson(json['createdBy'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
@@ -52,6 +56,20 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       '_id': instance.id,
       'sku': instance.sku,
       'name': instance.name,
+      'description': instance.description,
       'mainImageURL': instance.mainImageURL,
       'createdAt': instance.createdAt,
+      'createdBy': instance.createdBy,
+    };
+
+CreatedBy _$CreatedByFromJson(Map<String, dynamic> json) => CreatedBy(
+      vendorName: json['vendorName'] as String?,
+      varifiedVendor: json['varifiedVendor'] as bool?,
+      profilePic: json['profilePic'] as String?,
+    );
+
+Map<String, dynamic> _$CreatedByToJson(CreatedBy instance) => <String, dynamic>{
+      'vendorName': instance.vendorName,
+      'varifiedVendor': instance.varifiedVendor,
+      'profilePic': instance.profilePic,
     };

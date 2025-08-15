@@ -84,6 +84,13 @@ class ProfileApiServices {
     );
   }
 
+  /// Make Report Review
+  Future<Response?> makeReportReview(String reviewId) async {
+    return await _dioFactory.patch(
+      endPoint: EndPoints.makeReportReview(reviewId),
+    );
+  }
+
   /// Logout
   Future<Response?> userLogout() async {
     return await _dioFactory.patch(endPoint: EndPoints.logout);

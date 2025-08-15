@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:html/parser.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,6 +12,11 @@ class AppConstants {
 
   static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static int mainLayoutInitialScreenIndex = 0;
+
+  static String stripHtmlTags(String htmlString) {
+    final document = parse(htmlString);
+    return document.body?.text.trim() ?? htmlString;
+  }
 
   static screenWidth(context) =>
       MediaQuery

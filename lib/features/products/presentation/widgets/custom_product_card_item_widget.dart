@@ -22,6 +22,7 @@ class CustomProductCardItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 315.w,
       padding: EdgeInsets.all(12.sp),
       decoration: BoxDecoration(
         color: AppColors.neutralColor100,
@@ -44,63 +45,65 @@ class CustomProductCardItemWidget extends StatelessWidget {
           ),
           12.horizontalSpace,
           isInHome == true
-              ? Column(
-                  spacing: 4.h,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      product.name ?? '',
-                      style: Styles.highlightEmphasis,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-
-                    Text(
-                      product.id.toString() ?? '',
-                      style: Styles.contentRegular.copyWith(
-                        color: AppColors.neutralColor400,
+              ? Expanded(
+                child: Column(
+                    spacing: 4.h,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name ?? '',
+                        style: Styles.highlightEmphasis,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
 
-                    Row(
-                      spacing: 4.w,
-                      children: [
-                        Text(
-                          '2.5',
-                          // product.productRate,
-                          style: Styles.contentEmphasis.copyWith(
-                            color: AppColors.yellowColor100,
-                          ),
+                      Text(
+                        AppConstants.stripHtmlTags(product.description ?? ''),
+                        style: Styles.contentRegular.copyWith(
+                          color: AppColors.neutralColor400,
                         ),
-                        ...List.generate(
-                          double.tryParse('2.5')?.round() ?? 0,
-                          // double.tryParse(product.productRate)?.round() ?? 0,
-                          (index) => SvgPicture.asset(
-                            'assets/svgs/stars.svg',
-                            fit: BoxFit.scaleDown,
-                          ),
-                        ),
-                        // SvgPicture.asset('assets/svgs/stars.svg'),
-                        SvgPicture.asset('assets/svgs/small_circle.svg'),
-                        Text(
-                          '30 ${'order'.tr()}',
-                          // '${product.countOfNumber} ${'order'.tr()}',
-                          style: Styles.contentRegular.copyWith(
-                            color: AppColors.neutralColor400,
-                          ),
-                        )
-                      ],
-                    ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
 
-                    // CustomPriceAfterAndBeforeWidget(
-                    //   priceBefore: '${product.price} ${'currency'.tr()}',
-                    //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
-                    // ),
-                  ],
-                )
+                      Row(
+                        spacing: 4.w,
+                        children: [
+                          Text(
+                            '2.5',
+                            // product.productRate,
+                            style: Styles.contentEmphasis.copyWith(
+                              color: AppColors.yellowColor100,
+                            ),
+                          ),
+                          ...List.generate(
+                            double.tryParse('2.5')?.round() ?? 0,
+                            // double.tryParse(product.productRate)?.round() ?? 0,
+                            (index) => SvgPicture.asset(
+                              'assets/svgs/stars.svg',
+                              fit: BoxFit.scaleDown,
+                            ),
+                          ),
+                          // SvgPicture.asset('assets/svgs/stars.svg'),
+                          SvgPicture.asset('assets/svgs/small_circle.svg'),
+                          Text(
+                            '30 ${'order'.tr()}',
+                            // '${product.countOfNumber} ${'order'.tr()}',
+                            style: Styles.contentRegular.copyWith(
+                              color: AppColors.neutralColor400,
+                            ),
+                          )
+                        ],
+                      ),
+
+                      // CustomPriceAfterAndBeforeWidget(
+                      //   priceBefore: '${product.price} ${'currency'.tr()}',
+                      //   priceAfter: '${product.finalPrice} ${'currency'.tr()} ',
+                      // ),
+                    ],
+                  ),
+              )
               : Expanded(
                   child: Column(
                     spacing: 4.h,
@@ -115,7 +118,7 @@ class CustomProductCardItemWidget extends StatelessWidget {
                       ),
 
                       Text(
-                        product.id.toString() ?? '',
+                        AppConstants.stripHtmlTags(product.description ?? ''),
                         style: Styles.contentRegular.copyWith(
                           color: AppColors.neutralColor400,
                         ),

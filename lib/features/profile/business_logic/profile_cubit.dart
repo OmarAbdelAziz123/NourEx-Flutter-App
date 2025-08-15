@@ -217,6 +217,23 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  /// Make Report Review
+  Future<void> makeReportReview({required String reviewId}) async {
+    showLoading();
+    emit(MakeReportReviewLoadingState());
+    final result = await profileRepos.makeReportReview(reviewId);
+    result.when(
+      success: (success) {
+        hideLoading();
+        emit(MakeReportReviewSuccessState());
+      },
+      failure: (failure) {
+        hideLoading();
+        emit(MakeReportReviewErrorState(failure.toString()));
+      },
+    );
+  }
+
   /// Delete Review
   Future<void> deleteMyReview({required String productId, required String reviewId}) async {
     showLoading();
