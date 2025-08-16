@@ -40,7 +40,7 @@ class BestOffersScreen extends StatelessWidget {
             create: (context) => CategoriesCubit(getIt())..getInitialCategories(),
           ),
           BlocProvider(
-            create: (context) => ProductsCubit(getIt())..getInitialProducts(),
+            create: (context) => ProductsCubit(getIt())..getInitialBestOffers(),
           ),
         ],
         child: Column(
@@ -114,12 +114,12 @@ class BestOffersScreen extends StatelessWidget {
 
                                 if (index == 0) {
                                   // Fetch all products for "All" category
-                                  productsCubit.getInitialProducts();
+                                  productsCubit.getInitialBestOffers();
                                 } else {
                                   // Fetch products for specific category
                                   final selectedCategoryId = categories[index - 1].id ?? '';
                                   if (selectedCategoryId.isNotEmpty) {
-                                    productsCubit.getInitialProductsByCategory(
+                                    productsCubit.getInitialBestOffers(
                                         categoryId: selectedCategoryId);
                                   }
                                 }
@@ -138,14 +138,10 @@ class BestOffersScreen extends StatelessWidget {
             /// Products
             BlocBuilder<ProductsCubit, ProductsState>(
               buildWhen: (previous, current) =>
-              current is GetAllProductsLoadingState ||
-                  current is GetAllProductsSuccessState ||
-                  current is GetAllProductsErrorState ||
-                  current is GetAllProductsPaginationLoadingState ||
-                  current is GetProductByCategoryLoadingState ||
-                  current is GetProductByCategorySuccessState ||
-                  current is GetProductByCategoryErrorState ||
-                  current is GetProductByCategoryPaginationLoadingState,
+              current is GetAllBestOffersLoadingState ||
+                  current is GetAllBestOffersSuccessState ||
+                  current is GetAllBestOffersErrorState ||
+                  current is GetAllBestOffersPaginationLoadingState ,
               builder: (context, state) {
                 final cubit = context.read<ProductsCubit>();
                 final products = cubit.allProducts;
@@ -157,15 +153,15 @@ class BestOffersScreen extends StatelessWidget {
                     onRefresh: () {
                       final categoriesCubit = context.read<CategoriesCubit>();
                       if (categoriesCubit.selectedCategoryIndex == 0) {
-                        return cubit.getInitialProducts();
+                        return cubit.getInitialBestOffers();
                       } else {
                         final selectedCategoryId = categoriesCubit.allCategories[categoriesCubit.selectedCategoryIndex - 1].id ?? '';
-                        return cubit.getInitialProductsByCategory(categoryId: selectedCategoryId);
+                        return cubit.getInitialBestOffers(categoryId: selectedCategoryId);
                       }
                     },
                     slivers: [
                       /// Loading state
-                      if ((state is GetAllProductsLoadingState || state is GetProductByCategoryLoadingState) && products.isEmpty)
+                      if ((state is GetAllBestOffersLoadingState) && products.isEmpty)
                         SliverPadding(
                           padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
                           sliver: SliverList.separated(
@@ -211,7 +207,7 @@ class BestOffersScreen extends StatelessWidget {
                         ),
 
                       /// Pagination loading
-                      if (state is GetAllProductsPaginationLoadingState || state is GetProductByCategoryPaginationLoadingState)
+                      if (state is GetAllBestOffersPaginationLoadingState)
                         SliverToBoxAdapter(
                           child: CustomLoadingWhenLoadingMoreWidget(),
                         ),

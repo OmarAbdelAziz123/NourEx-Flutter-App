@@ -16,11 +16,13 @@ class SearchRepos {
   Future<ApiResult<ProductDataModel>> getProductsBySearch({
     required String search,
     required int page,
+    double? maxRate,
   }) async {
     try {
       final response = await searchApiServices.getProductsBySearch(
         search: search,
         page: page,
+        maxRate: maxRate,
       );
       if (response == null) {
         return ApiResult.failure(ErrorHandler.handleApiError(null));

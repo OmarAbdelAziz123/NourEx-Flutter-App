@@ -11,9 +11,17 @@ class SearchApiServices {
   Future<Response?> getProductsBySearch({
     required String search,
     required int page,
+    double? maxRate,
   }) async {
+    final queryParameters = {
+      'page': page.toString(),
+      'keyword': search,
+      if (maxRate != null) 'maxRate': maxRate.toString(),
+    };
+    final uri = Uri.parse(EndPoints.search).replace(queryParameters: queryParameters);
+
     return await _dioFactory.get(
-      endPoint: '${EndPoints.search}?page=$page&keyword=$search',
+      endPoint: uri.toString(),
     );
   }
 }

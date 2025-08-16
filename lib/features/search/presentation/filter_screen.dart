@@ -13,7 +13,9 @@ import 'package:nourex/core/widgets/text_field/custom_text_form_field_widget.dar
 import 'package:nourex/features/search/business_logic/search_cubit.dart';
 
 class FilterScreen extends StatelessWidget {
-  const FilterScreen({super.key});
+  const FilterScreen({super.key, required this.searchText});
+
+  final String searchText;
 
   @override
   Widget build(BuildContext context) {
@@ -39,53 +41,53 @@ class FilterScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// Price Range Filter From
-              Text(
-                'priceFrom'.tr(),
-                style: Styles.contentEmphasis.copyWith(
-                  color: AppColors.neutralColor1000,
-                ),
-              ),
-              8.verticalSpace,
-              CustomTextFormFieldWidget(
-                controller: searchCubit.priceRangeFromController,
-                textInputAction: TextInputAction.next,
-                keyboardType: TextInputType.number,
-                textStyle: Styles.contentEmphasis.copyWith(
-                  color: AppColors.neutralColor1000,
-                ),
-                backgroundColor: Colors.transparent,
-                cursorColor: AppColors.primaryColor700,
-                hintText: 'priceFrom2'.tr(),
-                hintStyle: Styles.contentRegular.copyWith(
-                  color: AppColors.neutralColor600,
-                ),
-              ),
-              18.verticalSpace,
-
-              /// Price Range Filter To
-              Text(
-                'priceTo'.tr(),
-                style: Styles.contentEmphasis.copyWith(
-                  color: AppColors.neutralColor1000,
-                ),
-              ),
-              8.verticalSpace,
-              CustomTextFormFieldWidget(
-                controller: searchCubit.priceRangeToController,
-                textInputAction: TextInputAction.done,
-                keyboardType: TextInputType.number,
-                backgroundColor: Colors.transparent,
-                textStyle: Styles.contentEmphasis.copyWith(
-                  color: AppColors.neutralColor1000,
-                ),
-                cursorColor: AppColors.primaryColor700,
-                hintText: 'priceTo2'.tr(),
-                hintStyle: Styles.contentRegular.copyWith(
-                  color: AppColors.neutralColor600,
-                ),
-              ),
-              18.verticalSpace,
+              // /// Price Range Filter From
+              // Text(
+              //   'priceFrom'.tr(),
+              //   style: Styles.contentEmphasis.copyWith(
+              //     color: AppColors.neutralColor1000,
+              //   ),
+              // ),
+              // 8.verticalSpace,
+              // CustomTextFormFieldWidget(
+              //   controller: searchCubit.priceRangeFromController,
+              //   textInputAction: TextInputAction.next,
+              //   keyboardType: TextInputType.number,
+              //   textStyle: Styles.contentEmphasis.copyWith(
+              //     color: AppColors.neutralColor1000,
+              //   ),
+              //   backgroundColor: Colors.transparent,
+              //   cursorColor: AppColors.primaryColor700,
+              //   hintText: 'priceFrom2'.tr(),
+              //   hintStyle: Styles.contentRegular.copyWith(
+              //     color: AppColors.neutralColor600,
+              //   ),
+              // ),
+              // 18.verticalSpace,
+              //
+              // /// Price Range Filter To
+              // Text(
+              //   'priceTo'.tr(),
+              //   style: Styles.contentEmphasis.copyWith(
+              //     color: AppColors.neutralColor1000,
+              //   ),
+              // ),
+              // 8.verticalSpace,
+              // CustomTextFormFieldWidget(
+              //   controller: searchCubit.priceRangeToController,
+              //   textInputAction: TextInputAction.done,
+              //   keyboardType: TextInputType.number,
+              //   backgroundColor: Colors.transparent,
+              //   textStyle: Styles.contentEmphasis.copyWith(
+              //     color: AppColors.neutralColor1000,
+              //   ),
+              //   cursorColor: AppColors.primaryColor700,
+              //   hintText: 'priceTo2'.tr(),
+              //   hintStyle: Styles.contentRegular.copyWith(
+              //     color: AppColors.neutralColor600,
+              //   ),
+              // ),
+              // 18.verticalSpace,
 
               /// Review Filter
               Text(
@@ -96,7 +98,8 @@ class FilterScreen extends StatelessWidget {
               ),
               8.verticalSpace,
               BlocBuilder<SearchCubit, SearchState>(
-                buildWhen: (previous, current) => current is ToggleSelectedRating,
+                buildWhen: (previous, current) =>
+                    current is ToggleSelectedRating,
                 builder: (context, state) {
                   final selected = context.read<SearchCubit>().selectedRating;
 
@@ -108,11 +111,14 @@ class FilterScreen extends StatelessWidget {
                       return CustomRatingFilterItem(
                         rating: rating,
                         selectedRating: selected,
-                        onTap: () => context.read<SearchCubit>().toggleRating(rating),
+                        onTap: () =>
+                            context.read<SearchCubit>().toggleRating(rating),
                         selectedColor: AppColors.primaryColor700,
                         unselectedColor: Colors.white,
-                        selectedTextStyle: Styles.contentEmphasis.copyWith(color: Colors.white),
-                        unselectedTextStyle: Styles.contentEmphasis.copyWith(color: AppColors.primaryColor700),
+                        selectedTextStyle: Styles.contentEmphasis
+                            .copyWith(color: Colors.white),
+                        unselectedTextStyle: Styles.contentEmphasis
+                            .copyWith(color: AppColors.primaryColor700),
                       );
                     }),
                   );
@@ -122,54 +128,73 @@ class FilterScreen extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-          left: 18.w,
-          right: 18.w,
-          bottom: 28.h,
-          top: 18.h,
-        ),
-        // padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 52.h),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border(
-            top: BorderSide(
-              color: AppColors.neutralColor100,
-              width: 1.w,
+      bottomNavigationBar: BlocListener<SearchCubit, SearchState>(
+        listener: (context, state) {
+          if (state is GetProductsBySearchSuccessState) {
+            context.pop();
+          }
+        },
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 18.w,
+            right: 18.w,
+            bottom: 28.h,
+            top: 18.h,
+          ),
+          // padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 52.h),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border(
+              top: BorderSide(
+                color: AppColors.neutralColor100,
+                width: 1.w,
+              ),
             ),
           ),
-        ),
-        child: Row(
-          spacing: 16.w,
-          children: [
-            Expanded(
-              child: CustomButtonWidget(
-                text: 'filter'.tr(),
-                color: AppColors.primaryColor700,
-                onPressed: () {
-                  print('Filter');
-                  print(context.read<SearchCubit>().priceRangeFromController.text);
-                  print(context.read<SearchCubit>().priceRangeToController.text);
-                  print(context.read<SearchCubit>().selectedRating);
-                },
-              ),
-            ),
-            Expanded(
-              child: CustomButtonWidget(
-                text: 'cancel2'.tr(),
-                textColor: AppColors.primaryColor700,
-                borderSide: BorderSide(
+          child: Row(
+            spacing: 16.w,
+            children: [
+              Expanded(
+                child: CustomButtonWidget(
+                  text: 'filter'.tr(),
                   color: AppColors.primaryColor700,
-                  width: 1.w,
+                  onPressed: () {
+                    final cubit = context.read<SearchCubit>();
+                    cubit.getInitialProductsBySearch(
+                      search: searchText,
+                      maxRate: cubit.selectedRating.toDouble(),
+                    );
+
+                    print('Filter');
+                    print(context
+                        .read<SearchCubit>()
+                        .priceRangeFromController
+                        .text);
+                    print(context
+                        .read<SearchCubit>()
+                        .priceRangeToController
+                        .text);
+                    print(context.read<SearchCubit>().selectedRating);
+                  },
                 ),
-                borderRadius: AppConstants.borderRadius - 2.w,
-                color: Colors.white,
-                onPressed: () {
-                  context.pop();
-                },
               ),
-            ),
-          ],
+              Expanded(
+                child: CustomButtonWidget(
+                  text: 'cancel2'.tr(),
+                  textColor: AppColors.primaryColor700,
+                  borderSide: BorderSide(
+                    color: AppColors.primaryColor700,
+                    width: 1.w,
+                  ),
+                  borderRadius: AppConstants.borderRadius - 2.w,
+                  color: Colors.white,
+                  onPressed: () {
+                    context.pop();
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

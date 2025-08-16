@@ -28,6 +28,40 @@ class GetAllProductsErrorState extends ProductsState {
 
 final class GetAllProductsPaginationLoadingState extends ProductsState {}
 
+/// Get All Best Offers
+class GetAllBestOffersLoadingState extends ProductsState {}
+
+class GetAllBestOffersSuccessState extends ProductsState {
+  final List<ProductModel> products;
+  final bool isLastPage;
+
+  GetAllBestOffersSuccessState(this.products, this.isLastPage);
+}
+
+class GetAllBestOffersErrorState extends ProductsState {
+  final String message;
+  GetAllBestOffersErrorState(this.message);
+}
+
+final class GetAllBestOffersPaginationLoadingState extends ProductsState {}
+
+/// Get All Best Seller
+class GetAllBestSellerLoadingState extends ProductsState {}
+
+class GetAllBestSellerSuccessState extends ProductsState {
+  final List<ProductModel> products;
+  final bool isLastPage;
+
+  GetAllBestSellerSuccessState(this.products, this.isLastPage);
+}
+
+class GetAllBestSellerErrorState extends ProductsState {
+  final String message;
+  GetAllBestSellerErrorState(this.message);
+}
+
+final class GetAllBestSellerPaginationLoadingState extends ProductsState {}
+
 /// Get Product By Category
 class GetProductByCategoryLoadingState extends ProductsState {}
 

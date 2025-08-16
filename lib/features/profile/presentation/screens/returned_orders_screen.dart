@@ -231,7 +231,10 @@ class ReturnedOrderDetailsScreen extends StatelessWidget {
                   return Column(
                     children: [
                       CustomProductCardItemWidget(
-                          isInHome: false, product: productModel),
+                        isInHome: true,
+                        isHaveNotWidth: true,
+                        product: productModel,
+                      ),
                       18.verticalSpace,
                       buildReturnStatusTimeline(
                         productMap['productStatus'] ?? '',

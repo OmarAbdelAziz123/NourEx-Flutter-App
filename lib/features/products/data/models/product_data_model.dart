@@ -166,6 +166,12 @@ class ProductModel {
   @JsonKey(name: 'mainImageURL')
   String? mainImageURL;
 
+  @JsonKey(name: 'averageRating')
+  int? averageRating;
+
+  @JsonKey(name: 'totalOrderCount')
+  int? totalOrderCount;
+
   @JsonKey(name: 'createdAt')
   String? createdAt;
 
@@ -178,6 +184,8 @@ class ProductModel {
     this.name,
     this.description,
     this.mainImageURL,
+    this.averageRating,
+    this.totalOrderCount,
     this.createdAt,
     this.createdBy,
   });
@@ -187,7 +195,8 @@ class ProductModel {
 
   Map<String, dynamic> toJson() => _$ProductModelToJson(this);
 
-  static ProductModel convertMyOrderProductToProductModel(MyOrderProduct orderProduct) {
+  static ProductModel convertMyOrderProductToProductModel(
+      MyOrderProduct orderProduct) {
     return ProductModel(
       id: orderProduct.variants?.first.id,
       sku: orderProduct.variants?.first.sku,
@@ -196,6 +205,8 @@ class ProductModel {
       createdAt: null,
       description: null,
       createdBy: null,
+      averageRating: null,
+      totalOrderCount: null,
     );
   }
 }

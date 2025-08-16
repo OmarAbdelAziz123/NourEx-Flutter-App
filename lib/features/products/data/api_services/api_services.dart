@@ -12,6 +12,23 @@ class ProductsApiServices {
     return await _dioFactory.get(endPoint: '${EndPoints.products}?page=$page');
   }
 
+  /// Get All Best Offers
+  // Future<Response?> getAllBestOffers({required int page, String? categoryId}) async {
+  //   return await _dioFactory.get(endPoint: '${EndPoints.bestOffers}?page=$page');
+  // }
+
+  /// Get All Best Offers
+  Future<Response?> getAllBestOffers({required int page, String? categoryId}) async {
+    final String endPoint = '${EndPoints.bestOffers}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
+    return await _dioFactory.get(endPoint: endPoint);
+  }
+
+  /// Get All Best Seller
+  Future<Response?> getAllBestSeller({required int page, String? categoryId}) async {
+    final String endPoint = '${EndPoints.bestSeller}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
+    return await _dioFactory.get(endPoint: endPoint);
+  }
+
   /// Get Products By Category
   Future<Response?> getProductsByCategory(
       {required int page, required String categoryId}) async {

@@ -255,8 +255,10 @@ class AppRouter {
         );
 
       case Routes.filterScreen:
+        final String searchText = settings.arguments as String;
+
         return slideTransition(
-          screen: const FilterScreen(),
+          screen: FilterScreen(searchText: searchText),
           cubit: SearchCubit(getIt()),
           direction: SlideDirection.left,
         );
@@ -311,17 +313,17 @@ class AppRouter {
           duration: const Duration(milliseconds: 350),
         );
 
-      case Routes.bestSellerScreen:
-        return slideTransition(
-          screen: const BestSellerScreen(),
-          cubit: ProductsCubit(getIt())..getInitialProducts(),
-          direction: SlideDirection.up,
-        );
-
       case Routes.bestOffersScreen:
         return slideTransition(
           screen: const BestOffersScreen(),
-          cubit: ProductsCubit(getIt())..getInitialProducts(),
+          cubit: ProductsCubit(getIt())..getInitialBestOffers(),
+          direction: SlideDirection.up,
+        );
+
+      case Routes.bestSellerScreen:
+        return slideTransition(
+          screen: const BestSellerScreen(),
+          cubit: ProductsCubit(getIt())..getInitialBestSeller(),
           direction: SlideDirection.up,
         );
 

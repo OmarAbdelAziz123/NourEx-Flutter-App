@@ -75,7 +75,15 @@ class MainAppBarInSearchWidget extends StatelessWidget {
                       suffixIcon: InkWell(
                         highlightColor: Colors.transparent,
                         onTap: () {
-                          context.pushNamed(Routes.filterScreen);
+                          context
+                              .pushNamed(Routes.filterScreen,
+                                  arguments: cubit.searchController.text)
+                              .then((value) {
+                            cubit.getInitialProductsBySearch(
+                              maxRate: cubit.selectedRating.toDouble(),
+                              search: cubit.searchController.text,
+                            );
+                          });
                         },
                         child: SvgPicture.asset(
                           'assets/svgs/filter_icon.svg',
@@ -101,8 +109,8 @@ class MainAppBarInSearchWidget extends StatelessWidget {
                         highlightColor: Colors.transparent,
                         onTap: () {
                           context.read<SearchCubit>().onChangeSearchText(
-                            '',
-                          );
+                                '',
+                              );
                         },
                         child: SvgPicture.asset(
                           'assets/svgs/close_container_icon.svg',

@@ -14,15 +14,17 @@ class CustomProductCardItemWidget extends StatelessWidget {
     super.key,
     required this.product,
     this.isInHome = true,
+    this.isHaveNotWidth = false,
   });
 
   final ProductModel product;
   final bool isInHome;
+  final bool? isHaveNotWidth;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 315.w,
+      width: isHaveNotWidth == true ? double.infinity : 315.w,
       padding: EdgeInsets.all(12.sp),
       decoration: BoxDecoration(
         color: AppColors.neutralColor100,
@@ -130,29 +132,60 @@ class CustomProductCardItemWidget extends StatelessWidget {
                         spacing: 4.w,
                         children: [
                           Text(
-                            '2.5',
-                            // product.productRate,
+                            // '2.5',
+                            product.averageRating.toString(),
                             style: Styles.contentEmphasis.copyWith(
                               color: AppColors.yellowColor100,
                             ),
                           ),
-                          ...List.generate(
-                            double.tryParse('2.5')?.round() ?? 0,
-                            // double.tryParse(product.productRate)?.round() ?? 0,
-                            (index) => SvgPicture.asset(
-                              'assets/svgs/stars.svg',
-                              fit: BoxFit.scaleDown,
+                          Row(
+                            children: List.generate(
+                              5, // Always show 5 stars for a professional look
+                                  (index) => Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 1.w),
+                                child: SvgPicture.asset(
+                                  index < (product.averageRating?.toDouble() ?? 0.0).round()
+                                      ? 'assets/svgs/star_filled.svg' // Filled star for rated
+                                      : 'assets/svgs/star_empty.svg', // Empty star for unrated
+                                  width: 14.w,
+                                  height: 14.h,
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
                             ),
                           ),
-                          // SvgPicture.asset('assets/svgs/stars.svg'),
-                          SvgPicture.asset('assets/svgs/small_circle.svg'),
+                          SizedBox(width: 4.w),
+                          SvgPicture.asset(
+                            'assets/svgs/small_circle.svg',
+                            width: 4.w,
+                            height: 4.h,
+                          ),
+                          SizedBox(width: 4.w),
                           Text(
-                            '30 ${'order'.tr()}',
-                            // '${product.countOfNumber} ${'order'.tr()}',
+                            '${product.totalOrderCount ?? 0} ${'order'.tr()}',
                             style: Styles.contentRegular.copyWith(
                               color: AppColors.neutralColor400,
+                              fontSize: 12.sp,
                             ),
-                          )
+                          ),
+                          // ...List.generate(
+                          //   double.tryParse(product.averageRating.toString())?.round() ?? 0,
+                          //   // double.tryParse(product.productRate)?.round() ?? 0,
+                          //   (index) => SvgPicture.asset(
+                          //     'assets/svgs/stars.svg',
+                          //     fit: BoxFit.scaleDown,
+                          //   ),
+                          // ),
+                          // // SvgPicture.asset('assets/svgs/stars.svg'),
+                          // SvgPicture.asset('assets/svgs/small_circle.svg'),
+                          // Text(
+                          //   '30 ${'order'.tr()}',
+                          //   // '${product.countOfNumber} ${'order'.tr()}',
+                          //   style: Styles.contentRegular.copyWith(
+                          //     color: AppColors.neutralColor400,
+                          //   ),
+
+                          // )
                         ],
                       ),
 

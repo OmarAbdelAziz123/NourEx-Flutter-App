@@ -56,14 +56,14 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   /// Get Initial Products By Search
-  Future<void> getInitialProductsBySearch() async {
+  Future<void> getInitialProductsBySearch({double? maxRate, String? search}) async {
     emit(GetProductsBySearchLoadingState());
     currentPage = 1;
     allProducts.clear();
     isFetching = false;
 
     final result = await searchRepos.getProductsBySearch(
-        page: currentPage, search: searchController.text);
+        page: currentPage, search: search ?? searchController.text, maxRate: maxRate);
 
     result.when(
       success: (data) {
@@ -81,7 +81,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   /// Fetch More for Pagination
-  Future<void> getMoreProductsProductsBySearch() async {
+  Future<void> getMoreProductsProductsBySearch({double? maxRate, String? search}) async {
     if (isFetching || currentPage >= totalPages) return;
 
     isFetching = true;
@@ -89,7 +89,7 @@ class SearchCubit extends Cubit<SearchState> {
     currentPage++;
 
     final result = await searchRepos.getProductsBySearch(
-        page: currentPage, search: searchController.text);
+        page: currentPage, search: search ?? searchController.text, maxRate: maxRate);
 
     result.when(
       success: (data) {

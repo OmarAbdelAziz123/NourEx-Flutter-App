@@ -32,6 +32,8 @@ class EndPoints {
   /// Products
   static const String getAllBanners = 'banner/getAllBanners';
   static const String products = 'product/getAllProducts';
+  static const String bestOffers = 'product/bestOffer';
+  static const String bestSeller = 'product/mostOrdered';
   static const String search = 'product/searchProducts';
   static const String productById = 'product/getProductById';
   static const String productReviews = 'review/getReviews/';

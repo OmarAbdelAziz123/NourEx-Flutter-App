@@ -12,7 +12,9 @@ part 'products_state.dart';
 class ProductsCubit extends Cubit<ProductsState> {
   ProductsCubit(this.productsRepos) : super(ProductsInitial()) {
     _initScrollListener();
-    getInitialProducts();
+    // getInitialProducts();
+    getInitialBestOffers();
+    getInitialBestSeller();
   }
 
   int selectedRating = 0;
@@ -149,6 +151,104 @@ class ProductsCubit extends Cubit<ProductsState> {
       failure: (error) {
         currentPage--;
         emit(GetAllProductsErrorState(error.message));
+      },
+    );
+
+    isFetching = false;
+  }
+
+  /// Get Initial Best Offers
+  Future<void> getInitialBestOffers({String? categoryId}) async {
+    emit(GetAllBestOffersLoadingState());
+    currentPage = 1;
+    allProducts.clear();
+    isFetching = false;
+
+    final result = await productsRepos.getAllBestOffers(page: currentPage, categoryId: categoryId);
+
+    result.when(
+      success: (data) {
+        allProducts = data.result ?? [];
+        totalPages = data.pagination?.pages ?? 1;
+        emit(
+          GetAllBestOffersSuccessState(allProducts, currentPage >= totalPages),
+        );
+      },
+      failure: (error) {
+        emit(GetAllBestOffersErrorState(error.message));
+      },
+    );
+  }
+
+  /// Fetch More for Pagination
+  Future<void> getMoreBestOffers({String? categoryId}) async {
+    if (isFetching || currentPage >= totalPages) return;
+
+    isFetching = true;
+    emit(GetAllBestOffersPaginationLoadingState());
+    currentPage++;
+
+    final result = await productsRepos.getAllBestOffers(page: currentPage, categoryId: categoryId);
+
+    result.when(
+      success: (data) {
+        allProducts.addAll(data.result ?? []);
+        emit(
+          GetAllBestOffersSuccessState(allProducts, currentPage >= totalPages),
+        );
+      },
+      failure: (error) {
+        currentPage--;
+        emit(GetAllBestOffersErrorState(error.message));
+      },
+    );
+
+    isFetching = false;
+  }
+
+  /// Get Initial Best Seller
+  Future<void> getInitialBestSeller({String? categoryId}) async {
+    emit(GetAllBestSellerLoadingState());
+    currentPage = 1;
+    allProducts.clear();
+    isFetching = false;
+
+    final result = await productsRepos.getAllBestSeller(page: currentPage, categoryId: categoryId);
+
+    result.when(
+      success: (data) {
+        allProducts = data.result ?? [];
+        totalPages = data.pagination?.pages ?? 1;
+        emit(
+          GetAllBestSellerSuccessState(allProducts, currentPage >= totalPages),
+        );
+      },
+      failure: (error) {
+        emit(GetAllBestSellerErrorState(error.message));
+      },
+    );
+  }
+
+  /// Fetch More for Pagination
+  Future<void> getMoreBestSeller({String? categoryId}) async {
+    if (isFetching || currentPage >= totalPages) return;
+
+    isFetching = true;
+    emit(GetAllBestSellerPaginationLoadingState());
+    currentPage++;
+
+    final result = await productsRepos.getAllBestSeller(page: currentPage, categoryId: categoryId);
+
+    result.when(
+      success: (data) {
+        allProducts.addAll(data.result ?? []);
+        emit(
+          GetAllBestSellerSuccessState(allProducts, currentPage >= totalPages),
+        );
+      },
+      failure: (error) {
+        currentPage--;
+        emit(GetAllBestSellerErrorState(error.message));
       },
     );
 

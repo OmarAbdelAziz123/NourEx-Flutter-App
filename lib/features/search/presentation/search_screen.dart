@@ -97,26 +97,6 @@ class SearchScreen extends StatelessWidget {
                   SliverToBoxAdapter(child: 18.verticalSpace),
                 ],
               );
-              // return Column(
-              //   children: [
-              //     /// Products List
-              //     // Expanded(
-              //     //   child: ListView.separated(
-              //     //     itemCount: products.length,
-              //     //     padding: EdgeInsets.symmetric(
-              //     //       horizontal: 18.w,
-              //     //       vertical: 18.h,
-              //     //     ),
-              //     //     separatorBuilder: (context, index) => 12.verticalSpace,
-              //     //     itemBuilder: (context, index) {
-              //     //       return CustomProductCardItemWidget(
-              //     //         product: products[index],
-              //     //       );
-              //     //     },
-              //     //   ),
-              //     // ),
-              //   ],
-              // );
             },
           ),
         );

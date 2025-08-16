@@ -163,17 +163,17 @@ class HomeScreen extends StatelessWidget {
                   12.verticalSpace,
                   BlocProvider(
                     create: (context) =>
-                        ProductsCubit(getIt())..getInitialProducts(),
+                        ProductsCubit(getIt())..getInitialBestSeller(),
                     child: BlocBuilder<ProductsCubit, ProductsState>(
                       buildWhen: (previous, current) =>
-                          current is GetAllProductsLoadingState ||
-                          current is GetAllProductsSuccessState ||
-                          current is GetAllProductsErrorState,
+                          current is GetAllBestSellerLoadingState ||
+                          current is GetAllBestSellerSuccessState ||
+                          current is GetAllBestSellerErrorState,
                       builder: (context, state) {
                         final products =
                             context.read<ProductsCubit>().allProducts;
 
-                        if (state is GetAllProductsLoadingState &&
+                        if (state is GetAllBestSellerLoadingState &&
                             products.isEmpty) {
                           /// Loading state with shimmer/skeleton
                           return SizedBox(
@@ -255,17 +255,17 @@ class HomeScreen extends StatelessWidget {
                   /// Success
                   BlocProvider(
                     create: (context) =>
-                        ProductsCubit(getIt())..getInitialProducts(),
+                        ProductsCubit(getIt())..getInitialBestOffers(),
                     child: BlocBuilder<ProductsCubit, ProductsState>(
                       buildWhen: (previous, current) =>
-                          current is GetAllProductsLoadingState ||
-                          current is GetAllProductsSuccessState ||
-                          current is GetAllProductsErrorState,
+                          current is GetAllBestOffersLoadingState ||
+                          current is GetAllBestOffersSuccessState ||
+                          current is GetAllBestOffersErrorState,
                       builder: (context, state) {
                         final products =
                             context.read<ProductsCubit>().allProducts;
 
-                        if (state is GetAllProductsLoadingState &&
+                        if (state is GetAllBestOffersLoadingState &&
                             products.isEmpty) {
                           // Loading state with shimmer/skeleton
                           return SizedBox(

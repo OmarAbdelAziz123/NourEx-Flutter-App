@@ -41,7 +41,6 @@ final Map<String, WidgetBuilder> routeBuilderMap = {
   Routes.cartScreen: (_) => BlocProvider(create: (_) => CartCubit(getIt()), child: const CartScreen()),
   // Routes.completePayScreen: (_) => BlocProvider(create: (_) => CartCubit(getIt()), child: const CompletePayScreen()),
   Routes.searchScreen: (_) => BlocProvider(create: (_) => SearchCubit(getIt()), child: const SearchScreen()),
-  Routes.filterScreen: (_) => BlocProvider(create: (_) => SearchCubit(getIt()), child: const FilterScreen()),
   Routes.categoriesScreen: (_) => BlocProvider(create: (_) => CategoriesCubit(getIt())..getInitialCategories(), child: const CategoriesScreen()),
   Routes.allBannersScreen: (_) => const AllBannersScreen(),
   Routes.bestSellerScreen: (_) => BlocProvider(create: (_) => ProductsCubit(getIt()), child: const BestSellerScreen()),

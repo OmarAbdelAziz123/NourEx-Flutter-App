@@ -45,6 +45,8 @@ ProductModel _$ProductModelFromJson(Map<String, dynamic> json) => ProductModel(
       name: json['name'] as String?,
       description: json['description'] as String?,
       mainImageURL: json['mainImageURL'] as String?,
+      averageRating: (json['averageRating'] as num?)?.toInt(),
+      totalOrderCount: (json['totalOrderCount'] as num?)?.toInt(),
       createdAt: json['createdAt'] as String?,
       createdBy: json['createdBy'] == null
           ? null
@@ -58,6 +60,8 @@ Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
       'name': instance.name,
       'description': instance.description,
       'mainImageURL': instance.mainImageURL,
+      'averageRating': instance.averageRating,
+      'totalOrderCount': instance.totalOrderCount,
       'createdAt': instance.createdAt,
       'createdBy': instance.createdBy,
     };
