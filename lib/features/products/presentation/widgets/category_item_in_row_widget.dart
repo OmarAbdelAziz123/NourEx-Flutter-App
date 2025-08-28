@@ -27,8 +27,8 @@ class CategoryItemInRowWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
         margin: EdgeInsets.only(
-          right: isFirst ? 18.w : 0,
-          left: isLast ? 18.w : 0,
+          right: isLast ? 18.w : 0.w ,
+          // left: isLast ? 0.w : ,
         ),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100.r),

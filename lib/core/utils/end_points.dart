@@ -37,7 +37,8 @@ class EndPoints {
   static const String search = 'product/searchProducts';
   static const String productById = 'product/getProductById';
   static const String productReviews = 'review/getReviews/';
-  static const String productsByCategory = 'product/getProductsByCategoryId';
+  static const String productsByCategory = 'product/getProductsCategory';
+  static String createReview(String productId) => 'review/createReview/$productId';
 
   /// Category
   static const String categories = 'category/getAllCategories';
@@ -65,8 +66,7 @@ class EndPoints {
 
   /// My Orders
   static const String getAllMyOrders = 'order/getMyOrders';
-  static String makeReturnOrder(String orderId) => 'order/returnProduct/$orderId';
+  static String makeReturnOrder(String orderId) => 'return/returnProduct/$orderId';
   static String makeCancelOrder(String orderId) => 'order/cancelOrder/$orderId';
   static String makeDeliveryOrder(String orderId) => 'order/deliveredOrder/$orderId';
-
 }

@@ -149,3 +149,14 @@ class GetProductReviewsErrorState extends ProductsState {
 }
 
 final class ProductReviewsPaginationLoading extends ProductsState {}
+
+/// Make Review
+final class MakeReviewLoadingState extends ProductsState {}
+
+class MakeReviewSuccessState extends ProductsState {}
+
+class MakeReviewErrorState extends ProductsState {
+  final String message;
+
+  MakeReviewErrorState(this.message);
+}

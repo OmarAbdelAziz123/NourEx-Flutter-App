@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/themes/app_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 
@@ -44,7 +46,9 @@ class MainAppBar2Widget extends StatelessWidget {
           child: InkWell(
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
-            onTap: isSubScreen == true ? onTapBack : onTapSearch,
+            onTap: isSubScreen == true ? onTapBack : () {
+              context.pushNamed(Routes.searchScreen);
+            },
             child: isSubScreen == true
                 ? Transform.rotate(
                     angle: context.locale.languageCode == 'en' ? 3.14159 : 0.0,
@@ -78,25 +82,40 @@ class MainAppBar2Widget extends StatelessWidget {
               splashColor: Colors.transparent,
               onTap: isSubScreen == true ? onTapSearch : onTapNotification,
               child: haveOnlyNotification == true
-                  ? SvgPicture.asset(
-                      'assets/svgs/notification_icon.svg',
-                      width: 50.w,
-                      height: 50.h,
-                      fit: BoxFit.scaleDown,
-                    )
+                  ? InkWell(
+                    onTap: () {
+                      context.pushNamed(Routes.notificationScreen);
+                    },
+                    child: SvgPicture.asset(
+                        'assets/svgs/notification_icon.svg',
+                        width: 50.w,
+                        height: 50.h,
+                        fit: BoxFit.scaleDown,
+                      ),
+                  )
                   : isSubScreen == true
-                      ? SvgPicture.asset(
-                          'assets/svgs/search_icon.svg',
-                          width: 50.w,
-                          height: 50.h,
-                          fit: BoxFit.scaleDown,
-                        )
-                      : SvgPicture.asset(
-                          'assets/svgs/notification_icon.svg',
-                          width: 50.w,
-                          height: 50.h,
-                          fit: BoxFit.scaleDown,
-                        ),
+                      ? InkWell(
+                        onTap: () {
+                          context.pushNamed(Routes.searchScreen);
+                        },
+                        child: SvgPicture.asset(
+                            'assets/svgs/search_icon.svg',
+                            width: 50.w,
+                            height: 50.h,
+                            fit: BoxFit.scaleDown,
+                          ),
+                      )
+                      : InkWell(
+                onTap: () {
+                  context.pushNamed(Routes.notificationScreen);
+                },
+                        child: SvgPicture.asset(
+                            'assets/svgs/notification_icon.svg',
+                            width: 50.w,
+                            height: 50.h,
+                            fit: BoxFit.scaleDown,
+                          ),
+                      ),
             ),
           ),
         ],

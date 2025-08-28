@@ -314,7 +314,7 @@ class HomeScreen extends StatelessWidget {
                                   onTap: () {
                                     context.pushNamed(
                                       Routes.productDetailsScreen,
-                                      arguments: products[index],
+                                      arguments: products[index].id,
                                     );
                                   },
                                   child: CustomProductCardItemWidget(

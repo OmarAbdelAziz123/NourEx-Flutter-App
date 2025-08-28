@@ -72,14 +72,6 @@ class AppValidator {
       return 'validation.username.minLength'.tr();
     }
 
-    // const pattern = r"^[a-zA-Z0-9_-]{3,20}$";
-    //
-    // final regex = RegExp(pattern);
-    //
-    // if (!regex.hasMatch(username)) {
-    //   return 'validation.username.invalid'.tr();
-    // }
-
     return null;
   }
 
@@ -106,18 +98,6 @@ class AppValidator {
       return 'validation.password.minLength'.tr();
     }
 
-
-    // if (!value.contains(RegExp(r'[A-Z]'))) {
-    //   return 'validation.password.uppercase'.tr();
-    // }
-
-    // if (!value.contains(RegExp(r'[0-9]'))) {
-    //   return 'validation.password.number'.tr();
-    // }
-
-    // if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-    //   return 'validation.password.specialChar'.tr();
-    // }
 
     return null;
   }
@@ -193,20 +173,6 @@ class AppValidator {
     return null;
   }
 
-
-  // static String? validateSyrianPhoneNumber(String? value) {
-  //   if (value == null || value.isEmpty) {
-  //     return 'validation.phone.required'.tr();
-  //   }
-  //
-  //   final phoneRegExp = RegExp(r'^09[0-9]{8}$');
-  //
-  //   if (!phoneRegExp.hasMatch(value)) {
-  //     return 'validation.phone.invalid'.tr();
-  //   }
-  //
-  //   return null;
-  // }
   static String? validateSyrianPhoneNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'validation.phone.required'.tr();
@@ -223,9 +189,6 @@ class AppValidator {
 
     return null;
   }
-
-
-
 
   static String? validateOTP(String? value) {
     if (value == null || value.isEmpty) {

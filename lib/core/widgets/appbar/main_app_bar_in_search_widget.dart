@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -39,12 +40,23 @@ class MainAppBarInSearchWidget extends StatelessWidget {
             leading: SizedBox.shrink(),
             title: Row(
               children: [
-                InkWell(
-                  highlightColor: Colors.transparent,
-                  onTap: () => Navigator.pop(context),
-                  child: SvgPicture.asset(
-                    'assets/svgs/back_button_icon.svg',
-                    fit: BoxFit.scaleDown,
+                Container(
+                  padding: EdgeInsets.only(right: context.locale.languageCode == 'en' ? 0 : 18.w),
+                  child: InkWell(
+                    onTap: () {
+                      context.pop();
+                    },
+                    highlightColor: Colors.transparent,
+                    splashColor: Colors.transparent,
+                    child: Transform.rotate(
+                      angle: context.locale.languageCode == 'en' ? 3.14159 : 0.0,
+                      child: SvgPicture.asset(
+                        'assets/svgs/back_button_icon.svg',
+                        width: 50.w,
+                        height: 50.h,
+                        fit: BoxFit.scaleDown,
+                      ),
+                    )
                   ),
                 ),
                 Expanded(
@@ -57,7 +69,7 @@ class MainAppBarInSearchWidget extends StatelessWidget {
                       backgroundColor: Colors.transparent,
                       textColor: AppColors.neutralColor100,
                       controller: searchController,
-                      hintText: 'البحث عن منتج',
+                      hintText: 'search'.tr(),
                       showCursor: true,
                       cursorColor: AppColors.neutralColor100,
                       hintStyle: Styles.contentEmphasis.copyWith(

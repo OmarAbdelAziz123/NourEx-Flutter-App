@@ -69,6 +69,9 @@ Map<String, dynamic> _$MyOrderToJson(MyOrder instance) => <String, dynamic>{
 
 MyOrderProduct _$MyOrderProductFromJson(Map<String, dynamic> json) =>
     MyOrderProduct(
+      description: json['description'] as String?,
+      averageRating: (json['averageRating'] as num?)?.toInt(),
+      totalOrderCount: (json['totalOrderCount'] as num?)?.toInt(),
       productId: json['productId'] as String?,
       finalProductTotal: (json['finalProductTotal'] as num?)?.toDouble(),
       status: json['status'] as String?,
@@ -85,6 +88,9 @@ Map<String, dynamic> _$MyOrderProductToJson(MyOrderProduct instance) =>
       'finalProductTotal': instance.finalProductTotal,
       'status': instance.status,
       'mainImageURL': instance.mainImageURL,
+      'description': instance.description,
+      'averageRating': instance.averageRating,
+      'totalOrderCount': instance.totalOrderCount,
       'name': instance.name,
       'variants': instance.variants,
     };

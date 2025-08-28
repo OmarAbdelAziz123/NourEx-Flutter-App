@@ -11,6 +11,8 @@ class AboutUsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -35,7 +37,7 @@ class AboutUsScreen extends StatelessWidget {
               8.verticalSpace,
 
               ExpandableTextWidget(
-                text:
+                text: isArabic ?
                 '''
 🏬 حول نوريكس
 نوريكس (Noorex) هو تطبيق تسوّق إلكتروني سوري صُمم خصيصًا ليوفّر لك تجربة شراء سهلة، آمنة، ومناسبة لواقعنا المحلي. نحن نربط بينك وبين مجموعة واسعة من المتاجر المحلية الموثوقة، لتختار المنتجات التي تحتاجها وتطلبها بخطوات بسيطة، مع إمكانية الدفع عند الاستلام وخدمة التوصيل إلى باب المنزل.
@@ -76,6 +78,42 @@ class AboutUsScreen extends StatelessWidget {
 
 شكرًا لاختيارك نوريكس ❤️ نعدك بأن نسعى دائمًا لنكون عند حسن ظنّك.
 
+                '''
+                : '''
+🏬 About Noorex
+Noorex is a Syrian e-commerce application designed specifically to provide an easy, secure, and locally tailored shopping experience. We connect you with a wide range of trusted local stores, allowing you to choose the products you need and order them with simple steps, with the option of cash on delivery and home delivery services.
+🎯 Our Vision
+To be the leading e-commerce platform in Syria, contributing to the development of a digital shopping experience that suits Syrian users and supports the local economy.
+🧭 Our Mission
+To provide users with a reliable and simple shopping platform and offer local merchants a space to showcase their products and reach new customers across various governorates.
+✅ What Makes Noorex Unique?
+
+Diverse Products: From trusted local stores across different governorates.
+Cash on Delivery: No need for bank cards or transfers.
+Direct Delivery: Through trusted delivery partners or directly from the seller.
+User-Friendly Interface: Designed to make shopping easy for everyone.
+True Local Support: Noorex is not a foreign platform but a fully Syrian initiative serving the Syrian market.
+
+🔒 Security and Privacy
+We take your privacy seriously. All your personal information (such as phone number and address) is used solely to process your orders and is not shared with any unauthorized third parties. You can always review the [Privacy Policy] within the app for more details.
+ℹ️ Important Notes
+
+Noorex does not sell its own products; it acts as a digital intermediary between you and the seller.
+We carefully select trusted stores, but if you encounter any issues, our support team is ready to assist.
+We are continuously improving the platform and will soon add features such as:
+
+Order tracking.
+Electronic payment.
+Store ratings.
+
+
+
+📞 Contact Us
+If you face any issues or have any inquiries, don’t hesitate to reach out through:
+
+The support section within the app.
+Email: nour.noorex@gmail.com
+Or our official social media pages.
                 ''',
                 mainTextStyle: Styles.contentEmphasis.copyWith(
                   letterSpacing: 0.5.w,

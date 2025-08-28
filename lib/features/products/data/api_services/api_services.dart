@@ -18,14 +18,18 @@ class ProductsApiServices {
   // }
 
   /// Get All Best Offers
-  Future<Response?> getAllBestOffers({required int page, String? categoryId}) async {
-    final String endPoint = '${EndPoints.bestOffers}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
+  Future<Response?> getAllBestOffers(
+      {required int page, String? categoryId}) async {
+    final String endPoint =
+        '${EndPoints.bestOffers}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
     return await _dioFactory.get(endPoint: endPoint);
   }
 
   /// Get All Best Seller
-  Future<Response?> getAllBestSeller({required int page, String? categoryId}) async {
-    final String endPoint = '${EndPoints.bestSeller}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
+  Future<Response?> getAllBestSeller(
+      {required int page, String? categoryId}) async {
+    final String endPoint =
+        '${EndPoints.bestSeller}?page=$page${categoryId != null ? '&categoryId=$categoryId' : ''}';
     return await _dioFactory.get(endPoint: endPoint);
   }
 
@@ -43,12 +47,24 @@ class ProductsApiServices {
   }
 
   /// Get Product Reviews
-  Future<Response?> getProductReviews({required String productId, required int page}) async {
+  Future<Response?> getProductReviews(
+      {required String productId, required int page}) async {
     return await _dioFactory.get(
-      endPoint: '${EndPoints.productReviews}/$productId',
-      data: {
-        'page': page
-      }
-    );
+        endPoint: '${EndPoints.productReviews}/$productId',
+        data: {'page': page});
+  }
+
+  /// Make Review
+  Future<Response?> makeReview({
+    required String productId,
+    required String comment,
+    required int rating,
+  }) async {
+    return await _dioFactory.post(
+        endPoint: EndPoints.createReview(productId),
+        data: {
+          "comment": comment,
+          "rating": rating,
+        });
   }
 }

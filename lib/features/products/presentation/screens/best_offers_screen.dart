@@ -4,6 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/services/di/di.dart';
+import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/loading/custom_loading_when_loading_more_widget.dart';
 import 'package:nourex/core/widgets/loading/custom_refresh_indicator_widget.dart';
 import 'package:nourex/features/categories/data/model/category_data_model.dart';
@@ -177,7 +179,12 @@ class BestOffersScreen extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(top: 50.h),
-                              child: Text('noProducts'.tr()),
+                              child: Text(
+                                'noProductsFound'.tr(),
+                                style: Styles.contentSemiBold.copyWith(
+                                  color: AppColors.neutralColor1000,
+                                ),
+                              ),
                             ),
                           ),
                         )

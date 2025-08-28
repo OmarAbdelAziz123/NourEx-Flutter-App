@@ -56,10 +56,16 @@ class ReturnedProduct {
   final String? status;
   final String? name;
   final String? mainImageURL;
+  final String? description;
+  final int? averageRating;
+  final int? totalOrderCount;
   final ReturnedVendor? vendor;
 
   ReturnedProduct({
+    this.description,
+    this.averageRating,
     this.productId,
+    this.totalOrderCount,
     this.variantSku,
     this.status,
     this.name,

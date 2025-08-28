@@ -215,6 +215,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/services/di/di.dart';
+import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
 import 'package:nourex/core/widgets/loading/custom_loading_when_loading_more_widget.dart';
 import 'package:nourex/core/widgets/loading/custom_refresh_indicator_widget.dart';
@@ -247,7 +249,8 @@ class BestSellerScreen extends StatelessWidget {
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => CategoriesCubit(getIt())..getInitialCategories(),
+            create: (context) =>
+                CategoriesCubit(getIt())..getInitialCategories(),
           ),
           BlocProvider(
             create: (context) => ProductsCubit(getIt())..getInitialBestSeller(),
@@ -269,81 +272,92 @@ class BestSellerScreen extends StatelessWidget {
 
                 return state is GetAllCategoriesLoadingState
                     ? Skeletonizer(
-                  enabled: true,
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 18.h,),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          children: List.generate(6, (index) {
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                right: index == 5 ? 0.w : 10.w,
+                        enabled: true,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: 18.h,
+                          ),
+                          child: SizedBox(
+                            width: double.infinity,
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: List.generate(6, (index) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                      right: index == 5 ? 0.w : 10.w,
+                                    ),
+                                    child: CategoryItemInRowWidget(
+                                      title: 'Category name',
+                                      isSelected: false,
+                                      isFirst: index == 0,
+                                      isLast: index == 5,
+                                      onTap: () {},
+                                    ),
+                                  );
+                                }),
                               ),
-                              child: CategoryItemInRowWidget(
-                                title: 'Category name',
-                                isSelected: false,
-                                isFirst: index == 0,
-                                isLast: index == 5,
-                                onTap: () {},
-                              ),
-                            );
-                          }),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                )
+                      )
                     : Padding(
-                  padding: EdgeInsets.only(top: 18.h,),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: List.generate(displayCategories.length, (index) {
-                          final isSelected = categoriesCubit.selectedCategoryIndex == index;
-                          final category = displayCategories[index];
+                        padding: EdgeInsets.only(
+                          top: 18.h,
+                        ),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: List.generate(displayCategories.length,
+                                  (index) {
+                                final isSelected =
+                                    categoriesCubit.selectedCategoryIndex ==
+                                        index;
+                                final category = displayCategories[index];
 
-                          return Padding(
-                            // padding: EdgeInsets.only(
-                            //   right: index == displayCategories.length - 1 ? 0.w : 10.w,
-                            // ),
-                            padding: EdgeInsets.only(
-                              left: index == categories.length - 1
-                                  ? 10.w
-                                  : 10.w,
-                            ),
-                            child: CategoryItemInRowWidget(
-                              title: category.name ?? '',
-                              isSelected: isSelected,
-                              isFirst: index == 0,
-                              isLast: index == displayCategories.length - 1,
-                              onTap: () {
-                                final productsCubit = context.read<ProductsCubit>();
-                                categoriesCubit.changeCategoryIndex(index);
+                                return Padding(
+                                  // padding: EdgeInsets.only(
+                                  //   right: index == displayCategories.length - 1 ? 0.w : 10.w,
+                                  // ),
+                                  padding: EdgeInsets.only(
+                                    left: index == categories.length - 1
+                                        ? 10.w
+                                        : 10.w,
+                                  ),
+                                  child: CategoryItemInRowWidget(
+                                    title: category.name ?? '',
+                                    isSelected: isSelected,
+                                    isFirst: index == 0,
+                                    isLast:
+                                        index == displayCategories.length - 1,
+                                    onTap: () {
+                                      final productsCubit =
+                                          context.read<ProductsCubit>();
+                                      categoriesCubit
+                                          .changeCategoryIndex(index);
 
-                                if (index == 0) {
-                                  // Fetch all products for "All" category
-                                  productsCubit.getInitialBestSeller();
-                                } else {
-                                  // Fetch products for specific category
-                                  final selectedCategoryId = categories[index - 1].id ?? '';
-                                  if (selectedCategoryId.isNotEmpty) {
-                                    productsCubit.getInitialBestSeller(
-                                        categoryId: selectedCategoryId);
-                                  }
-                                }
-                              },
+                                      if (index == 0) {
+                                        // Fetch all products for "All" category
+                                        productsCubit.getInitialBestSeller();
+                                      } else {
+                                        // Fetch products for specific category
+                                        final selectedCategoryId =
+                                            categories[index - 1].id ?? '';
+                                        if (selectedCategoryId.isNotEmpty) {
+                                          productsCubit.getInitialBestSeller(
+                                              categoryId: selectedCategoryId);
+                                        }
+                                      }
+                                    },
+                                  ),
+                                );
+                              }),
                             ),
-                          );
-                        }),
-                      ),
-                    ),
-                  ),
-                );
+                          ),
+                        ),
+                      );
               },
             ),
             18.verticalSpace,
@@ -351,7 +365,7 @@ class BestSellerScreen extends StatelessWidget {
             /// Products
             BlocBuilder<ProductsCubit, ProductsState>(
               buildWhen: (previous, current) =>
-              current is GetAllBestSellerLoadingState ||
+                  current is GetAllBestSellerLoadingState ||
                   current is GetAllBestSellerSuccessState ||
                   current is GetAllBestSellerErrorState ||
                   current is GetAllBestSellerPaginationLoadingState,
@@ -368,19 +382,28 @@ class BestSellerScreen extends StatelessWidget {
                       if (categoriesCubit.selectedCategoryIndex == 0) {
                         return cubit.getInitialBestSeller();
                       } else {
-                        final selectedCategoryId = categoriesCubit.allCategories[categoriesCubit.selectedCategoryIndex - 1].id ?? '';
-                        return cubit.getInitialBestSeller(categoryId: selectedCategoryId);
+                        final selectedCategoryId = categoriesCubit
+                                .allCategories[
+                                    categoriesCubit.selectedCategoryIndex - 1]
+                                .id ??
+                            '';
+                        return cubit.getInitialBestSeller(
+                            categoryId: selectedCategoryId);
                       }
                     },
                     slivers: [
                       /// Loading state
-                      if ((state is GetAllBestSellerLoadingState) && products.isEmpty)
+                      if ((state is GetAllBestSellerLoadingState) &&
+                          products.isEmpty)
                         SliverPadding(
-                          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 18.w, vertical: 18.h),
                           sliver: SliverList.separated(
                             itemCount: 6,
-                            separatorBuilder: (context, index) => 12.verticalSpace,
-                            itemBuilder: (context, index) => CustomProductCardItemSkeletonizerWidget(),
+                            separatorBuilder: (context, index) =>
+                                12.verticalSpace,
+                            itemBuilder: (context, index) =>
+                                CustomProductCardItemSkeletonizerWidget(),
                           ),
                         )
 
@@ -390,7 +413,12 @@ class BestSellerScreen extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: EdgeInsets.only(top: 50.h),
-                              child: Text('noProducts'.tr()),
+                              child: Text(
+                                'noProductsFound'.tr(),
+                                style: Styles.contentSemiBold.copyWith(
+                                  color: AppColors.neutralColor1000,
+                                ),
+                              ),
                             ),
                           ),
                         )
@@ -398,10 +426,12 @@ class BestSellerScreen extends StatelessWidget {
                       /// Success state
                       else
                         SliverPadding(
-                          padding: EdgeInsets.only(bottom: 18.h, left: 18.w, right: 18.w, top: 18.h),
+                          padding: EdgeInsets.only(
+                              bottom: 18.h, left: 18.w, right: 18.w, top: 18.h),
                           sliver: SliverList.separated(
                             itemCount: products.length,
-                            separatorBuilder: (context, index) => 12.verticalSpace,
+                            separatorBuilder: (context, index) =>
+                                12.verticalSpace,
                             itemBuilder: (context, index) {
                               return GestureDetector(
                                 onTap: () {

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class ExpandableTextWidget extends StatefulWidget {
@@ -48,7 +49,7 @@ class ExpandableTextWidgetState extends State<ExpandableTextWidget> {
             });
           },
           child: Text(
-            isExpanded ? "اغلاق" : "قراءة المزيد...",
+            isExpanded ? "close2".tr() : "readMore".tr(),
             style: widget.subTextStyles,
           ),
         ),

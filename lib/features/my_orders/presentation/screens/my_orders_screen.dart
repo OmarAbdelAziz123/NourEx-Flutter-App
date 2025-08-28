@@ -18,74 +18,59 @@ class MyOrdersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppConstants.userToken == null
         ? UnAuthorizedScreen()
-        :   Scaffold(
-      backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(74.h),
-        child: MainAppBar2Widget(
-          title: 'orders'.tr(),
-          onTapSearch: () {},
-          onTapNotification: () {},
-        ),
-      ),
-      body: BlocBuilder<MyOrdersCubit, MyOrdersState>(
-        builder: (context, state) {
-          final cubit = context.read<MyOrdersCubit>();
+        : Scaffold(
+            backgroundColor: Colors.white,
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(74.h),
+              child: MainAppBar2Widget(
+                title: 'orders'.tr(),
+                onTapSearch: () {},
+                onTapNotification: () {},
+              ),
+            ),
+            body: BlocBuilder<MyOrdersCubit, MyOrdersState>(
+              builder: (context, state) {
+                final cubit = context.read<MyOrdersCubit>();
 
-          return Column(
-            children: [
-              CustomTabBarWidget(
-                tabs: ['pending'.tr(), 'delivered'.tr(), 'cancelled'.tr()],
-                selectedIndex: cubit.selectedTabIndex,
-                onTabChanged: (index) {
-                  cubit.changeTab(index);
-                },
-              ),
-              Expanded(
-                child: _buildTabContent(cubit.selectedTabIndex),
-              ),
-            ],
+                return Column(
+                  children: [
+                    CustomTabBarWidget(
+                      tabs: [
+                        'pending'.tr(),
+                        'delivered'.tr(),
+                        'cancelled'.tr()
+                      ],
+                      selectedIndex: cubit.selectedTabIndex,
+                      onTabChanged: (index) {
+                        cubit.changeTab(index);
+                      },
+                    ),
+                    Expanded(
+                      child: _buildTabContent(cubit.selectedTabIndex),
+                    ),
+                  ],
+                );
+              },
+            ),
           );
-        },
-      ),
-    );
   }
 
-  // Widget _buildTabContent(currentTabIndex) {
-  //   switch (currentTabIndex) {
-  //     case 0:
-  //       return StatusOrdersWidget(
-  //         status: 'Pending',
-  //       );
-  //     case 1:
-  //       return StatusOrdersWidget(
-  //         status: 'Delivered',
-  //       );
-  //     case 2:
-  //       return StatusOrdersWidget(
-  //         status: 'Cancelled',
-  //       );
-  //     default:
-  //       return Container();
-  //   }
-  // }
   Widget _buildTabContent(currentTabIndex) {
     switch (currentTabIndex) {
       case 0:
         return StatusOrdersWidget(
-          status: 'pending'.tr(),
+          status: 'Pending',
         );
       case 1:
         return StatusOrdersWidget(
-          status: 'delivered'.tr(),
+          status: 'Delivered',
         );
       case 2:
         return StatusOrdersWidget(
-          status: 'cancelled'.tr(),
+          status: 'Cancelled',
         );
       default:
         return Container();
     }
   }
-
 }

@@ -65,7 +65,7 @@ class ProductsByCategoryScreen extends StatelessWidget {
                     child: Center(
                       child: Padding(
                         padding: EdgeInsets.only(top: 50.h),
-                        child: Text('noProducts'.tr()),
+                        child: Text('noProductsFound'.tr()),
                       ),
                     ),
                   )

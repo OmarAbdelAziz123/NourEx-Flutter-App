@@ -27,11 +27,16 @@ import 'package:nourex/features/profile/presentation/widgets/review_item_skeleto
 import 'package:nourex/features/profile/presentation/widgets/review_item_widget.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productId});
 
   final String productId;
 
+  @override
+  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   List<VariantOption> _generateVariantOptions(List<String?> values,
       String variantType) {
     return values.where((value) => value != null).map((value) {
@@ -43,11 +48,13 @@ class ProductDetailsScreen extends StatelessWidget {
           variantType.toLowerCase() == 'color' ||
           variantType == 'Color';
 
+      print('isColorVariant is $isColorVariant');
+
       return VariantOption(
         id: value!,
         label: value,
         color: isColorVariant ? _getColorFromString(value) : null,
-        isAvailable: true,
+        // isAvailable: true,
       );
     }).toList();
   }
@@ -119,19 +126,7 @@ class ProductDetailsScreen extends StatelessWidget {
     }
   }
 
-  Map<String, List<String>> buildVariantMap(Result product) {
-    final variantMap = <String, Set<String>>{};
-
-    for (var variant in product.variants ?? []) {
-      for (var attr in variant.attributes ?? []) {
-        variantMap.putIfAbsent(attr.name, () => {}).add(attr.value ?? '');
-      }
-    }
-
-    return variantMap.map((key, value) =>
-        MapEntry(key, value.where((v) => v.isNotEmpty).toList()));
-  }
-
+  // Map<String, List<String>> buildVariantMap(Result product) {
   Color _getContrastColor(Color backgroundColor) {
     // Calculate luminance to determine if we need white or black text
     final luminance = backgroundColor.computeLuminance();
@@ -198,15 +193,22 @@ class ProductDetailsScreen extends StatelessWidget {
           onTapSearch: () {},
         ),
       ),
-      body: BlocBuilder<ProductsCubit, ProductsState>(
+      body: BlocConsumer<ProductsCubit, ProductsState>(
+        listener: (context, state) {
+          if(state is MakeReviewSuccessState) {
+            cubit.getProductById(productId: widget.productId);
+          }
+        },
         builder: (context, state) {
           final cubit = context.read<ProductsCubit>();
           final productDetails = cubit.productDetailsModel?.result;
           final subImages = productDetails?.subImages ?? [];
           final selectedVariants = cubit.selectedVariants;
 
-          final variantsMap =
-              cubit.productDetailsModel?.result?.addInvariantsMap() ?? {};
+          // final variantsMap =
+          //     cubit.productDetailsModel?.result?.addInvariantsMap() ?? {};
+          final variantsMap = cubit.getVariantsMap();
+
           final selectedPrice = cubit.selectedPrice;
 
           return state is GetProductByIdLoadingState ||
@@ -350,45 +352,51 @@ class ProductDetailsScreen extends StatelessWidget {
                           Row(
                             spacing: 12.w,
                             children: [
-                              // if(cubit.productDetailsModel?.result?.isRated == true)
-                              //   GestureDetector(
-                              //   onTap: () {
-                              //     showModalBottomSheet(
-                              //       context: context,
-                              //       isScrollControlled: true,
-                              //       builder: (context) {
-                              //         return CustomSharedBottomSheetReview(
-                              //           title: 'التقييم',
-                              //           nameOfFiled: 'قيّم هذا المنتج',
-                              //           initialRating: 3.5,
-                              //           hintText:
-                              //               'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
-                              //           isEdit: false,
-                              //           buttonText1: 'تاكيد',
-                              //           buttonText2: 'الغاء',
-                              //           onRatingChanged: (rating) {},
-                              //           commentController:
-                              //               TextEditingController(),
-                              //           onEditPressed: () {},
-                              //           onCancelPressed: () {
-                              //             Navigator.pop(context);
-                              //           },
-                              //         );
-                              //       },
-                              //     );
-                              //   },
-                              //   child: Text(
-                              //     'تقييم المنتج',
-                              //     style:
-                              //         Styles.highlightSemiBold.copyWith(
-                              //       color: AppColors.primaryColor700,
-                              //       decoration: TextDecoration.underline,
-                              //       decorationColor:
-                              //           AppColors.primaryColor700,
-                              //       decorationThickness: 1.5.w,
-                              //     ),
-                              //   ),
-                              // ),
+                              if(cubit.productDetailsModel?.result?.isRated == false)
+                                GestureDetector(
+                                onTap: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      final rating = 3.5;
+
+                                      return CustomSharedBottomSheetReview(
+                                        title: 'التقييم',
+                                        nameOfFiled: 'قيّم هذا المنتج',
+                                        initialRating: rating,
+                                        hintText:
+                                            'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
+                                        isEdit: false,
+                                        buttonText1: 'تاكيد',
+                                        buttonText2: 'الغاء',
+                                        onRatingChanged: (rating) {
+                                          rating = rating;
+                                          setState(() {});
+                                        },
+                                        commentController: cubit.commentController,
+                                        onEditPressed: () {
+                                          cubit.makeReview(productId: widget.productId, rating: rating.toInt());
+                                        },
+                                        onCancelPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Text(
+                                  'تقييم المنتج',
+                                  style:
+                                      Styles.highlightSemiBold.copyWith(
+                                    color: AppColors.primaryColor700,
+                                    decoration: TextDecoration.underline,
+                                    decorationColor:
+                                        AppColors.primaryColor700,
+                                    decorationThickness: 1.5.w,
+                                  ),
+                                ),
+                              ),
                               GestureDetector(
                                 onTap: () {
                                   final productName =
@@ -918,40 +926,163 @@ $productLink
                   //
                   //   print('================================\n');
                   // },
-                  onPressed: () {
-                    if (productDetails?.variants != null &&
-                        selectedVariants.isNotEmpty) {
-                      print('\n--- Matching Variant Info ---');
-                      for (var variant in productDetails!.variants!) {
-                        bool isMatch = true;
+                  //   onPressed: () {
+                  //     if (productDetails?.variants == null || productDetails!.variants!.isEmpty) {
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         const SnackBar(content: Text("❌ No variants available")),
+                  //       );
+                  //       return;
+                  //     }
+                  //
+                  //     if (selectedVariants.isEmpty) {
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         const SnackBar(content: Text("⚠️ Please select product options")),
+                  //       );
+                  //       return;
+                  //     }
+                  //
+                  //     Variants? matchingVariant;
+                  //     try {
+                  //       matchingVariant = productDetails!.variants!.firstWhere((variant) {
+                  //         for (var attr in variant.attributes ?? []) {
+                  //           final selectedValue = selectedVariants[attr.name];
+                  //           if (selectedValue == null || selectedValue != attr.value) {
+                  //             return false;
+                  //           }
+                  //         }
+                  //         return true;
+                  //       });
+                  //     } catch (e) {
+                  //       matchingVariant = null; // no match found
+                  //     }
+                  //
+                  //     if (matchingVariant == null) {
+                  //       ScaffoldMessenger.of(context).showSnackBar(
+                  //         const SnackBar(content: Text("❌ No matching variant found")),
+                  //       );
+                  //       return;
+                  //     }
+                  //
+                  //     // ✅ Add to cart
+                  //     cartCubit.addProductToCart(
+                  //       productId: productId,
+                  //       quantity: 1,
+                  //       variantSku: matchingVariant.sku!,
+                  //     );
+                  //
+                  //     // ✅ Show success
+                  //     ScaffoldMessenger.of(context).showSnackBar(
+                  //       SnackBar(
+                  //         content: Text(
+                  //           "✅ Added to cart: ${matchingVariant.sku} - ${matchingVariant.priceAfterDiscount ?? matchingVariant.price}",
+                  //         ),
+                  //         backgroundColor: Colors.green,
+                  //       ),
+                  //     );
+                  //
+                  //     // (Optional) Print all attributes for debugging
+                  //     debugPrint("🟢 Variant Selected: ${matchingVariant.sku}");
+                  //     for (var attr in matchingVariant.attributes ?? []) {
+                  //       debugPrint("  - ${attr.name}: ${attr.value}");
+                  //     }
+                  //   },
+                    onPressed: () {
+                      if (productDetails?.variants == null || productDetails!.variants!.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("❌ No variants available")),
+                        );
+                        return;
+                      }
 
+                      if (selectedVariants.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("⚠️ Please select at least one option")),
+                        );
+                        return;
+                      }
+
+                      // 🔎 Find all variants that match ANY of the selected attributes
+                      final matchingVariants = productDetails!.variants!.where((variant) {
                         for (var attr in variant.attributes ?? []) {
                           final selectedValue = selectedVariants[attr.name];
-                          if (selectedValue == null ||
-                              selectedValue != attr.value) {
-                            isMatch = false;
-                            break;
+                          if (selectedValue != null && selectedValue == attr.value) {
+                            return true; // ✅ at least one attribute matched
                           }
                         }
+                        return false;
+                      }).toList();
 
-                        if (isMatch) {
-                          print('Variant SKU: ${variant.sku ?? 'N/A'}');
-                          print('Variant Price: ${variant.price ?? 'N/A'}');
-                          // print('Variant Stock: ${variant.stock ?? 'N/A'}');
-                          cartCubit.addProductToCart(
-                            productId: productId,
-                            quantity: 1,
-                            variantSku: variant.sku!,
-                          );
-                          print('Variant Attributes:');
-                          for (var attr in variant.attributes ?? []) {
-                            print('  - ${attr.name}: ${attr.value}');
-                          }
-                          break;
+                      if (matchingVariants.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("❌ No variant matches your selection")),
+                        );
+                        return;
+                      }
+
+                      // ✅ For now, just take the first matching variant
+                      final selectedVariant = matchingVariants.first;
+
+                      // Add to cart
+                      cartCubit.addProductToCart(
+                        productId: widget.productId,
+                        quantity: 1,
+                        variantSku: selectedVariant.sku!,
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            "✅ Added to cart: ${selectedVariant.sku} - ${selectedVariant.priceAfterDiscount ?? selectedVariant.price}",
+                          ),
+                          backgroundColor: Colors.green,
+                        ),
+                      );
+
+                      // Debug print all variants that matched
+                      debugPrint("🟢 Matching Variants Found: ${matchingVariants.length}");
+                      for (var v in matchingVariants) {
+                        debugPrint("Variant SKU: ${v.sku}");
+                        for (var attr in v.attributes ?? []) {
+                          debugPrint("  - ${attr.name}: ${attr.value}");
                         }
                       }
                     }
-                  },
+
+                  // onPressed: () {
+                  //   print('All Attributes is ${productDetails?.variants?[1].attributes?[1].value}');
+                  //   if (productDetails?.variants != null &&
+                  //       selectedVariants.isNotEmpty) {
+                  //     print('\n--- Matching Variant Info ---');
+                  //     for (var variant in productDetails!.variants!) {
+                  //       bool isMatch = true;
+                  //
+                  //       for (var attr in variant.attributes ?? []) {
+                  //         final selectedValue = selectedVariants[attr.name];
+                  //         if (selectedValue == null ||
+                  //             selectedValue != attr.value) {
+                  //           isMatch = false;
+                  //           break;
+                  //         }
+                  //       }
+                  //
+                  //       if (isMatch) {
+                  //         print('Variant SKU: ${variant.sku ?? 'N/A'}');
+                  //         print('Variant Price: ${variant.price ?? 'N/A'}');
+                  //         // print('Variant Stock: ${variant.stock ?? 'N/A'}');
+                  //         cartCubit.addProductToCart(
+                  //           productId: productId,
+                  //           quantity: 1,
+                  //           variantSku: variant.sku!,
+                  //         );
+                  //         print('Variant Attributes:');
+                  //         for (var attr in variant.attributes ?? []) {
+                  //           print('  - ${attr.name}: ${attr.value}');
+                  //         }
+                  //         break;
+                  //       }
+                  //     }
+                  //   }
+                  // },
                 );
               },
             );

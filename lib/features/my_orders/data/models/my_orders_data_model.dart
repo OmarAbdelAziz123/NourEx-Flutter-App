@@ -75,10 +75,16 @@ class MyOrderProduct {
   final double? finalProductTotal;
   final String? status;
   final String? mainImageURL;
+  final String? description;
+  final int? averageRating;
+  final int? totalOrderCount;
   final String? name;
   final List<MyOrderVariant>? variants;
 
   MyOrderProduct({
+    this.description,
+    this.averageRating,
+    this.totalOrderCount,
     this.productId,
     this.finalProductTotal,
     this.status,

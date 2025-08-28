@@ -203,10 +203,10 @@ class ProductModel {
       name: orderProduct.name,
       mainImageURL: orderProduct.mainImageURL,
       createdAt: null,
-      description: null,
+      description: orderProduct.description,
       createdBy: null,
-      averageRating: null,
-      totalOrderCount: null,
+      averageRating: orderProduct.averageRating,
+      totalOrderCount: orderProduct.totalOrderCount,
     );
   }
 }

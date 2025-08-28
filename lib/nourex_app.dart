@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nourex/core/routing/app_router.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/utils/app_constants.dart';
+import 'package:nourex/features/error/server_error_screen.dart';
 
 class NourExApp extends StatelessWidget {
   const NourExApp({super.key, required this.appRouter, this.token});
@@ -38,7 +39,7 @@ class NourExApp extends StatelessWidget {
             initialRoute: Routes.splashScreen,
             // initialRoute: Routes.mainLayoutScreen,
             onGenerateRoute: appRouter.generateRoute,
-            // home: HomeScreen(),
+            // home: ServerErrorScreen(),
           ),
         );
       },

@@ -51,7 +51,9 @@ class CartScreen extends StatelessWidget {
                   preferredSize: Size.fromHeight(74.h),
                   child: MainAppBar2Widget(
                     title: 'cart'.tr(),
-                    onTapSearch: () {},
+                    onTapSearch: () {
+                      context.pushNamed(Routes.searchScreen);
+                    },
                     onTapNotification: () {},
                   ),
                 ),

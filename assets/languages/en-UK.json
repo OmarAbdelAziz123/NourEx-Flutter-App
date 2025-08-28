@@ -10,29 +10,12 @@
   "pleaseLoginFirst2": "Back to login",
   "noPermission": "Sorry, you do not have permission to access this page. \nPlease contact the administration to obtain the required permissions.",
   "contactSupports": "Contact support",
-
-
-
   "contact": "You can contact us via:",
   "eAddress": "Email",
   "pNumber": "Phone",
   "close": "Close",
   "productDetails": "Product details",
   "noCategories": "No categories",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   "returned": "Returned",
   "doneReturned": "The order has been returned.",
   "no_products_in_cart": "No products in cart",
@@ -43,6 +26,7 @@
   "addNewAddress": "Add New Address",
   "shipped": "Shipped",
   "returned2": "Returned",
+  "noAddresses": "No addresses found",
   "returned1": "Return accepted",
   "sendImage": "Send Image",
   "clear": "Clear",
@@ -176,12 +160,19 @@
   "noCategory": "No Categories",
   "noCategoryDescription": "An error occurred while loading categories",
   "retry": "Retry",
+  "serverError": "Server Error",
+  "serverErrorDescription": "An error occurred on the server, please try again later",
+  "goToLogin": "Go to Login",
+  "tryAgain": "Try Again",
   "order": "Order",
   "goOut": "Exit",
   "removeAccount": "Delete Account",
   "removeAccountDescription": "Are you sure you want to delete ",
+  "noOrders": "There are no current requests.",
   "removeAccountDescription2": "Are you sure you want to delete your account? All your data will be permanently lost!",
   "cancel": "Cancel",
+  "noReviews": "No Reviews",
+  "notification": "Notification",
   "selectSubject": "Select Subject",
   "subject": "Subject",
   "home": "Home",
@@ -237,6 +228,9 @@
   "changePassword": "Change Password",
   "profile": "My Profile",
   "name2": "Name",
+  "close2": "Close",
+  "readMore": "Read More...",
+  "search": "Search for a product",
   "balance": "Balance",
   "transactions": "Transaction History",
   "points1": "My Points",

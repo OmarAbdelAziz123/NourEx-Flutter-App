@@ -270,17 +270,27 @@ class Result {
   Map<String, List<String?>> addInvariantsMap() {
     variantsMap.clear();
 
-    for (var element in availableVariants ?? []) {
+    // Extract all unique attribute names from variants
+    var allAttributeNames = variants
+        ?.expand((variant) => variant.attributes ?? [])
+        .map((attr) => attr.name)
+        .where((name) => name != null)
+        .toSet() ?? {};
+
+    // Use availableVariants if provided, otherwise use inferred attribute names
+    var effectiveVariants = availableVariants?.isNotEmpty == true
+        ? availableVariants!
+        : allAttributeNames.toList();
+
+    for (var element in effectiveVariants) {
+      // Collect all unique values for the current attribute name
       var listOfStringAttributes = variants
-          ?.map((variant) {
-        var matchingAttribute = variant.attributes?.firstWhere(
-              (attr) => attr.name == element,
-          orElse: () => Attributes(),
-        );
-        return matchingAttribute?.value;
-      })
+          ?.expand((variant) => variant.attributes ?? [])
+          .where((attr) => attr.name == element)
+          .map((attr) => attr.value as String?)
           .where((value) => value != null)
-          .toList();
+          .toSet() // Ensure unique values
+          .toList() as List<String?>;
 
       variantsMap[element] = listOfStringAttributes ?? [];
     }

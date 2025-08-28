@@ -10,6 +10,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -31,7 +33,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                '''
+                isArabic
+                ? '''
 سياسة الخصوصية – منصة نوريكس
 آخر تحديث: [يرجى إدخال التاريخ]
 نحن في نوريكس نولي أهمية قصوى لحماية خصوصيتك وبياناتك الشخصية. توضح سياسة الخصوصية هذه كيف نقوم بجمع واستخدام وحماية المعلومات الخاصة بك عند استخدامك لتطبيقنا أو موقعنا الإلكتروني أو لوحة التحكم الخاصة بنا، سواء كمستخدم أو كتاجر.
@@ -102,6 +105,82 @@ class PrivacyPolicyScreen extends StatelessWidget {
 11. التواصل معنا
 لأي استفسار بخصوص سياسة الخصوصية أو ممارسة حقوقك، يُرجى التواصل معنا عبر:
 📧 البريد الإلكتروني: nour.noorex@gmail.com 📞 رقم الدعم: +963 997 485 516 أو من خلال مركز المساعدة داخل التطبيق.
+                '''
+                : '''
+At Noorex, we place the utmost importance on protecting your privacy and personal information. This Privacy Policy explains how we collect, use, and safeguard your information when you use our application, website, or control panel, whether as a user or a merchant.
+1. Information We Collect
+a. User Information:
+
+Full name
+Phone number
+Delivery address
+Order and purchase details
+Any information entered while using the application
+
+b. Merchant Information:
+
+Full name
+Phone number and email address
+Store address
+ID number (if applicable)
+Bank account details (when bank transfers are enabled)
+Product, sales, and commission details
+
+c. Location Data (if applicable):
+
+We may collect geolocation data to facilitate delivery or display products available in your area.
+
+2. Use of Information
+We use the information we collect to:
+
+Process and deliver orders.
+Communicate with you regarding your purchases or account.
+Manage user and merchant accounts.
+Settle profits, commissions, and dues.
+Improve the quality of services and the overall platform experience.
+Protect the platform from fraud or misuse.
+Send important alerts or notifications (e.g., financial alerts or account updates).
+
+3. Sharing of Information
+We do not share your personal information with third parties, except in the following cases:
+
+With delivery companies to fulfill and deliver orders.
+With merchants to confirm orders and process returns.
+With legal authorities if formally required by law.
+With service providers associated with the application (e.g., future electronic payment services), within the limits necessary to provide the service.
+
+4. Cookies
+We use cookies to enhance your experience within the application, such as:
+
+Remembering your preferences and settings.
+Maintaining login status.
+Analyzing your app usage to improve performance.
+You can disable cookies through your device or browser settings, but this may affect some platform functionalities.
+
+5. Data Protection
+We are committed to protecting your personal information using appropriate technical and organizational security measures to prevent unauthorized access, manipulation, leakage, or loss. However, no online system can guarantee 100% security.
+6. Children's Data Policy
+The Noorex platform is not intended for children under 18 years of age. We do not intentionally collect data from children, and if we discover that we have collected data from a minor without parental consent, we will delete it immediately.
+7. Data Retention
+We retain your personal information as long as necessary to provide the service or comply with legal or accounting requirements. Upon account deletion requests, we will delete your data within 30 days, unless there is a legal reason to retain it.
+8. Fraud Protection
+We continuously develop protective measures and internal monitoring to detect and prevent fraud or misuse, such as fake orders, use of false information, or manipulation of the commission system.
+9. Your Rights as a User
+You have the right to:
+
+Access your personal information.
+Request corrections or updates to your data.
+Request deletion of your account (unless linked to financial obligations or legal restrictions).
+Withdraw consent for the use of your data at any time, within applicable limits.
+
+10. Changes to the Privacy Policy
+We may update this policy from time to time. You will be notified of any significant changes through the application or via email. Continued use of the platform after the publication of updates constitutes your agreement to the updated policy.
+11. Contact Us
+For any inquiries regarding the Privacy Policy or to exercise your rights, please contact us via:
+
+📧 Email: nour.noorex@gmail.com
+📞 Support Number: +963 997 485 516
+Or through the Help Center within the application.
                 ''',
                 style: Styles.contentRegular,
               ),

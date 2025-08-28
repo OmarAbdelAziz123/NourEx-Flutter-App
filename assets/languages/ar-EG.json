@@ -124,11 +124,17 @@
   "received": "عند الاستلام",
   "category": "الفئات",
   "exit": "الخروج؟",
+  "notification": "الإشعارات",
+  "tryAgain": "ائعاد المحاولة",
+  "serverError": "خطاء في الخادم",
+  "serverErrorDescription": "حدث خطأ في الخادم، يرجى المحاولة مرة أخرى لاحقًا",
   "exitDescription": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
   "noCategory": "لا يوجد فئات",
   "noCategoryDescription": "حدث خطأ في تحميل الفئات",
   "retry": "إعادة المحاولة",
   "order": "طلب",
+  "noOrders": "لا يوجد طلبات حالية",
+  "goToLogin": "الذهاب لتسجيل الدخول",
   "goOut": "خروج",
   "removeAccount": "حذف الحساب",
   "removeAccountDescription": "هل أنت متأكد من أنك تريد حذف ",
@@ -172,24 +178,12 @@
   "pleaseLoginFirst2": "العودة لتسجيل الدخول",
   "contactSupports": "التواصل مع الدعم",
   "description3": "تم استرجاع الطلب",
-
   "contact": "يمكنك التواصل معنا عبر:",
   "eAddress": "البريد الإلكتروني",
   "pNumber": "الهاتف",
   "close": "إغلاق",
   "noCategories": "لا توجد قسائم",
   "productDetails": "تفاصيل المنتج",
-
-
-
-
-
-
-
-
-
-
-
   "executionSteps": "مراحل التنفيذ",
   "firstStep": "المرحلة الأولى",
   "completed": "مكتملة",
@@ -214,8 +208,13 @@
   "productNumber": "رقم المنتج: ",
   "relatedProducts": "منتجات المشابههً",
   "report": "الابلاغ",
+  "close2": "اغلاق",
+  "search": "البحث عن منتج",
+  "readMore": "قراءة المزيد...",
   "productName": "اسم المنتج",
   "edit": "تعديل",
+  "noReviews": "لا توجد تقييمات",
+
   "noProductsFound": "لم يتم العثور على منتجات",
   "selectedProducts": "المنتجات المختارة",
   "selectProducts": "قم بختيار المنتجات",
@@ -236,6 +235,7 @@
   "points1": "نقاطي",
   "convert": "تحويل",
   "convertBalance": "تحويل النقاط الى رصيد",
+  "noAddresses": "لم يتم العثور على عناوين",
   "points2": "قم بإدخال عدد النقاط",
   "convertPoints": "تحويل النقاط الى رصيد",
   "points": "عدد النقاط",

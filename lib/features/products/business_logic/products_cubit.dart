@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:nourex/core/utils/easy_loading.dart';
 import 'package:nourex/features/products/data/models/product_data_model.dart';
 import 'package:nourex/features/products/data/models/product_details_model.dart';
 import 'package:nourex/features/products/data/models/products_reviews_data_model.dart';
@@ -329,6 +330,24 @@ class ProductsCubit extends Cubit<ProductsState> {
 
         /// ✅ Auto-select first variant of each type
         _selectFirstVariants();
+
+        print('Selected Price: $selectedPrice');
+        print('Selected Variants: $selectedVariants');
+
+        final variants = productDetailsModel?.result?.variants ?? [];
+
+        for (final variant in variants) {
+          print('--- Variant ---');
+          print('SKU: ${variant.sku}');
+          print('Price: ${variant.price}');
+          print('Price After Discount: ${variant.priceAfterDiscount}');
+          print('Stock: ${variant.stockAmount}');
+
+          for (final attr in variant.attributes ?? []) {
+            print('Attribute: ${attr.name} = ${attr.value}');
+          }
+        }
+
         emit(GetProductByIdSuccessState(productDetailsModel!));
       },
       failure: (error) {
@@ -355,47 +374,55 @@ class ProductsCubit extends Cubit<ProductsState> {
     /// Update price based on selected variants
     _updatePriceBasedOnVariant();
 
+
     /// Emit state update
     emit(VariantSelectionUpdated(Map.from(selectedVariants), selectedPrice));
   }
 
-  Future<void> fetchVariantByAttributes(Map<String?, String?> selectedVariants) async {
-    final allVariants = productDetailsModel?.result?.variants;
-
-    if (allVariants == null || allVariants.isEmpty) {
-      print('No variants available.');
-      return;
-    }
-
-    for (final variant in allVariants) {
-      final attributes = variant.attributes;
-
-      if (attributes == null) continue;
-
-      final isMatch = selectedVariants.entries.every((entry) {
-        return attributes.any((attr) =>
-        attr.name?.toLowerCase() == entry.key!.toLowerCase() &&
-            attr.value?.toLowerCase() == entry.value!.toLowerCase());
-      });
-
-      if (isMatch) {
-        productModel = ProductModel(
-          id: productDetailsModel?.result?.sId,
-          name: productDetailsModel?.result?.name,
-          mainImageURL: productDetailsModel?.result?.mainImageURL,
-          sku: variant.sku,
-          createdAt: productDetailsModel?.result?.createdAt,
-        );
-
-        emit(ProductVariantSelectedState(variant));
-        print('✅ Matching Variant Found: ${variant.sku}');
-        return;
-      }
-    }
-
-    print('❌ No matching variant found for $selectedVariants');
-    emit(ProductVariantNotFoundState());
+  /// Fetch all attributes grouped by variant type
+  Map<String, List<String>> getVariantsMap() {
+    final product = productDetailsModel?.result;
+    if (product == null) return {};
+    return product.buildVariantsMap();
   }
+
+  // Future<void> fetchVariantByAttributes(Map<String?, String?> selectedVariants) async {
+  //   final allVariants = productDetailsModel?.result?.variants;
+  //
+  //   if (allVariants == null || allVariants.isEmpty) {
+  //     print('No variants available.');
+  //     return;
+  //   }
+  //
+  //   for (final variant in allVariants) {
+  //     final attributes = variant.attributes;
+  //
+  //     if (attributes == null) continue;
+  //
+  //     final isMatch = selectedVariants.entries.every((entry) {
+  //       return attributes.any((attr) =>
+  //       attr.name?.toLowerCase() == entry.key!.toLowerCase() &&
+  //           attr.value?.toLowerCase() == entry.value!.toLowerCase());
+  //     });
+  //
+  //     if (isMatch) {
+  //       productModel = ProductModel(
+  //         id: productDetailsModel?.result?.sId,
+  //         name: productDetailsModel?.result?.name,
+  //         mainImageURL: productDetailsModel?.result?.mainImageURL,
+  //         sku: variant.sku,
+  //         createdAt: productDetailsModel?.result?.createdAt,
+  //       );
+  //
+  //       emit(ProductVariantSelectedState(variant));
+  //       print('✅ Matching Variant Found: ${variant.sku}');
+  //       return;
+  //     }
+  //   }
+  //
+  //   print('❌ No matching variant found for $selectedVariants');
+  //   emit(ProductVariantNotFoundState());
+  // }
 
   /// Get Product Reviews
   Future<void> getInitialProductReviews({required String productId}) async {
@@ -448,6 +475,32 @@ class ProductsCubit extends Cubit<ProductsState> {
 
     isFetching = false; // ✅ Reset fetching state
   }
+
+  final commentController = TextEditingController();
+
+  /// Make Review
+  Future<void> makeReview({required String productId, required int rating}) async {
+    showLoading();
+    emit(MakeReviewLoadingState());
+
+    final result = await productsRepos.makeReview(
+      productId: productId,
+      rating: rating,
+      comment: commentController.text,
+    );
+
+    result.when(
+      success: (data) {
+        hideLoading();
+        emit(MakeReviewSuccessState());
+      },
+      failure: (error) {
+        hideLoading();
+        emit(MakeReviewErrorState(error.message));
+      },
+    );
+  }
+
 
   @override
   Future<void> close() {
@@ -677,3 +730,19 @@ class ProductsCubit extends Cubit<ProductsState> {
 //     return super.close();
 //   }
 // }
+extension ProductDetailsMapper on Result {
+  /// Build a map of variant types and their unique values
+  Map<String, List<String>> buildVariantsMap() {
+    final Map<String, Set<String>> tempMap = {};
+
+    for (final variant in variants ?? []) {
+      for (final attr in variant.attributes ?? []) {
+        tempMap.putIfAbsent(attr.name ?? "", () => <String>{});
+        tempMap[attr.name]!.add(attr.value ?? "");
+      }
+    }
+
+    // Convert Set -> List
+    return tempMap.map((key, value) => MapEntry(key, value.toList()));
+  }
+}

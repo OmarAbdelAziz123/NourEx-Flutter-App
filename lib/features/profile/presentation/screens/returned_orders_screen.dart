@@ -146,6 +146,9 @@ class ReturnedOrdersWidget extends StatelessWidget {
                                   'productStatus': product.status,
                                   'productName': product.name,
                                   'productImage': product.mainImageURL,
+                                  'productDescription': product.description,
+                                  'productAverageRating': product.averageRating,
+                                  'productTotalOrderCount': product.totalOrderCount,
                                 })
                             .toList() ??
                         [];
@@ -226,6 +229,9 @@ class ReturnedOrderDetailsScreen extends StatelessWidget {
                     // status: productMap['productStatus'],
                     name: productMap['productName'],
                     mainImageURL: productMap['productImage'],
+                    description: productMap['productDescription'],
+                    averageRating: productMap['productAverageRating'],
+                    totalOrderCount: productMap['productTotalOrderCount'],
                   );
 
                   return Column(

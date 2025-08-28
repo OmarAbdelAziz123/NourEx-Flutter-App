@@ -34,7 +34,7 @@ class MyReviewsScreen extends StatelessWidget {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         buildWhen: (previous, current) =>
-        current is GetAllMyReviewsLoadingState ||
+            current is GetAllMyReviewsLoadingState ||
             current is GetAllMyReviewsSuccessState ||
             current is GetAllMyReviewsErrorState ||
             current is DeleteReviewSuccessState ||
@@ -46,7 +46,7 @@ class MyReviewsScreen extends StatelessWidget {
             current is DeleteReviewErrorState ||
             current is UpdateProfileSuccessState,
         listener: (context, state) {
-          if(state is UpdateReviewSuccessState) {
+          if (state is UpdateReviewSuccessState) {
             profileCubit.getInitialMyReviews();
           }
         },
@@ -58,122 +58,129 @@ class MyReviewsScreen extends StatelessWidget {
             refreshIndicatorKey: profileCubit.refreshIndicatorKey,
             onRefresh: () => profileCubit.getInitialMyReviews(),
             slivers: [
-
               /// Loading state
-              if (reviews.isEmpty || state is UpdateReviewSuccessState)
+              if (reviews == null ||
+                  state is UpdateReviewSuccessState ||
+                  state is GetAllMyReviewsLoadingState)
                 SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: 16.h),
                   sliver: SliverList.separated(
                     itemCount: 5,
                     itemBuilder: (context, index) =>
-                    const ReviewItemSkeletonizerWidget(),
+                        const ReviewItemSkeletonizerWidget(),
                     separatorBuilder: (context, index) => 16.verticalSpace,
                   ),
                 )
 
               /// Empty state
-              else
-                if (reviews == [])
-                  SliverToBoxAdapter(
-                    child: Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 50.h),
-                        child: Text(
-                          'noReviews'.tr(),
-                          style: Styles.contentRegular,
-                        ),
+              else if (reviews == [] || reviews.isEmpty)
+                SliverToBoxAdapter(
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 50.h),
+                      child: Text(
+                        'noReviews'.tr(),
+                        style: Styles.contentRegular,
                       ),
                     ),
-                  )
-
-                /// Loaded data
-                else ...[
-                  SliverPadding(
-                    padding: EdgeInsets.symmetric(vertical: 16.h, horizontal: context.locale.languageCode == 'ar' ? 0.w : 16.w),
-                    sliver: SliverList.separated(
-                      itemCount: reviews.length,
-                      itemBuilder: (context, index) {
-                        final review = reviews[index];
-                        print('review: $review');
-
-                        return ReviewItemWidget(
-                          reviewerName: review.user?.name ?? '',
-                          profileImagePath: review.user?.profilePic ?? '',
-                          reviewText: review.comment ?? '',
-                          timeAgo: review.createdAt ?? '',
-                          rating: double.tryParse(review.rating.toString()) ??
-                              0.0,
-                          isArabic: true,
-                          moreIconButtonWidget: CustomDropDownMenuWidget(
-                            onSelected: (String value) {
-                              if (value == 'الابلاغ') {
-                                // Navigate to report
-                              } else if (value == 'تعديل التقييم') {
-                                double updatedRating =
-                                    double.tryParse(review.rating.toString()) ??
-                                        0.0;
-                                profileCubit.commentController.text =
-                                    review.comment ?? '';
-
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return CustomSharedBottomSheetReview(
-                                      title: 'التقييم',
-                                      nameOfFiled: 'قيّم هذا المنتج',
-                                      initialRating: updatedRating,
-                                      hintText: review.comment ??
-                                          'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
-                                      isEdit: false,
-                                      buttonText1: 'تاكيد',
-                                      buttonText2: 'الغاء',
-                                      onRatingChanged: (rating) {
-                                        updatedRating = rating;
-                                      },
-                                      commentController:
-                                      profileCubit.commentController,
-                                      onEditPressed: () {
-                                        profileCubit.updateMyReview(
-                                          productId: review.product?.id ?? '',
-                                          reviewId: review.id ?? '',
-                                          rating: updatedRating,
-                                        );
-                                        context.pop();
-                                      },
-                                      onCancelPressed: () =>
-                                          Navigator.pop(context),
-                                    );
-                                  },
-                                );
-                              } else if (value == 'حذف التقييم') {
-                                profileCubit.deleteMyReview(
-                                  productId: review.user?.id ?? '',
-                                  reviewId: review.id ?? '',
-                                );
-                              }
-                            },
-                            menuItems: [
-                              // {
-                              //   'title': 'الابلاغ',
-                              //   'icon': Icons.report_outlined
-                              // },
-                              {'title': 'تعديل التقييم', 'icon': Iconsax.edit},
-                              {'title': 'حذف التقييم', 'icon': Iconsax.trash},
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => 16.verticalSpace,
-                    ),
                   ),
+                )
 
-                  /// Pagination loading
-                  if (state is MyReviewsPaginationLoading)
-                    SliverToBoxAdapter(
-                      child: CustomLoadingWhenLoadingMoreWidget(),
-                    ),
-                ],
+              /// Loaded data
+              else ...[
+                SliverPadding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: 16.h,
+                      horizontal:
+                          context.locale.languageCode == 'ar' ? 0.w : 16.w),
+                  sliver: SliverList.separated(
+                    itemCount: reviews.length,
+                    itemBuilder: (context, index) {
+                      final review = reviews[index];
+                      print('review: $review');
+
+                      return ReviewItemWidget(
+                        reviewerName: review.user?.name ?? '',
+                        profileImagePath: review.user?.profilePic ?? '',
+                        reviewText: review.comment ?? '',
+                        timeAgo: review.createdAt ?? '',
+                        rating:
+                            double.tryParse(review.rating.toString()) ?? 0.0,
+                        isArabic: true,
+                        moreIconButtonWidget: CustomDropDownMenuWidget(
+                          onSelected: (String value) {
+                            if (value == 'report'.tr()) {
+                              profileCubit.makeReportReview(
+                                  reviewId: review.id.toString());
+                            } else if (value == 'editReview'.tr()) {
+                              double updatedRating =
+                                  double.tryParse(review.rating.toString()) ??
+                                      0.0;
+                              profileCubit.commentController.text =
+                                  review.comment ?? '';
+
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) {
+                                  return CustomSharedBottomSheetReview(
+                                    title: 'التقييم',
+                                    nameOfFiled: 'قيّم هذا المنتج',
+                                    initialRating: updatedRating,
+                                    hintText: review.comment ??
+                                        'تقييمك يصنع الفرق! أخبرنا بتجربتك مع المنتج.',
+                                    isEdit: false,
+                                    buttonText1: 'تاكيد',
+                                    buttonText2: 'الغاء',
+                                    onRatingChanged: (rating) {
+                                      updatedRating = rating;
+                                    },
+                                    commentController:
+                                        profileCubit.commentController,
+                                    onEditPressed: () {
+                                      profileCubit.updateMyReview(
+                                        productId: review.product?.id ?? '',
+                                        reviewId: review.id ?? '',
+                                        rating: updatedRating,
+                                      );
+                                      context.pop();
+                                    },
+                                    onCancelPressed: () =>
+                                        Navigator.pop(context),
+                                  );
+                                },
+                              );
+                            } else if (value == 'deleteReview'.tr()) {
+                              profileCubit.deleteMyReview(
+                                productId: review.user?.id ?? '',
+                                reviewId: review.id ?? '',
+                              );
+                            }
+                          },
+                          menuItems: [
+                            // {
+                            //   'title': 'الابلاغ',
+                            //   'icon': Icons.report_outlined
+                            // },
+                            {'title': 'editReview'.tr(), 'icon': Iconsax.edit},
+                            {
+                              'title': 'deleteReview'.tr(),
+                              'icon': Iconsax.trash
+                            },
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) => 16.verticalSpace,
+                  ),
+                ),
+
+                /// Pagination loading
+                if (state is MyReviewsPaginationLoading)
+                  SliverToBoxAdapter(
+                    child: CustomLoadingWhenLoadingMoreWidget(),
+                  ),
+              ],
 
               /// Add spacing
               SliverToBoxAdapter(child: 18.verticalSpace),
@@ -184,7 +191,6 @@ class MyReviewsScreen extends StatelessWidget {
     );
   }
 }
-
 
 // class MyReviewsScreen extends StatelessWidget {
 //   const MyReviewsScreen({super.key});

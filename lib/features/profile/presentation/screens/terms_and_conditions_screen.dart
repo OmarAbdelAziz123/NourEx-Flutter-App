@@ -10,6 +10,8 @@ class TermsAndConditionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic = context.locale.languageCode == 'ar';
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
@@ -31,6 +33,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
+                isArabic ?
                 '''
 شروط وأحكام استخدام تطبيق نوريكس
 مرحبًا بكم في تطبيق نوريكس، منصة إلكترونية تتيح للمستخدمين شراء وبيع المنتجات ضمن الجمهورية العربية السورية. باستخدامك للتطبيق، فإنك توافق على الالتزام بهذه الشروط والأحكام. نذكّر أن جميع الأنشطة ضمن التطبيق يجب أن تكون متوافقة مع القوانين المحلية، ومع الضوابط الشرعية الإسلامية، ونرفض أي محتوى يخالف ذلك.
@@ -62,6 +65,76 @@ class TermsAndConditionsScreen extends StatelessWidget {
 يسمح بالتقييمات بشرط أن تكون لائقة وغير مسيئة. تحتفظ نوريكس بحق الحذف.
 14. تعديل الأسعار والرسوم
 يحق لنوريكس تعديل العمولات بعد إشعار مسبق لا يقل عن 15 يومًا.
+                '''
+                : '''
+Welcome to Noorex, an electronic platform that enables users to buy and sell products within the Syrian Arab Republic. By using the application, you agree to abide by these terms and conditions. We remind you that all activities within the application must comply with local laws and Islamic Sharia regulations, and we reject any content that violates these standards.
+1. Definitions
+
+User: Any individual using the application, whether as a buyer or seller.
+Seller: Any person or entity offering products on the Noorex platform.
+Buyer: Any person using the application to purchase products.
+Noorex: The platform that manages the application and provides its services.
+
+2. Registration and Account Usage
+
+Users must be 18 years or older.
+Users must provide accurate information.
+Sharing login credentials with third parties is prohibited.
+
+3. Seller Obligations
+
+Products must be legal and compliant with Islamic Sharia.
+It is strictly forbidden to offer or sell products prohibited by Sharia, such as alcohol, religious statues, pornographic materials, etc.
+In case of violation: The product will be removed, a warning issued, and the account will be banned upon repeated violations.
+Sellers are responsible for shipping on time, ensuring product quality, and paying monthly fees and commissions.
+
+4. Payment and Delivery
+
+Payment is made via cash on delivery.
+Delivery is handled through delivery companies or by the seller.
+Fees vary depending on the region.
+
+5. Returns and Refunds
+
+Buyers have the right to return products according to the seller’s policy, bearing the shipping costs.
+Noorex does not charge a commission on returns.
+
+6. Intellectual Property Rights
+
+All content belongs to Noorex and may not be used without permission.
+Content provided by users must not infringe on the rights of others.
+
+7. Limitation of Liability
+
+Noorex is not responsible for issues arising from direct interactions between users.
+
+8. Modification of Terms
+
+Noorex reserves the right to modify these terms at any time after notifying users.
+
+9. Governing Law
+
+These terms are subject to Syrian laws. Disputes will be resolved in the courts of Homs.
+
+10. Privacy
+
+Noorex is committed to protecting user data and will not share it except to provide services or when required by law.
+
+11. Misuse
+
+Using the application for illegal or fraudulent purposes is prohibited.
+
+12. Repeated Refusal of Delivery
+
+Noorex reserves the right to suspend the account of any user who repeatedly refuses orders without a valid reason.
+
+13. Reviews
+
+Reviews are allowed provided they are appropriate and non-offensive. Noorex reserves the right to remove reviews.
+
+14. Price and Fee Adjustments
+
+Noorex reserves the right to adjust commissions after providing at least 15 days’ prior notice.
                 ''',
                 style: Styles.contentRegular,
               ),

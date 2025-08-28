@@ -73,29 +73,42 @@ class CustomProductCardItemWidget extends StatelessWidget {
                         spacing: 4.w,
                         children: [
                           Text(
-                            '2.5',
+                            // '2.5',
+                            product.averageRating.toString(),
                             // product.productRate,
                             style: Styles.contentEmphasis.copyWith(
                               color: AppColors.yellowColor100,
                             ),
                           ),
-                          ...List.generate(
-                            double.tryParse('2.5')?.round() ?? 0,
-                            // double.tryParse(product.productRate)?.round() ?? 0,
-                            (index) => SvgPicture.asset(
-                              'assets/svgs/stars.svg',
-                              fit: BoxFit.scaleDown,
+                          Row(
+                            children: List.generate(
+                              5, // Always show 5 stars for a professional look
+                                  (index) => Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 1.w),
+                                child: SvgPicture.asset(
+                                  index < (product.averageRating?.toDouble() ?? 0.0).round()
+                                      ? 'assets/svgs/star_filled.svg' // Filled star for rated
+                                      : 'assets/svgs/star_empty.svg', // Empty star for unrated
+                                  width: 14.w,
+                                  height: 14.h,
+                                  fit: BoxFit.scaleDown,
+                                ),
+                              ),
                             ),
                           ),
-                          // SvgPicture.asset('assets/svgs/stars.svg'),
-                          SvgPicture.asset('assets/svgs/small_circle.svg'),
+                          SvgPicture.asset(
+                            'assets/svgs/small_circle.svg',
+                            width: 4.w,
+                            height: 4.h,
+                          ),
                           Text(
-                            '30 ${'order'.tr()}',
-                            // '${product.countOfNumber} ${'order'.tr()}',
+                            '${product.totalOrderCount ?? 0} ${'order'.tr()}',
                             style: Styles.contentRegular.copyWith(
                               color: AppColors.neutralColor400,
+                              fontSize: 12.sp,
                             ),
-                          )
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ],
                       ),
 

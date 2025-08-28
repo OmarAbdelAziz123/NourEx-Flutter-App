@@ -62,7 +62,10 @@ Map<String, dynamic> _$ReturnedOrderToJson(ReturnedOrder instance) =>
 
 ReturnedProduct _$ReturnedProductFromJson(Map<String, dynamic> json) =>
     ReturnedProduct(
+      description: json['description'] as String?,
+      averageRating: (json['averageRating'] as num?)?.toInt(),
       productId: json['productId'] as String?,
+      totalOrderCount: (json['totalOrderCount'] as num?)?.toInt(),
       variantSku: json['variantSku'] as String?,
       status: json['status'] as String?,
       name: json['name'] as String?,
@@ -79,6 +82,9 @@ Map<String, dynamic> _$ReturnedProductToJson(ReturnedProduct instance) =>
       'status': instance.status,
       'name': instance.name,
       'mainImageURL': instance.mainImageURL,
+      'description': instance.description,
+      'averageRating': instance.averageRating,
+      'totalOrderCount': instance.totalOrderCount,
       'vendor': instance.vendor,
     };
 
