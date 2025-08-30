@@ -19,20 +19,22 @@ class CustomBottomNavBarHaveButtonsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        haveText == true ? widgetUpOfButton! : SizedBox.shrink(),
-        18.verticalSpace,
-        CustomButtonWidget(
-          text: buttonTitle,
-          color: AppColors.primaryColor700,
-          textColor: AppColors.neutralColor100,
-          borderRadius: AppConstants.borderRadius,
-          onPressed: onPressed,
-        ),
-        18.verticalSpace,
-      ],
+    return SafeArea(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          haveText == true ? widgetUpOfButton! : SizedBox.shrink(),
+          18.verticalSpace,
+          CustomButtonWidget(
+            text: buttonTitle,
+            color: AppColors.primaryColor700,
+            textColor: AppColors.neutralColor100,
+            borderRadius: AppConstants.borderRadius,
+            onPressed: onPressed,
+          ),
+          18.verticalSpace,
+        ],
+      ),
     );
   }
 }

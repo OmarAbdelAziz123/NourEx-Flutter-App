@@ -30,7 +30,7 @@ class CustomCallProfileContainerInSettingsWidget extends StatelessWidget {
                 name: profileData.name ?? 'No Name',
                 email: profileData.email ?? 'No Email',
                 imagePath:
-                    profileData.profilePic ?? 'assets/pngs/profile_image.png',
+                    profileData.profilePic ?? 'assets/pngs/profile_image2.png',
               ),
             )
             : Skeletonizer(
@@ -38,7 +38,7 @@ class CustomCallProfileContainerInSettingsWidget extends StatelessWidget {
               child: CustomProfileContainerWidget(
                 name: 'No Name',
                 email: 'No Email',
-                imagePath: 'assets/pngs/profile_image.png',
+                imagePath: 'assets/pngs/profile_image2.png',
               ),
             );
       },

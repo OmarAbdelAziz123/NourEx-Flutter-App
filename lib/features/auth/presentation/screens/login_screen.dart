@@ -60,6 +60,9 @@ class LoginScreen extends StatelessWidget {
                   decorationColor: AppColors.secondaryColor500,
                   decorationThickness: 1.w,
                 ),
+                onTap2: () {
+                  context.pushNamed(Routes.registerScreen);
+                },
               ),
               onPressed: () {
                 if (authCubit.formKey.currentState!.validate()) {

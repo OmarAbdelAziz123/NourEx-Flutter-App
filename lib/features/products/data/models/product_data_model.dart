@@ -198,8 +198,8 @@ class ProductModel {
   static ProductModel convertMyOrderProductToProductModel(
       MyOrderProduct orderProduct) {
     return ProductModel(
-      id: orderProduct.variants?.first.id,
-      sku: orderProduct.variants?.first.sku,
+      // id: orderProduct.variants?.first.id,
+      // sku: orderProduct.variants?.first.sku,
       name: orderProduct.name,
       mainImageURL: orderProduct.mainImageURL,
       createdAt: null,
