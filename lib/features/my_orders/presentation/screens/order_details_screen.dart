@@ -379,6 +379,7 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
           ),
         ),
+    // );
         bottomNavigationBar: BlocConsumer<MyOrdersCubit, MyOrdersState>(
           listener: (context, state) {
             if (state is MakeCancelOrderSuccessState ||
@@ -392,45 +393,37 @@ class OrderDetailsScreen extends StatelessWidget {
           builder: (context, state) {
             final orderCubit = context.read<MyOrdersCubit>();
 
-            return ordersList.status == 'Shipped'
-                ? SafeArea(
-                    child: CustomBottomNavBarMakeButtonOnly(
-                      buttonTitle: 'delivered'.tr(),
+            return ordersList.status == 'shipped'.tr()
+                ? CustomBottomNavBarMakeButtonOnly(
+                  buttonTitle: 'delivered'.tr(),
+                  onPressed: () {
+                    orderCubit.makeDeliveryOrder(orderId: ordersList.id!);
+                  },
+                )
+                : ordersList.status == 'pending'.tr()
+                    ? CustomBottomNavBarMakeButtonOnly(
+                      buttonTitle: 'cancelOrder'.tr(),
+                      buttonColor: AppColors.redColor100,
                       onPressed: () {
-                        orderCubit.makeDeliveryOrder(orderId: ordersList.id!);
+                        orderCubit.makeCancelOrder(orderId: ordersList.id!);
                       },
-                    ),
-                  )
-                : ordersList.status == 'Pending'
-                    ? SafeArea(
-                        child: CustomBottomNavBarMakeButtonOnly(
-                          buttonTitle: 'cancelOrder'.tr(),
-                          buttonColor: AppColors.redColor100,
-                          onPressed: () {
-                            orderCubit.makeCancelOrder(orderId: ordersList.id!);
-                          },
-                        ),
-                      )
-                    : ordersList.status == 'Cancelled'
-                        ? SafeArea(
-                            child: CustomBottomNavBarMakeButtonOnly(
-                              buttonTitle: 'contactSupport'.tr(),
-                              onPressed: () {},
-                            ),
-                          )
-                        : ordersList.status == 'Delivered'
-                            ? SafeArea(
-                                child: CustomBottomNavBarMakeButtonOnly(
-                                  buttonTitle: 'returnOrder'.tr(),
-                                  onPressed: () {
-                                    context.pushNamed(Routes.cancelOrderScreen,
-                                        arguments: {
-                                          'orderId': ordersList.id,
-                                          'orderProducts': ordersList,
-                                        });
-                                  },
-                                ),
-                              )
+                    )
+                    : ordersList.status == 'cancelled'.tr()
+                        ? CustomBottomNavBarMakeButtonOnly(
+                          buttonTitle: 'contactSupport'.tr(),
+                          onPressed: () {},
+                        )
+                        : ordersList.status == 'delivered'.tr()
+                            ? CustomBottomNavBarMakeButtonOnly(
+                              buttonTitle: 'returnOrder'.tr(),
+                              onPressed: () {
+                                context.pushNamed(Routes.cancelOrderScreen,
+                                    arguments: {
+                                      'orderId': ordersList.id,
+                                      'orderProducts': ordersList,
+                                    });
+                              },
+                            )
                             : Container();
           },
         ));

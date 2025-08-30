@@ -425,9 +425,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 productDetails?.description ??
                                                     '');
                                         final productLink =
-                                            "https://noorex-dashboard.vercel.app/products/1";
+                                            "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}";
                                         // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
-
                                         final shareText = '''
 $productName
 

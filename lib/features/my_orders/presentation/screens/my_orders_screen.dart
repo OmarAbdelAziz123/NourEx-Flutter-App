@@ -59,6 +59,7 @@ class MyOrdersScreen extends StatelessWidget {
     switch (currentTabIndex) {
       case 0:
         return StatusOrdersWidget(
+          // status: 'pending'.tr(),
           status: 'Pending',
         );
       case 1:
