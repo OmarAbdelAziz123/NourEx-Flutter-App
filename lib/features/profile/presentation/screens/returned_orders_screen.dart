@@ -356,8 +356,8 @@ class ReturnedOrderDetailsScreen extends StatelessWidget {
                     Column(
                       children: [
                         SvgPicture.asset(
-                          status == 'Return pending' ||
-                                  status == 'Return accepted'
+                          status == 'Return pending'
+
                               ? 'assets/svgs/delevered_icon2.svg'
                               : status == 'Return rejected'
                                   ? 'assets/svgs/cancelled_icon.svg'
@@ -377,16 +377,15 @@ class ReturnedOrderDetailsScreen extends StatelessWidget {
                           ? 'firstStepDescription'.tr()
                           : 'description3'.tr(),
                       // buttonText: 'fourthStep'.tr(),
-                      buttonText: status == 'Return pending' ||
-                              status == 'Return accepted'
+                      buttonText: status == 'Return pending'
                           ? "pending".tr()
                           : 'completed'.tr(),
                       isCompleted: status == 'Return rejected'
                           ? status != 'Return pending'
-                          : status == 'Returned',
+                          : status == 'Return accepted',
                       inProgressColor: status == 'Return rejected'
                           ? status == 'Return pending'
-                          : status == 'Returned',
+                          : status == 'Return accepted',
                     ),
                   ],
                 ),

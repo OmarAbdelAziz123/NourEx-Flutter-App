@@ -161,7 +161,7 @@ class CartCubit extends Cubit<CartState> {
         emit(GetMainAddressSuccessState());
       },
       failure: (error) {
-        emit(GetMainAddressErrorState(error.message));
+        emit(GetMainAddressErrorState('No Main Address Found'));
       },
     );
   }

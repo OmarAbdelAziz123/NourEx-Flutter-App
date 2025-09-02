@@ -264,5 +264,55 @@
   "orderSent2": "تم ارسال طلبك ",
   "trackingNumber": "رقم التذكرة:",
   "willReply": "سنقوم بالرد عليك خلال 48 ساعة",
-  "balance2": "رصيدك الحالي"
+  "balance2": "رصيدك الحالي",
+
+  "validation": {
+    "required": "مطلوب",
+    "username": {
+      "required": "اسم المستخدم مطلوب",
+      "minLength": "يجب أن يكون اسم المستخدم 3 أحرف على الأقل"
+    },
+    "email": {
+      "required": "البريد الإلكتروني مطلوب",
+      "invalid": "البريد الإلكتروني غير صالح"
+    },
+    "password": {
+      "required": "كلمة المرور مطلوبة",
+      "minLength": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
+    },
+    "confirmPassword": {
+      "required": "تأكيد كلمة المرور مطلوب",
+      "notMatch": "كلمتا المرور غير متطابقتين",
+      "mismatch": "تأكيد كلمة المرور غير متطابق"
+    },
+    "address": {
+      "required": "العنوان مطلوب"
+    },
+    "note": {
+      "required": "الملاحظة مطلوبة"
+    },
+    "city": {
+      "required": "المدينة مطلوبة"
+    },
+    "zone": {
+      "required": "المنطقة مطلوبة"
+    },
+    "street": {
+      "required": "الشارع مطلوب"
+    },
+    "building_number": {
+      "required": "رقم المبنى مطلوب"
+    },
+    "apartment_number": {
+      "required": "رقم الشقة مطلوب"
+    },
+    "phone": {
+      "required": "رقم الهاتف مطلوب",
+      "invalid": "رقم الهاتف غير صالح"
+    },
+    "otp": {
+      "required": "رمز التحقق مطلوب",
+      "invalid": "رمز التحقق غير صالح"
+    }
+  }
 }

@@ -90,7 +90,7 @@ class RegisterFormWidget extends StatelessWidget {
                 hintStyle: Styles.contentRegular.copyWith(
                   color: AppColors.neutralColor600,
                 ),
-                validator: (phone) => AppValidator.validateSyrianPhoneNumber(phone),
+                validator: (phone) => AppValidator.validateSyrianPhoneNumber(phone!),
               ),
               8.verticalSpace,
 

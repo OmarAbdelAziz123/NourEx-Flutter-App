@@ -263,5 +263,54 @@
   "orderSent2": "Your order has been sent",
   "trackingNumber": "Ticket Number:",
   "willReply": "We will respond within 48 hours",
-  "balance2": "Your current balance"
+  "balance2": "Your current balance",
+  "validation": {
+    "required": "is required",
+    "username": {
+      "required": "Username is required",
+      "minLength": "Username must be at least 3 characters"
+    },
+    "email": {
+      "required": "Email is required",
+      "invalid": "Invalid email address"
+    },
+    "password": {
+      "required": "Password is required",
+      "minLength": "Password must be at least 6 characters"
+    },
+    "confirmPassword": {
+      "required": "Confirm password is required",
+      "notMatch": "Passwords do not match",
+      "mismatch": "Confirm password does not match"
+    },
+    "address": {
+      "required": "Address is required"
+    },
+    "note": {
+      "required": "Note is required"
+    },
+    "city": {
+      "required": "City is required"
+    },
+    "zone": {
+      "required": "Zone is required"
+    },
+    "street": {
+      "required": "Street is required"
+    },
+    "building_number": {
+      "required": "Building number is required"
+    },
+    "apartment_number": {
+      "required": "Apartment number is required"
+    },
+    "phone": {
+      "required": "Phone number is required",
+      "invalid": "Invalid phone number"
+    },
+    "otp": {
+      "required": "OTP code is required",
+      "invalid": "Invalid OTP code"
+    }
+  }
 }

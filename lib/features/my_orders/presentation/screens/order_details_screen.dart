@@ -393,14 +393,14 @@ class OrderDetailsScreen extends StatelessWidget {
           builder: (context, state) {
             final orderCubit = context.read<MyOrdersCubit>();
 
-            return ordersList.status == 'shipped'.tr()
+            return ordersList.status == 'Shipped'
                 ? CustomBottomNavBarMakeButtonOnly(
                   buttonTitle: 'delivered'.tr(),
                   onPressed: () {
                     orderCubit.makeDeliveryOrder(orderId: ordersList.id!);
                   },
                 )
-                : ordersList.status == 'pending'.tr()
+                : ordersList.status == 'Pending'
                     ? CustomBottomNavBarMakeButtonOnly(
                       buttonTitle: 'cancelOrder'.tr(),
                       buttonColor: AppColors.redColor100,
@@ -408,12 +408,14 @@ class OrderDetailsScreen extends StatelessWidget {
                         orderCubit.makeCancelOrder(orderId: ordersList.id!);
                       },
                     )
-                    : ordersList.status == 'cancelled'.tr()
+                    : ordersList.status == 'Cancelled'
                         ? CustomBottomNavBarMakeButtonOnly(
                           buttonTitle: 'contactSupport'.tr(),
-                          onPressed: () {},
+                          onPressed: () {
+                            context.pushNamed(Routes.contactSupportScreenRoute);
+                          },
                         )
-                        : ordersList.status == 'delivered'.tr()
+                        : ordersList.status == 'Delivered'
                             ? CustomBottomNavBarMakeButtonOnly(
                               buttonTitle: 'returnOrder'.tr(),
                               onPressed: () {

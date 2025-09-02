@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:nourex/core/extensions/navigation_extension.dart';
+import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/core/themes/app_colors.dart';
@@ -425,7 +426,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 productDetails?.description ??
                                                     '');
                                         final productLink =
-                                            "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}";
+                                            "https://noorex-dashboard.vercel.app/user/products/${productDetails?.sId}";
                                         // "https://noorex-dashboard.vercel.app/products/${productDetails?.sId}"; // Replace with actual product link
                                         final shareText = '''
 $productName
@@ -1081,6 +1082,7 @@ $productLink
                               content:
                                   Text("❌ No variant matches your selection")),
                         );
+
                         return;
                       }
 
@@ -1094,14 +1096,15 @@ $productLink
                         variantSku: selectedVariant.sku!,
                       );
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "✅ Added to cart: ${selectedVariant.sku} - ${selectedVariant.priceAfterDiscount ?? selectedVariant.price}",
-                          ),
-                          backgroundColor: Colors.green,
-                        ),
-                      );
+                      // ScaffoldMessenger.of(context).showSnackBar(
+                      //   SnackBar(
+                      //     content: Text(
+                      //       "✅ Added to cart: ${selectedVariant.sku} - ${selectedVariant.priceAfterDiscount ?? selectedVariant.price}",
+                      //     ),
+                      //     backgroundColor: Colors.green,
+                      //   ),
+                      // );
+                      ToastManager.showCustomToast(message: 'addToCart'.tr(), backgroundColor: AppColors.greenColor200);
 
                       // Debug print all variants that matched
                       debugPrint(

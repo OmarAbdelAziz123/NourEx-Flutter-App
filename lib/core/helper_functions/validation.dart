@@ -173,15 +173,31 @@ class AppValidator {
     return null;
   }
 
+  // static String? validateSyrianPhoneNumber(String? value) {
+  //   if (value == null || value.trim().isEmpty) {
+  //     return 'validation.phone.required'.tr();
+  //   }
+  //
+  //   final cleaned = value.trim().replaceAll(RegExp(r'\s+'), '');
+  //
+  //   // يسمح بـ +963، 00963، 963، 0 أو لا شيء قبل 9XXXXXXXX
+  //   final phoneRegExp = RegExp(r'^(00963|963|\+963|0)?9\d{8}$');
+  //
+  //   if (!phoneRegExp.hasMatch(cleaned)) {
+  //     return 'validation.phone.invalid'.tr();
+  //   }
+  //
+  //   return null;
+  // }
   static String? validateSyrianPhoneNumber(String? value) {
     if (value == null || value.trim().isEmpty) {
       return 'validation.phone.required'.tr();
     }
 
-    final cleaned = value.trim().replaceAll(RegExp(r'\s+'), '');
+    String cleaned = value.trim().replaceAll(RegExp(r'\s+'), '');
 
-    // يسمح بـ +963، 00963، 963، 0 أو لا شيء قبل 9XXXXXXXX
-    final phoneRegExp = RegExp(r'^(00963|963|\+963|0)?9\d{8}$');
+    // الصيغة المسموحة: 09xxxxxxxx أو 9xxxxxxxx أو +9639xxxxxxxx أو 009639xxxxxxxx أو 9639xxxxxxxx
+    final phoneRegExp = RegExp(r'^(?:\+963|00963|963|0)?9\d{8}$');
 
     if (!phoneRegExp.hasMatch(cleaned)) {
       return 'validation.phone.invalid'.tr();
@@ -189,6 +205,28 @@ class AppValidator {
 
     return null;
   }
+
+  /// ✅ Helper to return always normalized format: +9639xxxxxxxx
+  static String formatSyrianPhoneNumber(String value) {
+    String cleaned = value.trim().replaceAll(RegExp(r'\s+'), '');
+
+    if (cleaned.startsWith('0')) {
+      cleaned = cleaned.substring(1); // يشيل الـ 0
+    }
+    if (cleaned.startsWith('00963')) {
+      cleaned = cleaned.substring(5);
+    }
+    if (cleaned.startsWith('963')) {
+      cleaned = cleaned.substring(3);
+    }
+    if (cleaned.startsWith('+963')) {
+      return cleaned; // جاهز
+    }
+
+    return '+963$cleaned';
+  }
+
+
 
   static String? validateOTP(String? value) {
     if (value == null || value.isEmpty) {

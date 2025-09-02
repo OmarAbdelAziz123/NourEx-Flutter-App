@@ -55,7 +55,7 @@ class AddNewAddressFormWidget extends StatelessWidget {
                   color: AppColors.neutralColor600,
                 ),
                 validator:
-                    (value) => AppValidator.validateEgyptPhoneNumber(value!),
+                    (value) => AppValidator.validateSyrianPhoneNumber(value!),
               ),
               16.verticalSpace,
 
@@ -210,10 +210,10 @@ class AddNewAddressFormWidget extends StatelessWidget {
               8.verticalSpace,
 
               CustomTextFormFieldWidget(
+                controller: cubit.notesController,
                 borderRadius: AppConstants.borderRadius,
                 borderWidth: 1.w,
                 maxLines: 5,
-                controller: TextEditingController(),
                 backgroundColor: Colors.transparent,
                 hintText: 'enterNotes'.tr(),
                 hintStyle: Styles.contentRegular.copyWith(

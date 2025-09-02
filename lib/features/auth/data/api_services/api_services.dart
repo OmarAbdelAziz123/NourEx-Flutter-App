@@ -49,7 +49,7 @@ class AuthApiServices {
       data: {
         "name": name,
         "email": email,
-        "phone": '+963$phone',
+        "phone": '$phone',
         "acceptTerms": acceptTerms,
       },
     );

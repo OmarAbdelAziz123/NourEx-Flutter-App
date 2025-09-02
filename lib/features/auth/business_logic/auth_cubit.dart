@@ -111,7 +111,7 @@ class AuthCubit extends Cubit<AuthState> {
     final result = await authRepos.register(
       name: userNameController.text,
       email: emailController.text,
-      phone: phoneController.text,
+      phone: '+963${phoneController.text}',
       acceptTerms: showCheckIcon,
     );
 
