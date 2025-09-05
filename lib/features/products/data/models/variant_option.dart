@@ -29,14 +29,14 @@ List<VariantOption> _generateVariantOptions(List<String> values, String type) {
     Color? color;
     if (type.toLowerCase().contains("color") || type.toLowerCase().contains("لون")) {
       try {
-        color = _parseColor(v); // you can implement parsing hex/color names
+        color = parseColor(v); // you can implement parsing hex/color names
       } catch (_) {}
     }
     return VariantOption(id: v, label: v, color: color);
   }).toList();
 }
 
-Color? _parseColor(String value) {
+Color? parseColor(String value) {
   if (value.isEmpty) return null;
 
   // ✅ If value is a hex code (#RRGGBB or RRGGBB)

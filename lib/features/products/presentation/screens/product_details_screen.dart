@@ -9,6 +9,7 @@ import 'package:nourex/core/networks_helper/errors/exceptions.dart';
 import 'package:nourex/core/routing/routes_name.dart';
 import 'package:nourex/core/services/di/di.dart';
 import 'package:nourex/core/themes/app_colors.dart';
+import 'package:nourex/core/themes/hex_colors.dart';
 import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 import 'package:nourex/core/widgets/appbar/main_app_bar_2_widget.dart';
@@ -38,6 +39,164 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  // List<VariantOption> _generateVariantOptions(
+  //     List<String?> values, String variantType) {
+  //   return values.where((value) => value != null).map((value) {
+  //     // Enhanced color detection
+  //     final isColorVariant = variantType.toLowerCase().contains('color') ||
+  //         variantType.toLowerCase().contains('colour') ||
+  //         variantType.toLowerCase().contains('لون') ||
+  //         variantType.toLowerCase().contains('الألوان') ||
+  //         variantType.toLowerCase() == 'color' ||
+  //         variantType == 'Color';
+  //
+  //     print('isColorVariant is $isColorVariant');
+  //
+  //     return VariantOption(
+  //       id: value!,
+  //       label: value,
+  //       color: isColorVariant ? _getColorFromString(value) : null,
+  //       // isAvailable: true,
+  //     );
+  //   }).toList();
+  // }
+  //
+  // Color? _getColorFromString(String colorName) {
+  //   switch (colorName.toLowerCase()) {
+  //     // Arabic colors
+  //     case 'أسود':
+  //     case 'black':
+  //       return Colors.black;
+  //     case 'أحمر':
+  //     case 'red':
+  //       return Colors.red;
+  //     case 'بني':
+  //     case 'brown':
+  //       return Colors.brown;
+  //     case 'أصفر':
+  //     case 'yellow':
+  //       return Colors.yellow;
+  //     case 'رمادي':
+  //     case 'grey':
+  //     case 'gray':
+  //       return Colors.grey;
+  //     case 'أبيض':
+  //     case 'white':
+  //       return Colors.white;
+  //     case 'أزرق':
+  //     case 'blue':
+  //       return Colors.blue;
+  //     case 'أخضر':
+  //     case 'green':
+  //       return Colors.green;
+  //     // Additional common colors
+  //     case 'orange':
+  //     case 'برتقالي':
+  //       return Colors.orange;
+  //     case 'purple':
+  //     case 'بنفسجي':
+  //       return Colors.purple;
+  //     case 'pink':
+  //     case 'وردي':
+  //       return Colors.pink;
+  //     case 'cyan':
+  //     case 'سماوي':
+  //       return Colors.cyan;
+  //     case 'lime':
+  //     case 'ليموني':
+  //       return Colors.lime;
+  //     case 'indigo':
+  //     case 'نيلي':
+  //       return Colors.indigo;
+  //     case 'teal':
+  //     case 'أزرق مخضر':
+  //       return Colors.teal;
+  //     case 'amber':
+  //     case 'عنبري':
+  //       return Colors.amber;
+  //     case 'deep orange':
+  //     case 'برتقالي غامق':
+  //       return Colors.deepOrange;
+  //     case 'light blue':
+  //     case 'أزرق فاتح':
+  //       return Colors.lightBlue;
+  //     case 'light green':
+  //     case 'أخضر فاتح':
+  //       return Colors.lightGreen;
+  //     default:
+  //       return Colors.grey;
+  //   }
+  // }
+  //
+  // // Map<String, List<String>> buildVariantMap(Result product) {
+  // Color _getContrastColor(Color backgroundColor) {
+  //   // Calculate luminance to determine if we need white or black text
+  //   final luminance = backgroundColor.computeLuminance();
+  //   return luminance > 0.5 ? Colors.black : Colors.white;
+  // }
+  //
+  // /// ✅ Add this helper method to your ProductDetailsScreen class:
+  // num _getDefaultPrice(Result? productDetails) {
+  //   if (productDetails?.variants?.isNotEmpty == true) {
+  //     final firstVariant = productDetails!.variants!.first;
+  //     return firstVariant.priceAfterDiscount!;
+  //   }
+  //   return 0;
+  // }
+  //
+  // num _getDefaultPriceBefore(Result? productDetails) {
+  //   if (productDetails?.variants?.isNotEmpty == true) {
+  //     final firstVariant = productDetails!.variants!.first;
+  //     if (firstVariant.discountRounded! > 0) {
+  //       return firstVariant.price ?? 0;
+  //     }
+  //   }
+  //   return 0;
+  // }
+  //
+  // /// ✅ Add this helper method for stock:
+  // int _getStockAmount(
+  //     Result? productDetails, Map<String, String?> selectedVariants) {
+  //   if (productDetails?.variants == null) return 0;
+  //
+  //   /// Find matching variant based on selected variants
+  //   for (var variant in productDetails!.variants!) {
+  //     bool isMatch = true;
+  //
+  //     for (var attr in variant.attributes ?? []) {
+  //       final selectedValue = selectedVariants[attr.name];
+  //       if (selectedValue == null || selectedValue != attr.value) {
+  //         isMatch = false;
+  //         break;
+  //       }
+  //     }
+  //
+  //     if (isMatch) {
+  //       return variant.stockAmount ?? 0;
+  //     }
+  //   }
+  //
+  //   /// Fallback to first variant
+  //   if (productDetails.variants!.isNotEmpty) {
+  //     return productDetails.variants!.first.stockAmount ?? 0;
+  //   }
+  //
+  //   return 0;
+  // }
+  //
+  //
+  // Color _parseColor(String hexColor) {
+  //   if (hexColor.isEmpty) return Colors.grey; // fallback for empty values
+  //
+  //   hexColor = hexColor.toUpperCase().replaceAll("#", ""); // remove #
+  //
+  //   if (hexColor.length == 6) {
+  //     hexColor = "FF$hexColor"; // add full opacity if not provided
+  //   }
+  //
+  //   return Color(int.parse(hexColor, radix: 16));
+  // }
+
   List<VariantOption> _generateVariantOptions(
       List<String?> values, String variantType) {
     return values.where((value) => value != null).map((value) {
@@ -54,15 +213,67 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       return VariantOption(
         id: value!,
         label: value,
-        color: isColorVariant ? _getColorFromString(value) : null,
-        // isAvailable: true,
+        // Updated: Use hex color parsing for color variants
+        color: isColorVariant ? _parseHexColor(value) : null,
       );
     }).toList();
   }
 
-  Color? _getColorFromString(String colorName) {
+// Updated method to handle hex colors from API
+  Color _parseHexColor(String colorValue) {
+    try {
+      // Check if it's a hex color (starts with # or is 6-8 characters of hex)
+      if (_isHexColor(colorValue)) {
+        return _parseColor(colorValue);
+      } else {
+        // Fallback to color name parsing for backward compatibility
+        return _getColorFromString(colorValue);
+      }
+    } catch (e) {
+      print('Error parsing color: $colorValue, Error: $e');
+      return Colors.grey; // fallback color
+    }
+  }
+
+// Helper method to check if string is hex color
+  bool _isHexColor(String colorValue) {
+    final hexPattern = RegExp(r'^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$');
+    return hexPattern.hasMatch(colorValue.trim());
+  }
+
+// Updated parseColor method with better error handling
+  Color _parseColor(String hexColor) {
+    if (hexColor.isEmpty) return Colors.grey;
+
+    try {
+      hexColor = hexColor.trim().toUpperCase().replaceAll("#", "");
+
+      // Handle 3-digit hex colors (e.g., "fff" -> "ffffff")
+      if (hexColor.length == 3) {
+        hexColor = hexColor.split('').map((char) => char + char).join('');
+      }
+
+      // Add full opacity if not provided (6 digits -> 8 digits)
+      if (hexColor.length == 6) {
+        hexColor = "FF$hexColor";
+      }
+
+      // Validate hex string length
+      if (hexColor.length != 8) {
+        throw FormatException('Invalid hex color length: ${hexColor.length}');
+      }
+
+      return Color(int.parse(hexColor, radix: 16));
+    } catch (e) {
+      print('Error parsing hex color: $hexColor, Error: $e');
+      return Colors.grey;
+    }
+  }
+
+// Keep original method for backward compatibility with color names
+  Color _getColorFromString(String colorName) {
     switch (colorName.toLowerCase()) {
-      // Arabic colors
+    // Arabic colors
       case 'أسود':
       case 'black':
         return Colors.black;
@@ -88,7 +299,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       case 'أخضر':
       case 'green':
         return Colors.green;
-      // Additional common colors
+    // Additional common colors
       case 'orange':
       case 'برتقالي':
         return Colors.orange;
@@ -127,18 +338,68 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     }
   }
 
-  // Map<String, List<String>> buildVariantMap(Result product) {
   Color _getContrastColor(Color backgroundColor) {
-    // Calculate luminance to determine if we need white or black text
     final luminance = backgroundColor.computeLuminance();
     return luminance > 0.5 ? Colors.black : Colors.white;
   }
 
-  /// ✅ Add this helper method to your ProductDetailsScreen class:
+// Updated method to get selected variant price
+  num _getSelectedVariantPrice(Result? productDetails, Map<String, String?> selectedVariants) {
+    if (productDetails?.variants == null) return _getDefaultPrice(productDetails);
+
+    // Find matching variant based on selected variants
+    for (var variant in productDetails!.variants!) {
+      bool isMatch = true;
+
+      // Check if all selected variants match this variant's attributes
+      for (var attr in variant.attributes ?? []) {
+        final selectedValue = selectedVariants[attr.name];
+        if (selectedValue == null || selectedValue != attr.value) {
+          isMatch = false;
+          break;
+        }
+      }
+
+      if (isMatch) {
+        return variant.priceAfterDiscount ?? variant.price ?? 0;
+      }
+    }
+
+    // Fallback to default price if no matching variant found
+    return _getDefaultPrice(productDetails);
+  }
+
+// Updated method to get selected variant price before discount
+  num _getSelectedVariantPriceBefore(Result? productDetails, Map<String, String?> selectedVariants) {
+    if (productDetails?.variants == null) return _getDefaultPriceBefore(productDetails);
+
+    // Find matching variant based on selected variants
+    for (var variant in productDetails!.variants!) {
+      bool isMatch = true;
+
+      // Check if all selected variants match this variant's attributes
+      for (var attr in variant.attributes ?? []) {
+        final selectedValue = selectedVariants[attr.name];
+        if (selectedValue == null || selectedValue != attr.value) {
+          isMatch = false;
+          break;
+        }
+      }
+
+      if (isMatch && (variant.discountRounded ?? 0) > 0) {
+        return variant.price ?? 0;
+      }
+    }
+
+    // Fallback to default price before discount
+    return _getDefaultPriceBefore(productDetails);
+  }
+
+  /// ✅ Original helper methods (keep these)
   num _getDefaultPrice(Result? productDetails) {
     if (productDetails?.variants?.isNotEmpty == true) {
       final firstVariant = productDetails!.variants!.first;
-      return firstVariant.priceAfterDiscount!;
+      return firstVariant.priceAfterDiscount ?? firstVariant.price ?? 0;
     }
     return 0;
   }
@@ -146,16 +407,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   num _getDefaultPriceBefore(Result? productDetails) {
     if (productDetails?.variants?.isNotEmpty == true) {
       final firstVariant = productDetails!.variants!.first;
-      if (firstVariant.discountRounded! > 0) {
+      if ((firstVariant.discountRounded ?? 0) > 0) {
         return firstVariant.price ?? 0;
       }
     }
     return 0;
   }
 
-  /// ✅ Add this helper method for stock:
-  int _getStockAmount(
-      Result? productDetails, Map<String, String?> selectedVariants) {
+
+
+  /// ✅ Updated stock amount method (keep this)
+  int _getStockAmount(Result? productDetails, Map<String, String?> selectedVariants) {
     if (productDetails?.variants == null) return 0;
 
     /// Find matching variant based on selected variants
@@ -182,6 +444,197 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     return 0;
   }
+  // List<VariantOption> _generateVariantOptions(
+  //     List<String?> values, String variantType) {
+  //   return values.where((value) => value != null).map((value) {
+  //     // Enhanced color detection
+  //     final isColorVariant = variantType.toLowerCase().contains('color') ||
+  //         variantType.toLowerCase().contains('colour') ||
+  //         variantType.toLowerCase().contains('لون') ||
+  //         variantType.toLowerCase().contains('الألوان') ||
+  //         variantType.toLowerCase() == 'color' ||
+  //         variantType == 'Color';
+  //
+  //     print('isColorVariant is $isColorVariant');
+  //
+  //     return VariantOption(
+  //       id: value!,
+  //       label: value,
+  //       // Updated: Use hex color parsing for color variants
+  //       color: isColorVariant ? _parseHexColor(value) : null,
+  //     );
+  //   }).toList();
+  // }
+  //
+  // // Updated method to handle hex colors from API
+  // Color _parseHexColor(String colorValue) {
+  //   try {
+  //     // Check if it's a hex color (starts with # or is 6-8 characters of hex)
+  //     if (_isHexColor(colorValue)) {
+  //       return _parseColor(colorValue);
+  //     } else {
+  //       // Fallback to color name parsing for backward compatibility
+  //       return _getColorFromString(colorValue);
+  //     }
+  //   } catch (e) {
+  //     print('Error parsing color: $colorValue, Error: $e');
+  //     return Colors.grey; // fallback color
+  //   }
+  // }
+  //
+  // // Helper method to check if string is hex color
+  // bool _isHexColor(String colorValue) {
+  //   final hexPattern = RegExp(r'^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$');
+  //   return hexPattern.hasMatch(colorValue.trim());
+  // }
+  //
+  // // Updated parseColor method with better error handling
+  // Color _parseColor(String hexColor) {
+  //   if (hexColor.isEmpty) return Colors.grey;
+  //
+  //   try {
+  //     hexColor = hexColor.trim().toUpperCase().replaceAll("#", "");
+  //
+  //     // Handle 3-digit hex colors (e.g., "fff" -> "ffffff")
+  //     if (hexColor.length == 3) {
+  //       hexColor = hexColor.split('').map((char) => char + char).join('');
+  //     }
+  //
+  //     // Add full opacity if not provided (6 digits -> 8 digits)
+  //     if (hexColor.length == 6) {
+  //       hexColor = "FF$hexColor";
+  //     }
+  //
+  //     // Validate hex string length
+  //     if (hexColor.length != 8) {
+  //       throw FormatException('Invalid hex color length: ${hexColor.length}');
+  //     }
+  //
+  //     return Color(int.parse(hexColor, radix: 16));
+  //   } catch (e) {
+  //     print('Error parsing hex color: $hexColor, Error: $e');
+  //     return Colors.grey;
+  //   }
+  // }
+  //
+  // // Keep original method for backward compatibility with color names
+  // Color _getColorFromString(String colorName) {
+  //   switch (colorName.toLowerCase()) {
+  //   // Arabic colors
+  //     case 'أسود':
+  //     case 'black':
+  //       return Colors.black;
+  //     case 'أحمر':
+  //     case 'red':
+  //       return Colors.red;
+  //     case 'بني':
+  //     case 'brown':
+  //       return Colors.brown;
+  //     case 'أصفر':
+  //     case 'yellow':
+  //       return Colors.yellow;
+  //     case 'رمادي':
+  //     case 'grey':
+  //     case 'gray':
+  //       return Colors.grey;
+  //     case 'أبيض':
+  //     case 'white':
+  //       return Colors.white;
+  //     case 'أزرق':
+  //     case 'blue':
+  //       return Colors.blue;
+  //     case 'أخضر':
+  //     case 'green':
+  //       return Colors.green;
+  //   // Additional common colors
+  //     case 'orange':
+  //     case 'برتقالي':
+  //       return Colors.orange;
+  //     case 'purple':
+  //     case 'بنفسجي':
+  //       return Colors.purple;
+  //     case 'pink':
+  //     case 'وردي':
+  //       return Colors.pink;
+  //     case 'cyan':
+  //     case 'سماوي':
+  //       return Colors.cyan;
+  //     case 'lime':
+  //     case 'ليموني':
+  //       return Colors.lime;
+  //     case 'indigo':
+  //     case 'نيلي':
+  //       return Colors.indigo;
+  //     case 'teal':
+  //     case 'أزرق مخضر':
+  //       return Colors.teal;
+  //     case 'amber':
+  //     case 'عنبري':
+  //       return Colors.amber;
+  //     case 'deep orange':
+  //     case 'برتقالي غامق':
+  //       return Colors.deepOrange;
+  //     case 'light blue':
+  //     case 'أزرق فاتح':
+  //       return Colors.lightBlue;
+  //     case 'light green':
+  //     case 'أخضر فاتح':
+  //       return Colors.lightGreen;
+  //     default:
+  //       return Colors.grey;
+  //   }
+  // }
+  //
+  // Color _getContrastColor(Color backgroundColor) {
+  //   final luminance = backgroundColor.computeLuminance();
+  //   return luminance > 0.5 ? Colors.black : Colors.white;
+  // }
+  //
+  // num _getDefaultPrice(Result? productDetails) {
+  //   if (productDetails?.variants?.isNotEmpty == true) {
+  //     final firstVariant = productDetails!.variants!.first;
+  //     return firstVariant.priceAfterDiscount!;
+  //   }
+  //   return 0;
+  // }
+
+  // num _getDefaultPriceBefore(Result? productDetails) {
+  //   if (productDetails?.variants?.isNotEmpty == true) {
+  //     final firstVariant = productDetails!.variants!.first;
+  //     if (firstVariant.discountRounded! > 0) {
+  //       return firstVariant.price ?? 0;
+  //     }
+  //   }
+  //   return 0;
+  // }
+  //
+  // int _getStockAmount(
+  //     Result? productDetails, Map<String, String?> selectedVariants) {
+  //   if (productDetails?.variants == null) return 0;
+  //
+  //   for (var variant in productDetails!.variants!) {
+  //     bool isMatch = true;
+  //
+  //     for (var attr in variant.attributes ?? []) {
+  //       final selectedValue = selectedVariants[attr.name];
+  //       if (selectedValue == null || selectedValue != attr.value) {
+  //         isMatch = false;
+  //         break;
+  //       }
+  //     }
+  //
+  //     if (isMatch) {
+  //       return variant.stockAmount ?? 0;
+  //     }
+  //   }
+  //
+  //   if (productDetails.variants!.isNotEmpty) {
+  //     return productDetails.variants!.first.stockAmount ?? 0;
+  //   }
+  //
+  //   return 0;
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -495,8 +948,9 @@ $productLink
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
                                     Text(
-                                      '${_getDefaultPrice(productDetails)} ${'currency'.tr()}',
-
+                                      // '${_getDefaultPrice(productDetails)} ${'currency'.tr()}',
+                                      '${_getSelectedVariantPrice(productDetails, selectedVariants)} ${'currency'.tr()}',
+                                      // '${_getSelectedVariantPriceBefore(productDetails, selectedVariants)} ${'currency'.tr()}',
                                       // ' ${selectedPrice ?? productDetails?.finalPrice} ${'currency'.tr()}',
                                       style: Styles.heading4,
                                     ),
@@ -578,12 +1032,17 @@ $productLink
                                                         height: 36.h,
                                                         decoration:
                                                             BoxDecoration(
-                                                          color: option.color ??
-                                                              Colors.grey,
+                                                          // color: option.color ??
+                                                          //     Colors.grey,
+                                                          //     color: hexToColor('#0bda7a'),
+                                                              color: option.color ?? Colors.transparent,
+
+                                                          //     color: _parseColor(option.color.toString()), // ✅ use the hex value
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      6.r),
+                                                                      6.r,
+                                                              ),
                                                           border: Border.all(
                                                             color: isSelected
                                                                 ? AppColors

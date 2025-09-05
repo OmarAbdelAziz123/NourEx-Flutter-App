@@ -412,7 +412,7 @@ class OrderDetailsScreen extends StatelessWidget {
                         ? CustomBottomNavBarMakeButtonOnly(
                           buttonTitle: 'contactSupport'.tr(),
                           onPressed: () {
-                            context.pushNamed(Routes.contactSupportScreenRoute);
+                            context.pushNamed(Routes.supportScreen, arguments: 'solved'.tr());
                           },
                         )
                         : ordersList.status == 'Delivered'
