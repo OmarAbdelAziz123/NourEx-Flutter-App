@@ -12,7 +12,6 @@ import 'package:nourex/core/themes/text_colors.dart';
 import 'package:nourex/core/utils/app_constants.dart';
 
 class ToastManager {
-  // static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static OverlayEntry? _overlayEntry;
 
   static void showCustomToast({
